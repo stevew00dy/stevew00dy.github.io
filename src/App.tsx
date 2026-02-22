@@ -56,14 +56,6 @@ function Navbar() {
               {label}
             </a>
           ))}
-          <a
-            href="https://www.youtube.com/@undisputednoobs?sub_confirmation=1"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-un-accent/10 text-un-accent border border-un-accent/30 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-un-accent/20 transition-all"
-          >
-            Subscribe
-          </a>
         </div>
       </div>
     </nav>
@@ -90,11 +82,10 @@ function Hero() {
         </p>
 
         <p className="text-xl md:text-2xl text-un-muted max-w-2xl mx-auto mb-4 leading-relaxed">
-          Calm guides. Simple breakdowns. No hype, no noise —{" "}
           <span className="text-un-text font-semibold">
-            just clear, step-by-step help
-          </span>{" "}
-          from someone who's been in your shoes.
+            Calm guides with simple breakdowns
+          </span>
+          —no hype, no noise—for people who just want help.
         </p>
 
         <p className="text-base text-un-muted/60 max-w-lg mx-auto mb-10">
