@@ -24,6 +24,7 @@ import {
   Hammer,
   Menu,
   X,
+  Coffee,
 } from "lucide-react";
 import Logo from "./components/Logo";
 
@@ -351,6 +352,35 @@ function Sherpa() {
                   No jargon. No hype. Just calm, clear, step-by-step help.
                 </p>
               </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+              <a
+                href="https://paypal.me/stevewoody"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-un-card border border-un-card-border rounded-xl flex items-center gap-3 px-4 py-3 hover:border-un-gold/50 transition-all group"
+              >
+                <Coffee className="w-5 h-5 text-un-gold shrink-0" />
+                <div className="min-w-0">
+                  <p className="text-sm font-bold group-hover:text-un-gold transition-colors">Buy Me a Coffee</p>
+                  <p className="text-[10px] text-un-muted">Support the project</p>
+                </div>
+                <ExternalLink className="w-3 h-3 text-un-muted ml-auto shrink-0" />
+              </a>
+              <a
+                href="https://robertsspaceindustries.com/citizens/stevewoody"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-un-card border border-un-card-border rounded-xl flex items-center gap-3 px-4 py-3 hover:border-sky-400/50 transition-all group"
+              >
+                <Users className="w-5 h-5 text-sky-400 shrink-0" />
+                <div className="min-w-0">
+                  <p className="text-sm font-bold group-hover:text-sky-400 transition-colors">Request a Sherpa</p>
+                  <p className="text-[10px] text-un-muted">Add @stevewoody for a guided run</p>
+                </div>
+                <ExternalLink className="w-3 h-3 text-un-muted ml-auto shrink-0" />
+              </a>
             </div>
           </div>
 
