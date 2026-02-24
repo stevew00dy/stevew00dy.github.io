@@ -27,6 +27,7 @@ import {
   Coffee,
   Lightbulb,
   Gauge,
+  Pickaxe,
 } from "lucide-react";
 import Logo from "./components/Logo";
 
@@ -47,6 +48,7 @@ const TOOL_LINKS: { title: string; url: string; external?: boolean }[] = [
   { title: "Erkul Games", url: "https://www.erkul.games/", external: true },
   { title: "UEX Corp", url: "https://uexcorp.space/", external: true },
   { title: "SPViewer", url: "https://www.spviewer.eu/", external: true },
+  { title: "Regolith Co.", url: "https://regolith.rocks/", external: true },
 ];
 
 function Navbar() {
@@ -794,6 +796,15 @@ function Tools() {
       url: "https://www.spviewer.eu/",
       color: "text-orange-400",
       tagBg: "bg-orange-400/10 text-orange-400",
+    },
+    {
+      icon: <Pickaxe className="w-8 h-8" />,
+      title: "Regolith Co.",
+      desc: "Mining loadout calculator, ore data, refinery prices, and profit splitting for solo and crew mining ops.",
+      tag: "Community",
+      url: "https://regolith.rocks/",
+      color: "text-yellow-400",
+      tagBg: "bg-yellow-400/10 text-yellow-400",
     },
   ];
 
