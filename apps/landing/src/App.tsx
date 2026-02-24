@@ -766,8 +766,39 @@ function Tools() {
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {tools.map((tool) => (
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {tools.slice(0, 3).map((tool) => (
+            <a
+              key={tool.title}
+              href={tool.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-un-card border border-un-card-border rounded-xl p-6 card-glow transition-all hover:border-un-accent/30 group flex flex-col"
+            >
+              <div className="flex items-start justify-between mb-4">
+                <div className={`${tool.color} group-hover:opacity-80 transition-opacity`}>
+                  {tool.icon}
+                </div>
+                <span className={`text-xs font-semibold ${tool.tagBg} px-2.5 py-1 rounded-full`}>
+                  {tool.tag}
+                </span>
+              </div>
+              <h3 className="font-display font-bold text-lg mb-2 group-hover:text-un-accent transition-colors">
+                {tool.title}
+              </h3>
+              <p className="text-un-muted text-sm leading-relaxed flex-1">
+                {tool.desc}
+              </p>
+              <span className="inline-flex items-center gap-1 text-xs text-un-accent/60 mt-3 group-hover:text-un-accent transition-colors">
+                <ExternalLink className="w-3.5 h-3.5" />
+                Open Tool
+              </span>
+            </a>
+          ))}
+        </div>
+
+        <div className="mt-6 grid sm:grid-cols-2 gap-6">
+          {tools.slice(3).map((tool) => (
             <a
               key={tool.title}
               href={tool.url}
