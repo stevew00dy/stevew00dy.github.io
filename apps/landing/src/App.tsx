@@ -857,7 +857,7 @@ function Tools() {
             href="https://robertsspaceindustries.com/citizens/stevewoody"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-un-card border border-dashed border-un-card-border rounded-xl p-6 card-glow transition-all hover:border-un-gold/50 group flex flex-col items-center justify-center text-center"
+            className="bg-un-card border border-dashed border-un-card-border rounded-xl p-6 card-glow transition-all hover:border-un-gold/50 group flex flex-col items-center justify-center text-center lg:col-span-2"
           >
             <Lightbulb className="w-8 h-8 text-un-gold mb-3 group-hover:scale-110 transition-transform" />
             <h3 className="font-display font-bold text-lg mb-2 group-hover:text-un-gold transition-colors">
