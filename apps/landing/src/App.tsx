@@ -328,15 +328,19 @@ function Sherpa() {
             <div className="bg-un-card border border-un-card-border rounded-2xl p-8 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-un-accent/5 rounded-bl-full" />
               <div className="relative z-10">
-                <div className="w-20 h-20 rounded-full bg-un-blue border-2 border-un-accent/30 flex items-center justify-center mb-6">
-                  <User className="w-10 h-10 text-un-accent" />
+                <div className="flex items-center gap-4 mb-5">
+                  <div className="w-16 h-16 rounded-full bg-un-blue border-2 border-un-accent/30 flex items-center justify-center shrink-0">
+                    <User className="w-8 h-8 text-un-accent" />
+                  </div>
+                  <div>
+                    <h3 className="font-display font-bold text-2xl leading-tight">
+                      <span className="gradient-text">Sherpa Steve</span>
+                    </h3>
+                    <p className="text-un-gold font-display text-xs tracking-widest uppercase">
+                      Lead Guide · Undisputed Noobs
+                    </p>
+                  </div>
                 </div>
-                <h3 className="font-display font-bold text-2xl mb-2">
-                  <span className="gradient-text">Sherpa Steve</span>
-                </h3>
-                <p className="text-un-gold font-display text-xs tracking-widest uppercase mb-4">
-                  Lead Guide · Undisputed Noobs
-                </p>
                 <p className="text-un-muted leading-relaxed mb-4">
                   Former head of Legion Esports (London) and associate
                   lecturer in esports at university level.
