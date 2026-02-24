@@ -21,7 +21,7 @@ import {
   Timer,
   Wrench,
   TrendingUp,
-  Hammer,
+  TreePalm,
   Menu,
   X,
   Coffee,
@@ -762,7 +762,7 @@ function Tools() {
       tagBg: "bg-un-accent/10 text-un-accent",
     },
     {
-      icon: <Hammer className="w-8 h-8" />,
+      icon: <TreePalm className="w-8 h-8" />,
       title: "Wikelo Tracker",
       desc: "Track Wikelo contracts, manage your inventory, and craft rewards. All materials and recipes in one place.",
       tag: "uNoob",
