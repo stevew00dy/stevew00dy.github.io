@@ -4,11 +4,10 @@
   <meta charset="utf-8">
   <title>Undisputed Noobs</title>
   <script>
-    // Redirect to the correct sub-app or home
     var path = window.location.pathname;
-    if (path.startsWith('/exec')) window.location.replace('/exec/');
-    else if (path.startsWith('/wikelo')) window.location.replace('/wikelo/');
-    else if (path.startsWith('/armour')) window.location.replace('/armour/');
+    if (path.startsWith('/armor-tracker')) window.location.replace('/armor-tracker/');
+    else if (path.startsWith('/exec-hangar-tracker')) window.location.replace('/exec-hangar-tracker/');
+    else if (path.startsWith('/wikelo-tracker')) window.location.replace('/wikelo-tracker/');
     else window.location.replace('/');
   </script>
 </head>
