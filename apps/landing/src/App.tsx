@@ -832,64 +832,34 @@ function Community() {
 
 function Footer() {
   return (
-    <footer className="border-t border-un-card-border bg-un-darker py-12">
-      <div className="max-w-[1600px] mx-auto px-6">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-3">
-            <Logo className="w-8 h-8" />
-            <div className="flex flex-col">
-              <span className="font-display font-bold text-sm tracking-wide text-un-muted leading-tight">
-                UNDISPUTED NOOBS
-              </span>
-              <span className="text-[9px] text-un-muted/50 tracking-widest uppercase leading-tight">
-                Making the world a better place, one player at a time
-              </span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-6">
-            <a
-              href="https://www.youtube.com/@undisputednoobs"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-un-muted hover:text-un-accent transition-colors"
-              aria-label="YouTube"
-            >
-              <Youtube className="w-5 h-5" />
-            </a>
-            <a
-              href="/armor-tracker/"
-              className="text-un-muted hover:text-un-accent transition-colors text-xs font-medium"
-            >
-              Rare Armour Tracker
-            </a>
-            <a
-              href="/exec-hangar-tracker/"
-              className="text-un-muted hover:text-un-accent transition-colors text-xs font-medium"
-            >
-              Exec Hangar Tracker
-            </a>
-            <a
-              href="/wikelo-tracker/"
-              className="text-un-muted hover:text-un-accent transition-colors text-xs font-medium"
-            >
-              Wikelo Tracker
-            </a>
-            <a
-              href="https://www.robertsspaceindustries.com/enlist?referral=STAR-23GB-5J3N"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-un-muted hover:text-un-accent transition-colors text-xs font-medium"
-            >
-              Join Star Citizen (+50k aUEC)
-            </a>
-          </div>
-
-          <p className="text-sm text-un-muted/50">
-            &copy; {new Date().getFullYear()} Undisputed Noobs. All rights
-            reserved.
-          </p>
+    <footer className="border-t border-un-card-border bg-un-darker py-10">
+      <div className="max-w-[1600px] mx-auto px-6 flex flex-col items-center gap-4">
+        <div className="flex items-center gap-3">
+          <Logo className="w-7 h-7" />
+          <span className="font-display font-bold text-sm tracking-wide text-un-muted">
+            UNDISPUTED NOOBS
+          </span>
         </div>
+
+        <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1">
+          <a href="/" className="text-xs text-un-muted hover:text-un-accent transition-colors">Home</a>
+          <a href="/armor-tracker/" className="text-xs text-un-muted hover:text-un-accent transition-colors">Armour Tracker</a>
+          <a href="/exec-hangar-tracker/" className="text-xs text-un-muted hover:text-un-accent transition-colors">Exec Hangar Tracker</a>
+          <a href="/wikelo-tracker/" className="text-xs text-un-muted hover:text-un-accent transition-colors">Wikelo Tracker</a>
+          <a href="https://www.youtube.com/@undisputednoobs" target="_blank" rel="noopener noreferrer" className="text-xs text-un-muted hover:text-un-accent transition-colors">YouTube</a>
+          <a
+            href="https://www.robertsspaceindustries.com/enlist?referral=STAR-23GB-5J3N"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-un-muted hover:text-un-accent transition-colors"
+          >
+            Join Star Citizen (+50k aUEC)
+          </a>
+        </div>
+
+        <p className="text-[10px] text-un-muted/50">
+          &copy; {new Date().getFullYear()} Undisputed Noobs. All rights reserved.
+        </p>
       </div>
     </footer>
   );
