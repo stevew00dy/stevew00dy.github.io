@@ -1009,38 +1009,42 @@ function Community() {
 function Footer() {
   return (
     <footer className="border-t border-un-card-border bg-un-darker py-10">
-      <div className="max-w-[1600px] mx-auto px-6 flex flex-col items-center gap-4">
-        <div className="flex items-center gap-3">
-          <Logo className="w-7 h-7" />
-          <span className="font-display font-bold text-sm tracking-wide text-un-muted">
-            UNDISPUTED NOOBS
-          </span>
+      <div className="max-w-[1600px] mx-auto px-6">
+        <div className="flex items-center justify-between gap-6">
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center gap-3">
+              <Logo className="w-7 h-7" />
+              <span className="font-display font-bold text-sm tracking-wide text-un-muted">
+                UNDISPUTED NOOBS
+              </span>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
+              <a href="/" className="text-xs text-un-muted hover:text-un-accent transition-colors">Home</a>
+              <a href="/armor-tracker/" className="text-xs text-un-muted hover:text-un-accent transition-colors">Armour Tracker</a>
+              <a href="/exec-hangar-tracker/" className="text-xs text-un-muted hover:text-un-accent transition-colors">Exec Hangar Tracker</a>
+              <a href="/wikelo-tracker/" className="text-xs text-un-muted hover:text-un-accent transition-colors">Wikelo Tracker</a>
+              <a href="https://www.youtube.com/@undisputednoobs" target="_blank" rel="noopener noreferrer" className="text-xs text-un-muted hover:text-un-accent transition-colors">YouTube</a>
+              <a
+                href="https://www.robertsspaceindustries.com/enlist?referral=STAR-23GB-5J3N"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-un-muted hover:text-un-accent transition-colors"
+              >
+                Join Star Citizen (+50k aUEC)
+              </a>
+            </div>
+          </div>
+
+          <img
+            src={`${import.meta.env.BASE_URL}made-by-community.png`}
+            alt="Made by the Community"
+            className="w-16 h-16 opacity-40 hover:opacity-70 transition-opacity shrink-0"
+            draggable={false}
+          />
         </div>
 
-        <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1">
-          <a href="/" className="text-xs text-un-muted hover:text-un-accent transition-colors">Home</a>
-          <a href="/armor-tracker/" className="text-xs text-un-muted hover:text-un-accent transition-colors">Armour Tracker</a>
-          <a href="/exec-hangar-tracker/" className="text-xs text-un-muted hover:text-un-accent transition-colors">Exec Hangar Tracker</a>
-          <a href="/wikelo-tracker/" className="text-xs text-un-muted hover:text-un-accent transition-colors">Wikelo Tracker</a>
-          <a href="https://www.youtube.com/@undisputednoobs" target="_blank" rel="noopener noreferrer" className="text-xs text-un-muted hover:text-un-accent transition-colors">YouTube</a>
-          <a
-            href="https://www.robertsspaceindustries.com/enlist?referral=STAR-23GB-5J3N"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs text-un-muted hover:text-un-accent transition-colors"
-          >
-            Join Star Citizen (+50k aUEC)
-          </a>
-        </div>
-
-        <img
-          src={`${import.meta.env.BASE_URL}made-by-community.png`}
-          alt="Made by the Community"
-          className="w-16 h-16 opacity-40 hover:opacity-70 transition-opacity"
-          draggable={false}
-        />
-
-        <p className="text-[10px] text-un-muted/50">
+        <p className="text-[10px] text-un-muted/50 mt-4">
           &copy; {new Date().getFullYear()} Undisputed Noobs. All rights reserved.
         </p>
       </div>
