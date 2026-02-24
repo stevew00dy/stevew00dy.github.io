@@ -609,16 +609,16 @@ function Tools() {
       title: "Rare Armour Tracker",
       desc: "Track and find every rare armour set in Star Citizen. Locations, screenshots, and checklist.",
       tag: "uNoob",
-      url: "/armour/",
+      url: "/armor-tracker/",
       color: "text-purple-400",
       tagBg: "bg-purple-400/10 text-purple-400",
     },
     {
       icon: <Timer className="w-8 h-8" />,
-      title: "CZ Tracker",
-      desc: "Executive Hanger timer, compboard checklist, supervisor keycards, vault door, and ship rewards.",
+      title: "Exec Hangar Tracker",
+      desc: "Executive Hangar timer, compboard checklist, supervisor keycards, vault door, and ship rewards.",
       tag: "uNoob",
-      url: "/exec/",
+      url: "/exec-hangar-tracker/",
       color: "text-un-accent",
       tagBg: "bg-un-accent/10 text-un-accent",
     },
@@ -627,7 +627,7 @@ function Tools() {
       title: "Wikelo Tracker",
       desc: "Track Wikelo contracts, manage your inventory, and craft rewards. All materials and recipes in one place.",
       tag: "uNoob",
-      url: "/wikelo/",
+      url: "/wikelo-tracker/",
       color: "text-amber-400",
       tagBg: "bg-amber-400/10 text-amber-400",
     },
@@ -858,19 +858,19 @@ function Footer() {
               <Youtube className="w-5 h-5" />
             </a>
             <a
-              href="/armour/"
+              href="/armor-tracker/"
               className="text-un-muted hover:text-un-accent transition-colors text-xs font-medium"
             >
               Rare Armour Tracker
             </a>
             <a
-              href="/exec/"
+              href="/exec-hangar-tracker/"
               className="text-un-muted hover:text-un-accent transition-colors text-xs font-medium"
             >
               Exec Hangar Tracker
             </a>
             <a
-              href="/wikelo/"
+              href="/wikelo-tracker/"
               className="text-un-muted hover:text-un-accent transition-colors text-xs font-medium"
             >
               Wikelo Tracker
