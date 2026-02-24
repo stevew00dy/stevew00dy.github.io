@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+@theme {
+  --color-un-dark: #0a0e17;
+  --color-un-darker: #060910;
+  --color-un-navy: #0f1628;
+  --color-un-blue: #1a2744;
+  --color-un-accent: #00b4d8;
+  --color-un-accent-light: #48cae4;
+  --color-un-gold: #f0a500;
+  --color-un-gold-light: #ffc847;
+  --color-un-text: #e8edf5;
+  --color-un-muted: #8892a4;
+  --color-un-card: #111a2e;
+  --color-un-card-border: #1e2d4a;
+
+  --font-display: "Orbitron", sans-serif;
+  --font-body: "Inter", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-un-dark);
+  color: var(--color-un-text);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--color-un-accent) 0%, var(--color-un-accent-light) 50%, var(--color-un-gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-glow {
+  background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(0, 180, 216, 0.08) 0%, transparent 70%);
+}
+
+.card-glow:hover {
+  box-shadow: 0 0 30px rgba(0, 180, 216, 0.1), 0 0 60px rgba(0, 180, 216, 0.05);
+}
+
+.pyramid-glow {
+  filter: drop-shadow(0 0 20px rgba(240, 165, 0, 0.3));
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.float-animation {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+.pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.star-field {
+  background-image:
+    radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 50% 10%, rgba(255,255,255,0.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 80%, rgba(255,255,255,0.25) 0%, transparent 100%),
+    radial-gradient(1px 1px at 15% 85%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 45% 75%, rgba(255,255,255,0.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 15%, rgba(255,255,255,0.35) 0%, transparent 100%);
+}

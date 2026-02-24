@@ -1,26 +1,21 @@
 {
   "name": "undisputed-noobs",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "workspaces": [
+    "apps/landing",
+    "apps/exec",
+    "apps/wikelo"
+  ],
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
+    "dev:landing": "npm run dev -w apps/landing",
+    "dev:exec": "npm run dev -w apps/exec",
+    "dev:wikelo": "npm run dev -w apps/wikelo",
+    "build": "node scripts/build.mjs",
     "deploy": "npm run build && gh-pages -d dist"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.2.0",
-    "@types/react": "^19.2.14",
-    "@types/react-dom": "^19.2.3",
-    "gh-pages": "^6.3.0",
-    "tailwindcss": "^4.2.0",
-    "typescript": "~5.9.3",
-    "vite": "^7.3.1"
-  },
-  "dependencies": {
-    "lucide-react": "^0.575.0",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "gh-pages": "^6.3.0"
   }
 }
