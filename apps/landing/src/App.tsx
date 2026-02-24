@@ -26,6 +26,7 @@ import {
   X,
   Coffee,
   Lightbulb,
+  Gauge,
 } from "lucide-react";
 import Logo from "./components/Logo";
 
@@ -45,6 +46,7 @@ const TOOL_LINKS: { title: string; url: string; external?: boolean }[] = [
   { title: "Wikelo Tracker", url: "/wikelo-tracker/" },
   { title: "Erkul Games", url: "https://www.erkul.games/", external: true },
   { title: "UEX Corp", url: "https://uexcorp.space/", external: true },
+  { title: "SPViewer", url: "https://www.spviewer.eu/", external: true },
 ];
 
 function Navbar() {
@@ -783,6 +785,15 @@ function Tools() {
       url: "https://uexcorp.space/",
       color: "text-emerald-400",
       tagBg: "bg-emerald-400/10 text-emerald-400",
+    },
+    {
+      icon: <Gauge className="w-8 h-8" />,
+      title: "SPViewer",
+      desc: "Ship performance database. Compare speed, fuel, shields, and components across every ship in the game.",
+      tag: "Community",
+      url: "https://www.spviewer.eu/",
+      color: "text-orange-400",
+      tagBg: "bg-orange-400/10 text-orange-400",
     },
   ];
 
