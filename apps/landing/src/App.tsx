@@ -1033,6 +1033,13 @@ function Footer() {
           </a>
         </div>
 
+        <img
+          src={`${import.meta.env.BASE_URL}made-by-community.png`}
+          alt="Made by the Community"
+          className="w-16 h-16 opacity-40 hover:opacity-70 transition-opacity"
+          draggable={false}
+        />
+
         <p className="text-[10px] text-un-muted/50">
           &copy; {new Date().getFullYear()} Undisputed Noobs. All rights reserved.
         </p>
