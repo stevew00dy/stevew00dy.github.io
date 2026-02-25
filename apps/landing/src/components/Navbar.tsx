@@ -19,6 +19,8 @@ const TOOL_LINKS: { title: string; url: string; external?: boolean }[] = [
   { title: "Loadout Planner", url: "/loadout-planner/" },
   { title: "Erkul Games", url: "https://www.erkul.games/", external: true },
   { title: "UEX Corp", url: "https://uexcorp.space/", external: true },
+  { title: "SPViewer", url: "https://www.spviewer.eu/", external: true },
+  { title: "Regolith Co.", url: "https://regolith.rocks/", external: true },
 ];
 
 export default function Navbar() {

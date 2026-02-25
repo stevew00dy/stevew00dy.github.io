@@ -10,6 +10,8 @@ import {
   Rocket,
   Users,
   Swords,
+  Gauge,
+  Pickaxe,
 } from "lucide-react";
 
 const tools = [
@@ -72,6 +74,26 @@ const tools = [
     external: true,
     color: "text-emerald-400",
     tagBg: "bg-emerald-400/10 text-emerald-400",
+  },
+  {
+    icon: <Gauge className="w-8 h-8" />,
+    title: "SPViewer",
+    desc: "Ship performance database. Compare speed, fuel, shields, and components across every ship in the game.",
+    tag: "Community",
+    url: "https://www.spviewer.eu/",
+    external: true,
+    color: "text-orange-400",
+    tagBg: "bg-orange-400/10 text-orange-400",
+  },
+  {
+    icon: <Pickaxe className="w-8 h-8" />,
+    title: "Regolith Co.",
+    desc: "Mining loadout calculator, ore data, refinery prices, and profit splitting for solo and crew mining ops.",
+    tag: "Community",
+    url: "https://regolith.rocks/",
+    external: true,
+    color: "text-yellow-400",
+    tagBg: "bg-yellow-400/10 text-yellow-400",
   },
 ];
 
