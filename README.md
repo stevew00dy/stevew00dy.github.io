@@ -6,7 +6,7 @@ Calm guides. No hype. No noise. Step-by-step help for new players.
 
 ## Live Site
 
-[stevew00dy.github.io/undisputed-noobs](https://stevew00dy.github.io/undisputed-noobs/)
+[undisputednoobs.com](https://undisputednoobs.com)
 
 ## YouTube
 
@@ -16,7 +16,7 @@ Calm guides. No hype. No noise. Step-by-step help for new players.
 
 ```bash
 npm install
-npm run dev
+npm run dev:landing
 ```
 
 ## Deploy
@@ -25,11 +25,11 @@ npm run dev
 npm run deploy
 ```
 
-Builds and publishes to GitHub Pages.
+Builds the landing page and publishes to GitHub Pages. The tools (Armor Tracker, Exec Hangar Tracker, Wikelo Tracker) are deployed from their own repos.
 
 ## Built With
 
-- React
+- React 19
 - Tailwind CSS v4
-- Vite
+- Vite 7
 - TypeScript

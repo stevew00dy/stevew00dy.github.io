@@ -4,14 +4,10 @@
   "version": "1.0.0",
   "type": "module",
   "workspaces": [
-    "apps/landing",
-    "apps/exec",
-    "apps/wikelo"
+    "apps/landing"
   ],
   "scripts": {
     "dev:landing": "npm run dev -w apps/landing",
-    "dev:exec": "npm run dev -w apps/exec",
-    "dev:wikelo": "npm run dev -w apps/wikelo",
     "build": "node scripts/build.mjs",
     "deploy": "npm run build && gh-pages -d dist"
   },
