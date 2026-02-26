@@ -4,7 +4,6 @@ import {
   Hammer,
   Wrench,
   TrendingUp,
-  Lightbulb,
   ExternalLink,
   Shield,
   Rocket,
@@ -151,25 +150,6 @@ export default function Tools() {
               </span>
             </a>
           ))}
-
-          <a
-            href="https://robertsspaceindustries.com/citizens/stevewoody"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-un-card border border-dashed border-un-card-border rounded-xl p-6 card-glow transition-all hover:border-un-gold/50 group flex flex-col items-center justify-center text-center"
-          >
-            <Lightbulb className="w-8 h-8 text-un-gold mb-3 group-hover:scale-110 transition-transform" />
-            <h3 className="font-display font-bold text-lg mb-2 group-hover:text-un-gold transition-colors">
-              Got an App Idea?
-            </h3>
-            <p className="text-un-muted text-sm leading-relaxed">
-              Message me on RSI and let me know what tool would help you out.
-            </p>
-            <span className="inline-flex items-center gap-1 text-xs text-un-gold/60 mt-3 group-hover:text-un-gold transition-colors">
-              <ExternalLink className="w-3.5 h-3.5" />
-              @stevewoody on RSI
-            </span>
-          </a>
         </div>
 
         <div className="mt-6 grid sm:grid-cols-3 gap-6">
