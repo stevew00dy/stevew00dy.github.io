@@ -13,10 +13,11 @@ export default function Footer() {
 
         <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1">
           <a href="/" className="text-xs text-un-muted hover:text-un-accent transition-colors">Home</a>
-          <a href="/armor-tracker/" className="text-xs text-un-muted hover:text-un-accent transition-colors">Armour Tracker</a>
+          <a href="/armor-tracker/" className="text-xs text-un-muted hover:text-un-accent transition-colors">Rare Armor Tracker</a>
           <a href="/exec-hangar-tracker/" className="text-xs text-un-muted hover:text-un-accent transition-colors">Exec Hangar Tracker</a>
           <a href="/wikelo-tracker/" className="text-xs text-un-muted hover:text-un-accent transition-colors">Wikelo Tracker</a>
-          <a href="/loadout-planner/" className="text-xs text-un-muted hover:text-un-accent transition-colors">Loadout Planner</a>
+          <a href="/loadout-planner/" className="text-xs text-un-muted hover:text-un-accent transition-colors">FPS Loadout Tracker</a>
+          <a href="/refining-tracker/" className="text-xs text-un-muted hover:text-un-accent transition-colors">Refining Tracker</a>
           <a href="https://www.youtube.com/@undisputednoobs" target="_blank" rel="noopener noreferrer" className="text-xs text-un-muted hover:text-un-accent transition-colors">YouTube</a>
           <a
             href="https://www.robertsspaceindustries.com/enlist?referral=STAR-23GB-5J3N"

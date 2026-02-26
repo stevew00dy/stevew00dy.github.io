@@ -13,9 +13,11 @@ const NAV_LINKS: [string, string][] = [
 ];
 
 const TOOL_LINKS: { title: string; url: string; external?: boolean }[] = [
-  { title: "Armour Tracker", url: "/armor-tracker/" },
+  { title: "Rare Armor Tracker", url: "/armor-tracker/" },
   { title: "Exec Hangar Tracker", url: "/exec-hangar-tracker/" },
   { title: "Wikelo Tracker", url: "/wikelo-tracker/" },
+  { title: "FPS Loadout Tracker", url: "/loadout-planner/" },
+  { title: "Refining Tracker", url: "/refining-tracker/" },
   { title: "Loadout Planner", url: "/loadout-planner/" },
   { title: "Erkul Games", url: "https://www.erkul.games/", external: true },
   { title: "UEX Corp", url: "https://uexcorp.space/", external: true },
