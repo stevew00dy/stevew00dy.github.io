@@ -3,8 +3,12 @@ import Logo from "./Logo";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center star-field hero-glow pt-20">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-un-dark" />
+    <section className="relative min-h-screen flex items-center justify-center star-field hero-glow pt-20 overflow-hidden">
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30"
+        style={{ backgroundImage: "url('/sc-hero-bg.png')" }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-un-dark/60 via-transparent to-un-dark" />
       <div className="relative z-10 max-w-[1400px] mx-auto px-6 text-center">
         <div className="float-animation mb-8">
           <Logo className="w-32 h-32 mx-auto" />
