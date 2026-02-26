@@ -25,7 +25,7 @@ export default function About() {
               <span className="text-un-accent font-semibold">uNoob</span> as
               the community calls it — is a place where new players are
               welcomed, questions are encouraged, and nobody gets laughed at
-              for not knowing something. That's not how we roll.
+              for not knowing something.
             </p>
             <p className="text-un-muted leading-relaxed">
               Whether you're loading up a game for the first time or you've
