@@ -34,7 +34,9 @@ export default function Hero() {
         <p className="text-base text-un-muted/60 max-w-lg mx-auto mb-10">
           Led by{" "}
           <span className="text-un-accent font-semibold">Sherpa Steve</span>.
-          Built for new players. Backed by a community of 10,000+.
+          Built for new players.
+          <br />
+          Backed by a community of 10,000+.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
