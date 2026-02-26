@@ -29,7 +29,7 @@ export default function Hero() {
             Calm guides with simple breakdowns.
           </span>
           <br />
-          No hype, no noise—for people who just want help.
+          No hype, no noise. For people who just want help.
         </p>
 
         <p className="text-base text-un-muted/60 max-w-lg mx-auto mb-10">
