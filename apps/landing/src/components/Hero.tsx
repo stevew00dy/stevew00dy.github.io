@@ -26,9 +26,11 @@ export default function Hero() {
 
         <p className="text-xl md:text-2xl text-un-muted max-w-2xl mx-auto mb-4 leading-relaxed">
           <span className="text-un-text font-semibold">
-            Calm guides with simple breakdowns
-          </span>
-          —no hype, no noise—for people who just want help.
+            Calm guides with simple breakdowns,
+          </span>{" "}
+          no hype, no noise—
+          <br />
+          for people who just want help.
         </p>
 
         <p className="text-base text-un-muted/60 max-w-lg mx-auto mb-10">
