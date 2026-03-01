@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" fill="none">
+  <defs>
+    <linearGradient id="bg11" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0a0e17"/><stop offset="100%" stop-color="#0f1628"/></linearGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#bg11)"/>
+  <path d="M260 160 L320 120 L380 160 L320 200 Z" stroke="#00b4d8" stroke-width="2" fill="none" opacity="0.8"/>
+  <path d="M300 140 L300 180 M340 140 L340 180" stroke="#00b4d8" stroke-width="1.5" opacity="0.6"/>
+  <text x="320" y="280" text-anchor="middle" fill="#8892a4" font-family="system-ui,sans-serif" font-size="14" font-weight="600">PvE EFFECTIVELY</text>
+</svg>
