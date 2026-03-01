@@ -97,7 +97,7 @@ function HudKeyElementsImage({ src, base, onHover, onImageClick }: { src: string
     { n: 6, left: "92%", top: "63%" },   // G-meter
   ];
   return (
-    <div className="relative rounded-xl overflow-hidden border border-un-card-border bg-un-darker mx-auto" style={{ maxWidth: "75%" }}>
+    <div className="relative rounded-xl overflow-hidden border border-un-card-border bg-un-darker mx-auto w-full sm:max-w-[75%]">
       <button
         type="button"
         onClick={() => onImageClick?.(src, alt)}
@@ -182,7 +182,7 @@ function BadgeEarnedPopup({ badge, onDismiss }: { badge: Badge; onDismiss: () =>
         aria-labelledby="badge-earned-title"
       >
         <div
-          className="relative bg-un-card border-2 border-un-accent/50 rounded-2xl p-8 max-w-md w-full shadow-[0_0_60px_rgba(0,180,216,0.25)]"
+          className="relative bg-un-card border-2 border-un-accent/50 rounded-2xl p-5 sm:p-8 max-w-md w-full mx-2 shadow-[0_0_60px_rgba(0,180,216,0.25)]"
           onClick={(e) => e.stopPropagation()}
         >
         <div className="text-center">
@@ -367,13 +367,13 @@ function LessonContent({
 
   return (
     <>
-    <div className="h-full flex flex-col">
-      <div className="mb-4">
-        <div>
-          <p className="text-un-muted text-sm">
+    <div className="h-full flex flex-col min-w-0">
+      <div className="mb-4 min-w-0">
+        <div className="min-w-0">
+          <p className="text-un-muted text-sm truncate sm:whitespace-normal">
             Step {step} of {totalSteps} · {categoryTitle}
           </p>
-          <h2 className="font-display font-bold text-xl md:text-2xl text-un-text mt-0.5">
+          <h2 className="font-display font-bold text-lg sm:text-xl md:text-2xl text-un-text mt-0.5 break-words">
             {lesson.title}
           </h2>
         </div>
@@ -628,7 +628,7 @@ function LessonContent({
           return (
             <>
               {segments.length > 0 && (
-                <div className="text-[#c4c8d0] text-base leading-loose space-y-5 w-full">
+                <div className="text-[#c4c8d0] text-base leading-loose space-y-5 w-full min-w-0 break-words">
                   {segments.map((seg, i) =>
                     seg.type === "text" ? (
                       <div key={i} className="whitespace-pre-line">
@@ -748,12 +748,12 @@ function LessonContent({
                     ) : seg.type === "checklist" ? (
                       <ChecklistBlock key={i} id={`${lesson.id}-checklist-${i}`} items={seg.items} />
                     ) : (
-                      <div key={i} className="overflow-x-auto rounded-lg border border-un-card-border">
+                      <div key={i} className="overflow-x-auto rounded-lg border border-un-card-border -mx-1 sm:mx-0">
                         <table className="w-full min-w-[280px] text-left text-sm">
                           <thead>
                             <tr className="border-b border-un-card-border bg-un-card-border/30">
                               {seg.headers.map((h, j) => (
-                                <th key={j} className={`px-3 py-2 font-medium text-un-text-secondary align-middle ${h === "Image" ? "text-center" : ""}`}>
+                                <th key={j} className={`px-2 sm:px-3 py-1.5 sm:py-2 font-medium text-un-text-secondary align-middle text-xs sm:text-sm ${h === "Image" ? "text-center" : ""}`}>
                                   {h}
                                 </th>
                               ))}
@@ -768,7 +768,7 @@ function LessonContent({
                                   const isImage = (cell.startsWith("/") || cell.startsWith("http")) && !isGuide;
                                   const isGuideUrl = isGuide && cell && (cell.startsWith("http") || cell.startsWith("https"));
                                   return (
-                                    <td key={j} className={`px-3 py-2 text-un-muted align-middle ${header === "Image" ? "text-center" : ""}`}>
+                                    <td key={j} className={`px-2 sm:px-3 py-1.5 sm:py-2 text-un-muted align-middle text-xs sm:text-sm ${header === "Image" ? "text-center" : ""}`}>
                                       {isGuideUrl ? (
                                         <a href={cell} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-un-accent/20 text-un-accent hover:bg-un-accent/30 transition-colors" aria-label={`Watch ${row[0] ?? "location"} guide`}>
                                           <Play className="w-4 h-4" fill="currentColor" />
@@ -777,7 +777,7 @@ function LessonContent({
                                         <button
                                           type="button"
                                           onClick={() => openLightbox(cell, row[0] ?? "")}
-                                          className="rounded-lg overflow-hidden w-32 h-20 mx-auto block cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-un-accent"
+                                          className="rounded-lg overflow-hidden w-24 h-14 sm:w-32 sm:h-20 mx-auto block cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-un-accent"
                                           aria-label="View image larger"
                                           title="Click to view larger"
                                         >
@@ -801,7 +801,7 @@ function LessonContent({
               {checkpoint && !isFirstNextWithPathCards && (
                 <div
                   role="status"
-                  className="rounded-xl border-2 border-un-accent/40 bg-un-accent/10 px-5 py-4 text-base leading-relaxed text-[#c4c8d0] shadow-[0_0_20px_rgba(16,185,129,0.08)]"
+                  className="rounded-xl border-2 border-un-accent/40 bg-un-accent/10 px-4 sm:px-5 py-3 sm:py-4 text-sm sm:text-base leading-relaxed text-[#c4c8d0] shadow-[0_0_20px_rgba(16,185,129,0.08)]"
                 >
                   <p className="font-semibold text-un-accent mb-1.5">Checkpoint</p>
                   <p className="whitespace-pre-line">{checkpoint.replace(/^Checkpoint:\s*/, "")}</p>
@@ -889,7 +889,7 @@ function LessonContent({
     {lightbox &&
       createPortal(
         <div
-          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black/85 p-4 cursor-zoom-out"
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black/85 p-3 sm:p-4 cursor-zoom-out"
           onClick={() => setLightbox(null)}
           role="dialog"
           aria-modal="true"
@@ -898,7 +898,7 @@ function LessonContent({
           <img
             src={lightbox.src}
             alt={lightbox.alt}
-            className="max-w-[90vw] max-h-[85vh] w-auto h-auto object-contain cursor-default"
+            className="max-w-[95vw] sm:max-w-[90vw] max-h-[80vh] sm:max-h-[85vh] w-auto h-auto object-contain cursor-default"
             onClick={(e) => e.stopPropagation()}
             loading="eager"
             decoding="async"
@@ -992,8 +992,8 @@ export default function BasicTraining() {
   const selectedItem = ordered.find((x) => x.lesson.id === selectedLessonId);
 
   return (
-    <section id="basic-training" className="py-24 relative">
-      <div className="max-w-[1600px] mx-auto px-6">
+    <section id="basic-training" className="py-12 sm:py-24 relative">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-6">
         {/* ========== SECTION 1: NAVIGATION ========== */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-6">
           <div>
@@ -1015,14 +1015,14 @@ export default function BasicTraining() {
                   setSelectedPathId(path.id);
                   setViewMode("learn");
                 }}
-                className={`flex flex-col items-center gap-1 px-4 py-2.5 rounded-xl border text-sm font-medium transition-colors cursor-pointer shrink-0 ${
+                className={`flex flex-col items-center gap-1 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl border text-sm font-medium transition-colors cursor-pointer shrink-0 min-w-0 ${
                   viewMode === "learn" && selectedPathId === path.id
                     ? "bg-un-accent/20 text-un-accent border-un-accent/40"
                     : "bg-un-card border-un-card-border text-un-muted hover:text-un-text"
                 }`}
               >
                 <span className="shrink-0">{PATH_ICONS[path.id] ?? <Rocket className="w-4 h-4" />}</span>
-                <span className="flex items-center gap-1.5">
+                <span className="flex items-center gap-1.5 min-w-0 flex-wrap justify-center">
                   {path.name}
                   {path.comingSoon && import.meta.env.PROD && (
                     <span className="text-[10px] uppercase tracking-wide text-un-muted/80">Coming soon</span>
@@ -1035,7 +1035,7 @@ export default function BasicTraining() {
             <button
               type="button"
               onClick={() => setViewMode("profile")}
-              className={`flex flex-col items-center gap-1 px-4 py-2.5 rounded-xl border text-sm font-medium transition-colors cursor-pointer shrink-0 ${
+              className={`flex flex-col items-center gap-1 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl border text-sm font-medium transition-colors cursor-pointer shrink-0 ${
                 viewMode === "profile"
                   ? "bg-un-accent/20 text-un-accent border-un-accent/40"
                   : "bg-un-card border-un-card-border text-un-muted hover:text-un-text"
@@ -1049,7 +1049,7 @@ export default function BasicTraining() {
 
         {/* ========== SECTION 2: PROGRESS (only when a path is selected) ========== */}
         {selectedPathId != null && (
-        <div className="bg-un-card border border-un-card-border rounded-xl p-5 mb-8">
+        <div className="bg-un-card border border-un-card-border rounded-xl p-4 sm:p-5 mb-6 sm:mb-8">
           <div className="flex flex-col md:flex-row md:items-center gap-6">
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-2">
@@ -1318,8 +1318,8 @@ export default function BasicTraining() {
               </p>
             </div>
           ) : (
-            <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 min-h-[480px]">
-            <aside className="lg:w-80 shrink-0">
+            <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-8 min-h-[480px]">
+            <aside className="lg:w-80 shrink-0 order-2 lg:order-1">
               <nav
                 className="bg-un-card border border-un-card-border rounded-xl overflow-hidden"
                 aria-label="Lesson list"
@@ -1449,8 +1449,8 @@ export default function BasicTraining() {
               </nav>
             </aside>
 
-            <div className="flex-1 min-w-0">
-              <div className="bg-un-card border border-un-card-border rounded-xl p-6 h-full min-h-[400px]">
+            <div className="flex-1 min-w-0 order-1 lg:order-2">
+              <div className="bg-un-card border border-un-card-border rounded-xl p-4 sm:p-6 h-full min-h-[400px]">
                 {selectedItem ? (
                   <LessonContent
                     lesson={selectedItem.lesson}
