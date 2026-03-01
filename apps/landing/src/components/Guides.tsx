@@ -56,9 +56,9 @@ const guides = [
 
 export default function Guides() {
   return (
-    <section id="guides" className="py-24 bg-un-darker relative overflow-hidden">
+    <section id="guides" className="py-28 md:py-32 bg-un-darker relative overflow-hidden">
       <div className="absolute inset-0 star-field opacity-20" />
-      <div className="relative z-10 max-w-[1600px] mx-auto px-6">
+      <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-10">
         <div className="text-center mb-4">
           <h2 className="font-display font-bold text-3xl md:text-4xl mb-4">
             Video <span className="gradient-text">guides</span>
@@ -77,7 +77,7 @@ export default function Guides() {
           </span>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {guides.map((guide) => (
             <a
               key={guide.title}
@@ -108,7 +108,7 @@ export default function Guides() {
           ))}
         </div>
 
-        <div className="text-center mt-12">
+        <div className="text-center mt-16">
           <a
             href="https://www.youtube.com/@undisputednoobs"
             target="_blank"

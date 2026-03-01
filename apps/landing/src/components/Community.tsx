@@ -3,8 +3,8 @@ import Logo from "./Logo";
 
 export default function Community() {
   return (
-    <section id="community" className="py-24 relative">
-      <div className="max-w-[1400px] mx-auto px-6 text-center">
+    <section id="community" className="py-28 md:py-32 relative">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-10 text-center">
         <Logo className="w-20 h-20 mx-auto mb-6 opacity-80" />
         <p className="text-un-accent font-display text-sm tracking-widest uppercase mb-4">
           Join the uNoob Crew

@@ -41,9 +41,9 @@ const pillars = [
 
 export default function Promise() {
   return (
-    <section id="promise" className="py-24 bg-un-darker relative overflow-hidden">
+    <section id="promise" className="py-28 md:py-32 bg-un-darker relative overflow-hidden">
       <div className="absolute inset-0 star-field opacity-20" />
-      <div className="relative z-10 max-w-[1600px] mx-auto px-6">
+      <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-10">
         <div className="text-center mb-16">
           <p className="text-un-gold font-display text-sm tracking-widest uppercase mb-4">
             Our Promise

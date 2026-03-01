@@ -3,12 +3,12 @@ import { ChevronRight } from "lucide-react";
 
 export default function BasicTrainingSection() {
   return (
-    <section id="basic-training" className="py-16 bg-un-darker relative">
+    <section id="basic-training" className="py-28 md:py-32 bg-un-darker relative overflow-visible">
       <div className="absolute inset-0 star-field opacity-20" />
-      <div className="relative z-10 max-w-[1600px] mx-auto px-6">
+      <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-10">
         <Link
           to="/training"
-          className="flex flex-col md:flex-row md:items-center gap-8 p-8 md:p-10 bg-un-card/50 border border-un-card-border rounded-2xl hover:border-un-accent/40 transition-all group"
+          className="relative flex flex-col md:flex-row md:items-center gap-10 md:gap-12 p-10 md:p-12 md:pr-[560px] lg:pr-[680px] bg-un-card/50 border border-un-card-border rounded-2xl hover:border-un-accent/40 transition-all group overflow-visible"
         >
           {/* Text */}
           <div className="flex-1 min-w-0">
@@ -25,12 +25,21 @@ export default function BasicTrainingSection() {
             </span>
           </div>
 
-          {/* Image — full 3-screenshot stack */}
-          <div className="shrink-0 w-full md:w-[520px] lg:w-[600px]">
+          {/* Image — overflows the card vertically */}
+          <div className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 w-[540px] lg:w-[660px] translate-x-4">
             <img
               src="/lesson-thumbnails/basic-training-stack.png"
               alt="Basic Training — lessons, progress, and lesson view"
-              className="w-full h-auto group-hover:scale-[1.02] transition-transform duration-300"
+              className="w-full h-auto group-hover:scale-[1.02] transition-transform duration-300 drop-shadow-2xl"
+            />
+          </div>
+
+          {/* Mobile: inline image */}
+          <div className="md:hidden w-full">
+            <img
+              src="/lesson-thumbnails/basic-training-stack.png"
+              alt="Basic Training — lessons, progress, and lesson view"
+              className="w-full h-auto"
             />
           </div>
         </Link>

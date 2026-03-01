@@ -2,9 +2,9 @@ import { BookOpen, Map, Gamepad2, Users } from "lucide-react";
 
 export default function About() {
   return (
-    <section id="about" className="py-24 relative">
-      <div className="max-w-[1600px] mx-auto px-6">
-        <div className="grid md:grid-cols-2 gap-16 items-center">
+    <section id="about" className="py-28 md:py-32 relative">
+      <div className="max-w-[1600px] mx-auto px-6 md:px-10">
+        <div className="grid md:grid-cols-2 gap-20 md:gap-24 items-center">
           <div>
             <p className="text-un-accent font-display text-sm tracking-widest uppercase mb-4">
               Who We Are

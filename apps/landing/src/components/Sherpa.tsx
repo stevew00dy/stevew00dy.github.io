@@ -2,12 +2,12 @@ import { User, Coffee, ExternalLink, Users } from "lucide-react";
 
 export default function Sherpa() {
   return (
-    <section id="sherpa" className="py-24 bg-un-darker relative overflow-hidden">
+    <section id="sherpa" className="py-28 md:py-32 bg-un-darker relative overflow-hidden">
       <div className="absolute inset-0 star-field opacity-20" />
-      <div className="relative z-10 max-w-[1600px] mx-auto px-6">
-        <div className="grid md:grid-cols-2 gap-16 items-center">
+      <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-10">
+        <div className="grid md:grid-cols-2 gap-20 md:gap-24 items-center">
           <div className="order-2 md:order-1">
-            <div className="bg-un-card border border-un-card-border rounded-2xl p-8 relative overflow-hidden">
+            <div className="bg-un-card border border-un-card-border rounded-2xl p-10 md:p-12 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-un-accent/5 rounded-bl-full" />
               <div className="relative z-10">
                 <div className="flex items-center gap-4 mb-5">

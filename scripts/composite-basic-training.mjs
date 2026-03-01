@@ -111,12 +111,13 @@ async function run() {
     top:  PAD + STAGGER_Y * i,
   }));
 
-  // Canvas size
-  let maxRight = 0, maxBottom = 0;
+  // Canvas size — clip right edge flush to front card (no shadow bleed on right)
+  const canvasW = frontRight + PAD;
+  let maxBottom = 0;
   for (let i = 0; i < n; i++) {
-    maxRight  = Math.max(maxRight,  positions[i].left + layers[i].w + PAD + SHADOW_OFFSET);
-    maxBottom = Math.max(maxBottom, positions[i].top  + layers[i].h + PAD + SHADOW_OFFSET);
+    maxBottom = Math.max(maxBottom, positions[i].top + layers[i].h + PAD + SHADOW_OFFSET);
   }
+  const maxRight = canvasW;
 
   const composites = [];
 

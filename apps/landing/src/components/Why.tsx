@@ -1,7 +1,7 @@
 export default function Why() {
   return (
-    <section id="why" className="py-24 relative">
-      <div className="max-w-[1600px] mx-auto px-6">
+    <section id="why" className="py-28 md:py-32 relative">
+      <div className="max-w-[1600px] mx-auto px-6 md:px-10">
         <div className="text-center mb-16">
           <p className="text-un-accent font-display text-sm tracking-widest uppercase mb-4">
             Our Mission

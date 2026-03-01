@@ -108,8 +108,8 @@ const tools = [
 
 export default function Tools() {
   return (
-    <section id="tools" className="py-24 relative">
-      <div className="max-w-[1600px] mx-auto px-6">
+    <section id="tools" className="py-28 md:py-32 relative">
+      <div className="max-w-[1600px] mx-auto px-6 md:px-10">
         <div className="text-center mb-12">
           <p className="text-un-gold font-display text-sm tracking-widest uppercase mb-4">
             Star Citizen Tools

@@ -1,4 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { createPortal } from "react-dom";
+import confetti from "canvas-confetti";
 import { useSearchParams, Link } from "react-router-dom";
 import {
   Rocket,
@@ -77,6 +79,91 @@ function BadgeIcon({ icon, className }: { icon: string; className?: string }) {
 }
 
 const CHECKLIST_KEY = "undisputed-noobs-basic-training-checklist";
+
+function fireConfetti() {
+  const duration = 2500;
+  const end = Date.now() + duration;
+  const colors = [
+    "#00b4d8", "#48cae4", "#10b981", "#34d399", "#f0a500", "#ffc847",
+    "#e8edf5", "#8892a4", "#a855f7",
+  ];
+  const frame = () => {
+    confetti({
+      particleCount: 5,
+      angle: 60,
+      spread: 55,
+      origin: { x: 0, y: 0.65 },
+      colors,
+      startVelocity: 70,
+      decay: 0.92,
+      zIndex: 9000,
+    });
+    confetti({
+      particleCount: 5,
+      angle: 120,
+      spread: 55,
+      origin: { x: 1, y: 0.65 },
+      colors,
+      startVelocity: 70,
+      decay: 0.92,
+      zIndex: 9000,
+    });
+    if (Date.now() < end) requestAnimationFrame(frame);
+  };
+  frame();
+}
+
+function BadgeEarnedPopup({ badge, onDismiss }: { badge: Badge; onDismiss: () => void }) {
+  const fired = useRef(false);
+  useEffect(() => {
+    if (!fired.current) {
+      fired.current = true;
+      fireConfetti();
+    }
+  }, []);
+
+  return createPortal(
+    <>
+      {/* Backdrop: behind confetti */}
+      <div
+        className="fixed inset-0 z-[8000] bg-black/70 backdrop-blur-sm"
+        aria-hidden="true"
+      />
+      {/* Confetti layer: z-9000 */}
+      {/* Card: in front of confetti */}
+      <div
+        className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="badge-earned-title"
+      >
+        <div
+          className="relative bg-un-card border-2 border-un-accent/50 rounded-2xl p-8 max-w-md w-full shadow-[0_0_60px_rgba(0,180,216,0.25)]"
+          onClick={(e) => e.stopPropagation()}
+        >
+        <div className="text-center">
+          <div className="mx-auto w-20 h-20 rounded-2xl bg-un-accent/20 flex items-center justify-center mb-4 ring-4 ring-un-accent/30">
+            <BadgeIcon icon={badge.icon} className="w-10 h-10 text-un-accent" />
+          </div>
+          <p className="text-un-accent font-display text-sm tracking-widest uppercase mb-2">Badge earned</p>
+          <h2 id="badge-earned-title" className="font-display font-bold text-2xl text-un-text mb-2">
+            {badge.name}
+          </h2>
+          <p className="text-un-muted text-sm leading-relaxed mb-6">{badge.flavour}</p>
+          <button
+            type="button"
+            onClick={onDismiss}
+            className="px-6 py-3 rounded-xl bg-un-accent text-un-dark font-bold hover:bg-un-accent-light transition-colors cursor-pointer"
+          >
+            Continue
+          </button>
+        </div>
+      </div>
+    </div>
+    </>,
+    document.body
+  );
+}
 
 function loadChecklistState(id: string): Set<number> {
   try {
@@ -632,7 +719,6 @@ export default function BasicTraining() {
         const newBadge = nextEarned.find((b) => !prevEarned.some((p) => p.id === b.id));
         if (newBadge) {
           setBadgeJustEarned(newBadge);
-          setTimeout(() => setBadgeJustEarned(null), 5000);
         }
       }
       if (isCompleting) {
@@ -750,20 +836,12 @@ export default function BasicTraining() {
           </div>
         </div>
 
-        {/* Badge earned toast */}
+        {/* Badge earned popup with confetti */}
         {badgeJustEarned && (
-          <div className="mb-4">
-            <div className="bg-un-accent/15 border border-un-accent/40 rounded-xl px-5 py-4 flex items-center gap-4 shadow-[0_0_30px_rgba(16,185,129,0.15)]">
-              <div className="shrink-0 w-14 h-14 rounded-xl bg-un-accent/20 flex items-center justify-center">
-                <BadgeIcon icon={badgeJustEarned.icon} className="w-7 h-7 text-un-accent" />
-              </div>
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-wider text-un-accent/80">Badge earned</p>
-                <p className="font-display font-bold text-lg text-un-text">{badgeJustEarned.name}</p>
-                <p className="text-un-muted text-sm mt-0.5">{badgeJustEarned.flavour}</p>
-              </div>
-            </div>
-          </div>
+          <BadgeEarnedPopup
+            badge={badgeJustEarned}
+            onDismiss={() => setBadgeJustEarned(null)}
+          />
         )}
 
         {/* ========== MAIN CONTENT: PROFILE VIEW ========== */}

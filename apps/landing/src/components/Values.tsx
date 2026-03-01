@@ -3,8 +3,8 @@ import Pyramid from "./Pyramid";
 
 export default function Values() {
   return (
-    <section id="values" className="py-24 relative">
-      <div className="max-w-[1600px] mx-auto px-6">
+    <section id="values" className="py-28 md:py-32 relative">
+      <div className="max-w-[1600px] mx-auto px-6 md:px-10">
         <div className="text-center mb-16">
           <p className="text-un-gold font-display text-sm tracking-widest uppercase mb-4">
             The uNoob Code
