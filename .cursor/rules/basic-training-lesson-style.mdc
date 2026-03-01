@@ -1,0 +1,28 @@
+# Basic Training — Lesson Style Template
+
+When editing or adding lessons in `apps/landing/src/data/basicTraining.ts`, follow this style (established from the HUD lesson).
+
+## Format
+
+- **No `---` dashes** between sections.
+- **Section headers:** Use `[SECTION]Title[/SECTION]` — clear, sentence case, not ALL CAPS.
+- **Checklists:** Use `[CHECKLIST]` ... `[END_CHECKLIST]` for steps.
+- **Checkpoint** at the end of every lesson.
+- **Session-only notes** at end when relevant: "Changes apply to this session only. For permanent defaults: ..."
+
+## Section titles
+
+Use clear, readable titles:
+- Good: "What the HUD is", "Key elements", "Setup via MFD", "Flight settings"
+- Avoid: "WHAT THE HUD IS", "SETUP — VIA MFD"
+
+## Structure
+
+1. Brief intro (1–2 sentences)
+2. [SECTION] blocks for logical groupings
+3. [CHECKLIST] where applicable
+4. Checkpoint
+
+## Renderer
+
+The BasicTraining component parses `[SECTION]` and renders them as styled headings (accent color, uppercase, tracked). No code changes needed — just use the tags in the lesson text.

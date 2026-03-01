@@ -20,7 +20,7 @@ const guides = [
   {
     icon: <BookOpen className="w-8 h-8" />,
     title: "Completing the Tutorial",
-    desc: "A full walkthrough of the new player tutorial. No skipping ahead, no assumptions.",
+    desc: "A full walkthrough of the new player tutorial.",
     tag: "New Player",
     url: "https://youtu.be/iAf2ksECBK4",
   },
@@ -60,11 +60,8 @@ export default function Guides() {
       <div className="absolute inset-0 star-field opacity-20" />
       <div className="relative z-10 max-w-[1600px] mx-auto px-6">
         <div className="text-center mb-4">
-          <p className="text-un-accent font-display text-sm tracking-widest uppercase mb-4">
-            Start Here
-          </p>
           <h2 className="font-display font-bold text-3xl md:text-4xl mb-4">
-            Guides that actually <span className="gradient-text">help</span>
+            Video <span className="gradient-text">guides</span>
           </h2>
           <p className="text-un-muted max-w-2xl mx-auto mb-2">
             No filler. No 10-minute intros. No mid-roll ads — just one at the
