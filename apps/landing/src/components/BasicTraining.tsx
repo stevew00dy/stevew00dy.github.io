@@ -16,11 +16,16 @@ import {
   Award,
   Trophy,
   User,
+  Users,
   Shield,
   GraduationCap,
   Star,
   Swords,
   ChevronRight,
+  EyeOff,
+  Factory,
+  Zap,
+  Radio,
 } from "lucide-react";
 import {
   getPathLessonOrder,
@@ -508,16 +513,28 @@ function LessonContent({
           const tableBlock = /\[TABLE\]\n([\s\S]*?)\n\[END_TABLE\]/;
           const checklistBlock = /\[CHECKLIST\]\n([\s\S]*?)\n\[END_CHECKLIST\]/;
           const hudKeyItemsBlock = /\[HUD_KEY_ITEMS\]\n([\s\S]*?)\n\[END_HUD_KEY_ITEMS\]/;
+          const componentTypesBlock = /\[COMPONENT_TYPES\]/;
+          const gradeScaleBlock = /\[GRADE_SCALE\]/;
+          const weaponTypesBlock = /\[WEAPON_TYPES\]/;
+          const shipSizesBlock = /\[SHIP_SIZES\]/;
           const imageBlock = /\[IMAGE:([^\]]+)\]/g;
-          type Segment = { type: "text"; content: string } | { type: "image"; src: string; alt: string } | { type: "table"; headers: string[]; rows: string[][] } | { type: "checklist"; items: string[] } | { type: "hudKeyItems"; items: { id: number; text: string }[] };
+          type Segment = { type: "text"; content: string } | { type: "image"; src: string; alt: string } | { type: "table"; headers: string[]; rows: string[][] } | { type: "checklist"; items: string[] } | { type: "hudKeyItems"; items: { id: number; text: string }[] } | { type: "componentTypes" } | { type: "gradeScale" } | { type: "weaponTypes" } | { type: "shipSizes" };
           const parseBlocks = (text: string): Segment[] => {
             const tableMatch = text.match(tableBlock);
             const checklistMatch = text.match(checklistBlock);
             const hudMatch = text.match(hudKeyItemsBlock);
+            const componentTypesMatch = text.match(componentTypesBlock);
+            const gradeScaleMatch = text.match(gradeScaleBlock);
+            const weaponTypesMatch = text.match(weaponTypesBlock);
+            const shipSizesMatch = text.match(shipSizesBlock);
             const firstBlock = [
               tableMatch && { i: tableMatch.index!, len: tableMatch[0].length, type: "table" as const, match: tableMatch },
               checklistMatch && { i: checklistMatch.index!, len: checklistMatch[0].length, type: "checklist" as const, match: checklistMatch },
               hudMatch && { i: hudMatch.index!, len: hudMatch[0].length, type: "hudKeyItems" as const, match: hudMatch },
+              componentTypesMatch && { i: componentTypesMatch.index!, len: componentTypesMatch[0].length, type: "componentTypes" as const, match: componentTypesMatch },
+              gradeScaleMatch && { i: gradeScaleMatch.index!, len: gradeScaleMatch[0].length, type: "gradeScale" as const, match: gradeScaleMatch },
+              weaponTypesMatch && { i: weaponTypesMatch.index!, len: weaponTypesMatch[0].length, type: "weaponTypes" as const, match: weaponTypesMatch },
+              shipSizesMatch && { i: shipSizesMatch.index!, len: shipSizesMatch[0].length, type: "shipSizes" as const, match: shipSizesMatch },
             ].filter(Boolean).sort((a, b) => a!.i - b!.i)[0];
             if (!firstBlock) return [{ type: "text", content: text }];
             const { i, len, type, match } = firstBlock!;
@@ -539,6 +556,14 @@ function LessonContent({
                 return { id, text };
               }).filter((item) => item.id > 0);
               segments.push({ type: "hudKeyItems", items });
+            } else if (type === "componentTypes") {
+              segments.push({ type: "componentTypes" });
+            } else if (type === "gradeScale") {
+              segments.push({ type: "gradeScale" });
+            } else if (type === "weaponTypes") {
+              segments.push({ type: "weaponTypes" });
+            } else if (type === "shipSizes") {
+              segments.push({ type: "shipSizes" });
             } else {
               const items = match![1].trim().split("\n").map((line) => line.replace(/^[☐\s]+/, "").trim()).filter(Boolean);
               segments.push({ type: "checklist", items });
@@ -651,6 +676,75 @@ function LessonContent({
                           </div>
                         ))}
                       </div>
+                    ) : seg.type === "componentTypes" ? (
+                      <div key={i} className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+                        {[
+                          { label: "Military", icon: Swords, color: "text-red-400", bg: "bg-red-500/10" },
+                          { label: "Stealth", icon: EyeOff, color: "text-violet-400", bg: "bg-violet-500/10" },
+                          { label: "Industrial", icon: Factory, color: "text-amber-400", bg: "bg-amber-500/10" },
+                          { label: "Civilian", icon: Users, color: "text-sky-400", bg: "bg-sky-500/10" },
+                          { label: "Competition", icon: Trophy, color: "text-emerald-400", bg: "bg-emerald-500/10" },
+                        ].map(({ label, icon: Icon, color, bg }) => (
+                          <div
+                            key={label}
+                            className="rounded-xl border border-un-card-border bg-un-card/60 hover:border-un-accent/40 hover:bg-un-card/80 p-4 flex flex-col items-center gap-2 transition-colors"
+                          >
+                            <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${color} ${bg}`}>
+                              <Icon className="w-5 h-5" />
+                            </div>
+                            <span className="font-medium text-un-text text-sm">{label}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : seg.type === "gradeScale" ? (
+                      <div key={i} className="rounded-xl border border-un-card-border bg-un-card/40 px-4 py-3">
+                        <div className="flex items-center gap-2">
+                          <span className="text-un-muted text-xs shrink-0">Best</span>
+                          <div className="flex-1 flex items-center gap-0.5 h-8 rounded-lg overflow-hidden bg-un-darker border border-un-card-border">
+                            {(["A", "B", "C", "D"] as const).map((grade) => (
+                              <div
+                                key={grade}
+                                className={`flex-1 h-full flex items-center justify-center text-sm font-semibold ${
+                                  grade === "A" ? "bg-emerald-500/20 text-emerald-400" : grade === "B" ? "bg-emerald-500/10 text-emerald-300/90" : grade === "C" ? "bg-amber-500/10 text-amber-400" : "bg-red-500/10 text-red-400"
+                                }`}
+                              >
+                                {grade}
+                              </div>
+                            ))}
+                          </div>
+                          <span className="text-un-muted text-xs shrink-0">Worst</span>
+                        </div>
+                      </div>
+                    ) : seg.type === "shipSizes" ? (
+                      <div key={i} className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+                        {[1, 2, 3, 4, 5, 6].map((n) => (
+                          <div
+                            key={n}
+                            className="rounded-xl border border-un-card-border bg-un-card/60 hover:border-un-accent/40 p-3 flex flex-col items-center gap-1 transition-colors"
+                          >
+                            <span className="text-un-muted text-xs">Size</span>
+                            <span className="font-semibold text-un-text text-lg tabular-nums">{n}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : seg.type === "weaponTypes" ? (
+                      <div key={i} className="grid grid-cols-3 gap-3">
+                        {[
+                          { label: "Laser", icon: Zap, color: "text-red-400", bg: "bg-red-500/10" },
+                          { label: "Distortion", icon: Radio, color: "text-blue-400", bg: "bg-blue-500/10" },
+                          { label: "Ballistic", icon: Crosshair, color: "text-yellow-400", bg: "bg-yellow-500/10" },
+                        ].map(({ label, icon: Icon, color, bg }) => (
+                          <div
+                            key={label}
+                            className="rounded-xl border border-un-card-border bg-un-card/60 hover:border-un-accent/40 hover:bg-un-card/80 p-4 flex flex-col items-center gap-2 transition-colors"
+                          >
+                            <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${color} ${bg}`}>
+                              <Icon className="w-5 h-5" />
+                            </div>
+                            <span className="font-medium text-un-text text-sm">{label}</span>
+                          </div>
+                        ))}
+                      </div>
                     ) : seg.type === "checklist" ? (
                       <ChecklistBlock key={i} id={`${lesson.id}-checklist-${i}`} items={seg.items} />
                     ) : (
@@ -749,14 +843,14 @@ function LessonContent({
                 <a
                   key={r.url}
                   href={r.url}
-                  {...(r.url.startsWith("http")
+                  {...(r.url.startsWith("http") || r.url.startsWith("https")
                     ? { target: "_blank", rel: "noopener noreferrer" }
                     : {})}
                   className="inline-flex items-center gap-1.5 bg-un-card-border/50 hover:bg-un-accent/10 text-un-muted hover:text-un-accent border border-un-card-border hover:border-un-accent/30 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer"
                 >
                   <LinkIcon className="w-3.5 h-3.5" />
                   {r.label}
-                  {r.url.startsWith("http") && (
+                  {(r.url.startsWith("http") || r.url.startsWith("https")) && (
                     <ExternalLink className="w-3 h-3 opacity-60" />
                   )}
                 </a>
@@ -928,7 +1022,12 @@ export default function BasicTraining() {
                 }`}
               >
                 <span className="shrink-0">{PATH_ICONS[path.id] ?? <Rocket className="w-4 h-4" />}</span>
-                {path.name}
+                <span className="flex items-center gap-1.5">
+                  {path.name}
+                  {path.comingSoon && import.meta.env.PROD && (
+                    <span className="text-[10px] uppercase tracking-wide text-un-muted/80">Coming soon</span>
+                  )}
+                </span>
               </button>
             ))}
 
@@ -991,11 +1090,14 @@ export default function BasicTraining() {
         </div>
         )}
 
-        {/* Badge earned popup with confetti */}
+        {/* Badge earned popup with confetti — dismissing returns to profile */}
         {badgeJustEarned && (
           <BadgeEarnedPopup
             badge={badgeJustEarned}
-            onDismiss={() => setBadgeJustEarned(null)}
+            onDismiss={() => {
+              setBadgeJustEarned(null);
+              setViewMode("profile");
+            }}
           />
         )}
 
@@ -1192,6 +1294,9 @@ export default function BasicTraining() {
                     {PATH_ICONS[path.id] ?? <Rocket className="w-6 h-6" />}
                   </span>
                   <h3 className="font-display font-bold text-un-text">{path.name}</h3>
+                  {path.comingSoon && import.meta.env.PROD && (
+                    <span className="text-xs uppercase tracking-wide text-un-accent mt-0.5 inline-block">Coming soon</span>
+                  )}
                   <p className="text-un-muted text-sm mt-1 line-clamp-2">{path.description}</p>
                   <span className="inline-flex items-center gap-1 text-un-accent text-xs font-medium mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     Start
@@ -1205,7 +1310,7 @@ export default function BasicTraining() {
         )}
 
         {viewMode === "learn" && selectedPathId != null && (
-          import.meta.env.PROD && ["dogfighting", "fps"].includes(selectedPathId) ? (
+          import.meta.env.PROD && LEARNING_PATHS.find((p) => p.id === selectedPathId)?.comingSoon ? (
             <div className="bg-un-card border border-un-card-border rounded-xl p-12 text-center min-h-[400px] flex flex-col items-center justify-center">
               <p className="text-2xl font-display font-bold text-un-text">Coming soon</p>
               <p className="text-un-muted mt-2 max-w-md">

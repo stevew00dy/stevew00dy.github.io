@@ -208,9 +208,9 @@ export const BASIC_TRAINING_CATEGORIES: TrainingCategory[] = [
       {
         id: "flying-components",
         title: "Ship components and upgrades",
-        description: "Component types and grades, heat, HP, weapons, loadouts. Where to buy or find parts. Repair from cockpit or engineering.",
+        description: "Component categories, heat, HP, weapons, loadouts. Where to buy or find parts. Repair from cockpit or engineering.",
         imageUrl: "/lesson-thumbnails/ship-components.png",
-        text: "Ships have slots for weapons and components. You can swap a vehicle's components physically by unlocking the ports on the ship, or at a space station when the ship is stored — via the vehicle manager.\n\n[SECTION]Unlocking ports[/SECTION]\n\nUnlock your ship's component ports anytime with Right Alt + K. Be careful: while unlocked, other players can take your components. Lock the ports again when you're finished.\n\n[SECTION]Planning loadouts — Erkul and SPViewer[/SECTION]\n\nUse Erkul (erkul.games) or SPViewer (spviewer.eu) to see ship and component stats before you fly. Pick a ship and you get a full list: weapons, shields, coolers, power plant, quantum drive, thrusters, and performance (DPS, shield HP, heat and EM).\n\nClick a component to see what's available for that slot — grades, class, stats — and where to purchase it in the verse.\n\n[IMAGE:/lesson-thumbnails/spviewer-loadout.png|SPViewer loadout view — weapons, components, grades, and performance for a ship|75%]\n\n[SECTION]Types and grades[/SECTION]\n\nComponents have types (e.g. stealth, civilian, military) and grades: A, B, C. Higher grade usually means better performance.\n\nThe best A and B in stealth or military often can't be bought in shops. You find them by looting or salvaging. So \"military A\" coolers or \"stealth B\" power plants are earned in the verse, not at a terminal.\n\n[SECTION]What components affect[/SECTION]\n\nComponents affect heat signature (stealth = low-emission parts), HP (how much damage before they fail), and how the ship flies and fights. Different loadouts suit different styles: brawler, sniper, stealth, tank. Use Erkul or SPViewer to compare options.\n\n[SECTION]Weapons[/SECTION]\n\nShip weapons are ballistics, lasers, or distortion. Ballistics penetrate shields and hit hull and components; they're the current PvP meta but need ammo. Lasers use capacitor, no ammo, but are stopped by shields. Distortion damages systems and can disable without destroying.\n\nShips have hull HP, armour, and shields. Ballistics bypass shields and can knock out critical components. In precision mode you can target the power plant to disable the ship.\n\n[SECTION]Repair[/SECTION]\n\nEngineering allows in-flight repair. Small ships: often repair from the cockpit. Larger ships: use an engineering terminal or go to the physical component and repair with the multitool for faster results.\n\nCheckpoint: You know component types and grades, that top stealth/military A and B are looted or salvaged, and you use Erkul or SPViewer to plan loadouts. You understand weapons (ballistic, laser, distortion), hull/shields/armour, and targeting components to disable. You know repair from the cockpit on small ships and via terminal or multitool on larger ones.",
+        text: "Your ship has slots for weapons and components. Swap them at the ship (unlock the ports) or at a station when the ship is stored, via the vehicle manager.\n\n[SECTION]Unlocking ports[/SECTION]\n\nUnlock your ship's component ports anytime with Right Alt + K. Be careful: while unlocked, other players can take your components. Lock the ports again when you're finished.\n\n[SECTION]Planning loadouts[/SECTION]\n\nUse Erkul (erkul.games) or SPViewer (spviewer.eu) to see ship and component stats before you fly. Pick a ship and you get a full list: weapons, shields, coolers, power plant, quantum drive, thrusters, and performance (DPS, shield HP, heat and EM).\n\nClick a component to see what fits that slot — grades, class, stats — and where to buy it.\n\n[IMAGE:/lesson-thumbnails/spviewer-loadout.png|SPViewer loadout view — weapons, components, grades, and performance for a ship|75%]\n\n[SECTION]Core components[/SECTION]\n\nEvery ship has the same core component types; what goes in each slot depends on the ship and your loadout.\n\n[TABLE]\nComponent|Role\nPower plant|Powers everything else; ship doesn't run without it.\nRadar|Spots targets and signatures around you.\nCooler|Keeps other components from overheating.\nWeapons|Guns and mounts (ballistic, laser, distortion).\nUtility|Role-specific: salvage arms, mining lasers, etc.\nShield generator|Puts up the bubble that soaks damage.\nQuantum drive|Lets you go Nav and jump to quantum.\nJump module|Tied to quantum drive; used for jump points.\nLife support|Air, pressure, temperature inside.\n[END_TABLE]\n\n[SECTION]Categories[/SECTION]\n\nComponents are grouped into five categories.\n\n[COMPONENT_TYPES]\n\nMilitary parts are tougher and put out more power at the cost of higher draw. Stealth parts keep your heat and signature low so you're harder to spot, at the cost of faster wear. The others sit in between: industrial and civilian for reliability and efficiency, competition for maximum output. Pick based on what you're doing — brawl, race, haul, or stay off the radar. The chart below compares the five classes across health, wear, heat, signature, consumption, and output.\n\n[IMAGE:/lesson-thumbnails/component-classes.png|CLASSES chart: Military, Stealth, Industrial, Civilian, Competition compared on Health, Wear, Heat, Signature, Consumption, Output|75%]\n\n[SECTION]Grades[/SECTION]\n\nWithin each category, components have grades.\n\n[GRADE_SCALE]\n\nGrades are a quick read on how good a part is: A at the top, D at the bottom (D is usually cheapest). Use the letter as your first filter; vendor screens have the full numbers. When you upgrade is up to you — better grades stretch your ship's life and help you stay in the fight.\n\nA is top performance. B is a solid step up. C is the usual factory default: nothing special, gets the job done. D is what you often see on NPC ships or when you're scraping by; fine in a pinch, but you'll want to upgrade when you can.\n\nStock loadouts reflect that: most ships come with C. Pricier or specialist ships may have B from the factory. Budget hulls sometimes come with D — they fly. Aim for A or B where possible; the best grades are often not available in shops (loot or salvage). The best A and B in stealth or military often can't be bought in shops. You find them by looting or salvaging. So \"military A\" coolers or \"stealth B\" power plants are earned in the verse, not at a terminal.\n\n[SECTION]Size[/SECTION]\n\nYour ship has a size from 1 (small fighters) up to 6 (the largest in the game right now — Reclaimer, Idris, Polaris, 890 Jump).\n\n[SHIP_SIZES]\n\nAs a rule, components can't exceed that: the ship's size is the ceiling for what you can fit. The exception is weapon hardpoints — they can be larger than the ship. Example: the Constellation Taurus is a size 4 ship but has Size 5 guns. So a smaller ship can still pack big guns; it's the hardpoints that matter.\n\nComponents run Size 0 (smallest) to Size 4 (largest). Your ship only fits certain sizes in certain slots. Replace Size 0–2 in flight; Size 3 and 4 need docking. Any size can be repaired in flight with the right kit. Weapons go up to Size 12.\n\nEach hardpoint takes one size and one kind of component — you can't put a power plant in a cooler slot, or fit a Medium in two Small slots. Rough rule: three Small components are about equal to one Medium. For weapons, twin-linked, gimbaled, or manned mounts need a larger hardpoint (e.g. a twin-linked gimbaled Size 3 needs a Size 5 slot). The tools above show every ship's hardpoints and sizes.\n\n[SECTION]Weapons[/SECTION]\n\n[WEAPON_TYPES]\n\nShip weapons are ballistics, lasers, or distortion. Ballistics can punch through (proc chance) and hit hull or components directly — current PvP meta, but they need ammo. Lasers use capacitor, no ammo, and are stopped by the bubble; use them to strip. Distortion is weak against intact defences and needs them down first. Once they're down, distortion can quickly disable a ship — systems, power, weapons — without destroying it.\n\nSo you choose: go ballistics and aim for hull or components (sometimes proccing through shields); or take shields down with lasers then finish with distortion to disable; or laser then destroy. Ships have hull HP, armour, and shields. In precision mode you can target specific components (e.g. power plant) to disable the ship.\n\n[SECTION]Repair[/SECTION]\n\nYou can repair in flight. Small ships: often from the cockpit. Bigger ships: use an engineering terminal or go to the component with the multitool for faster results.\n\nCheckpoint: You know component categories, that top stealth/military A and B are looted or salvaged, and you use the tools to plan loadouts. You understand weapons (ballistic, laser, distortion), hull/shields/armour, and targeting components to disable. You know repair from the cockpit on small ships and via terminal or multitool on larger ones.",
         resources: [
           { label: "Erkul — ship & component stats", url: "https://erkul.games/" },
           { label: "SPViewer — ship & components", url: "https://www.spviewer.eu/" },
@@ -219,10 +219,12 @@ export const BASIC_TRAINING_CATEGORIES: TrainingCategory[] = [
       {
         id: "flying-engineering",
         title: "Engineering",
-        description: "Power triangle, shields, cooling. Managing ship systems in flight.",
+        description: "Power management, shields, cooling, and in-flight repair.",
         imageUrl: "/lesson-thumbnails/flying-10.svg",
-        text: "The power triangle lets you shift power between shields, weapons, and thrust. More power to shields = faster recharge. More to weapons = more damage. More to thrust = better acceleration and boost. You can adjust this in flight via the MFD or keybinds.\n\nShields have faces (front, back, etc.) — damage is distributed. Cooling affects how long you can sustain fire or boost before overheating.\n\nFor basic flying you don't need to micromanage, but knowing the triangle exists helps when things get rough.\n\nCheckpoint: You know what the power triangle does and can adjust it if needed.",
-        resources: [],
+        text: "Engineering is keeping your ship's systems running: power, heat, and repair. You don't need to master it to fly, but a few basics will put you ahead of most new pilots.\n\n[SECTION]What you see[/SECTION]\nYour ship has a power grid. On the MFD (or an engineering console on bigger ships) you'll see pips — segments you assign to shields, weapons, thrust, cooling, and life support. More pips to a system = stronger and more responsive. Power is limited, so you make trade-offs: more to weapons means less elsewhere. Green = healthy, yellow = low, red = critical. Keep the stuff that matters in the green.\n\n[IMAGE:/lesson-thumbnails/power-management-mfd.png|Power Management MFD — pips (PWR, WPN, THR, SHLD, COOL), output, battery, temperature|37%]\n\n[SECTION]Flight modes[/SECTION]\nSCM is normal combat flight — power spread across flight, shields, and weapons. NAV prioritizes engines for travel and limits the rest. Single-seaters often use these presets; you can tweak pips on top.\n\n[SECTION]Heat[/SECTION]\nComponents get hot when they're used. Too much heat hurts accuracy, speeds wear, and can cause shutdowns or fires. More pips to cooling helps. If something catches fire, use an extinguisher (or on bigger ships, vent the room).\n\n[SECTION]Shields[/SECTION]\nOn small ships it's one bubble; on larger ships shields have faces (front, back, etc.). More pips to shields = faster recharge. Simple.\n\n[SECTION]Repair[/SECTION]\nWhen something's damaged, you can fix it in flight with a multitool: attach the Cambio-Lite SRT and use a canister of RMC (Recycled Material Composite — buy at port or fill by scraping hull with the SRT). The component has to reach about 10% health before it comes back online. In-flight repair gets it working again but not to 100% — full health needs a station. If you repair it and it gets destroyed again, you can't repair it a second time until you dock. Bring full canisters and a few fuses for longer runs; only the smallest components (Size 0–2) can be swapped in flight.\n\n[SECTION]Bigger ships[/SECTION]\nThose with interiors get a full engineering console: 3D ship map, power and system toggles, and saved power presets. Same ideas — distribute power, watch for red, repair when needed. If the power plant or hull goes critical, you have a short window to stabilize or repair before things go very wrong.\n\n[SECTION]Takeaway[/SECTION]\nKnow where your power screen is. Shift pips when you need more shields or weapons. If something goes red, fix it or get to safety. Bring a repair tool and RMC if you're going anywhere risky. That's enough to be better than a noob.",
+        resources: [
+          { label: "RSI — Engineering Gameplay Guide", url: "https://robertsspaceindustries.com/en/comm-link/transmission/20935-Engineering-Gameplay-Guide" },
+        ],
       },
     ],
   },
@@ -772,6 +774,8 @@ export interface LearningPath {
   lessonIds: string[];
   /** When set, left nav shows sub-categories (e.g. Introduction, then each guild with jobs). */
   sections?: PathSection[];
+  /** When true, path is visible but content shows "Coming soon" in production. */
+  comingSoon?: boolean;
 }
 
 export const LEARNING_PATHS: LearningPath[] = [
@@ -792,12 +796,14 @@ export const LEARNING_PATHS: LearningPath[] = [
     name: "Dogfighting",
     description: "Ship-v-ship PvP: roll/pitch, drills, evasion, merge, pip, speed walls, Arena Commander.",
     lessonIds: [...DOGFIGHTING_IDS],
+    comingSoon: true,
   },
   {
     id: "fps",
     name: "Ground combat",
     description: "Weapons, bunkers, and PvE.",
     lessonIds: [...FPS_IDS],
+    comingSoon: true,
   },
   {
     id: "professions",
@@ -875,6 +881,7 @@ export const BADGES: Badge[] = [
     description: "Completed Learning to fly",
     flavour: "You understand 6DOF, decoupled, pip control, and boost management. You can hold your own.",
     categoryId: "flying",
+    pathId: "flying",
   },
   {
     id: "dogfighter",
@@ -883,6 +890,7 @@ export const BADGES: Badge[] = [
     description: "Completed Dogfighting",
     flavour: "Merge discipline, rate fights, wing fights. You practice in AC and take it to the verse.",
     categoryId: "dogfighting",
+    pathId: "dogfighting",
   },
   {
     id: "ground-ops",
@@ -891,6 +899,7 @@ export const BADGES: Badge[] = [
     description: "Completed FPS & PvE",
     flavour: "Bunkers cleared, gear managed, missions completed. You fight on the ground with confidence.",
     categoryId: "fps",
+    pathId: "fps",
   },
   // Professional badge excluded — professions are FYI only, no completion for now
   {
