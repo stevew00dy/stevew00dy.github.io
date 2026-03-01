@@ -16,7 +16,6 @@ import {
   Award,
   Trophy,
   User,
-  BookOpen,
   Shield,
   GraduationCap,
   Star,
@@ -79,6 +78,46 @@ function BadgeIcon({ icon, className }: { icon: string; className?: string }) {
 }
 
 const CHECKLIST_KEY = "undisputed-noobs-basic-training-checklist";
+
+/** HUD image with numbered overlays linking to key elements below. Positions: 1=Mode, 2=Speed, 3=TVI, 4=Boost, 5=G-meter */
+function HudKeyElementsImage({ src, base, onHover, onImageClick }: { src: string; base: string; onHover?: (id: number | null) => void; onImageClick?: (src: string, alt: string) => void }) {
+  const imgSrc = base === "/" ? src : base.replace(/\/$/, "") + src;
+  const alt = "In-game HUD showing mode, speed, TVI, G-meter, and boost bar";
+  const overlays: { n: number; left: string; top: string }[] = [
+    { n: 1, left: "17%", top: "24%" },
+    { n: 2, left: "28%", top: "48%" },
+    { n: 3, left: "52%", top: "53%" },
+    { n: 4, left: "73%", top: "48%" },
+    { n: 5, left: "88%", top: "12%" },   // Countermeasures
+    { n: 6, left: "92%", top: "63%" },   // G-meter
+  ];
+  return (
+    <div className="relative rounded-xl overflow-hidden border border-un-card-border bg-un-darker mx-auto" style={{ maxWidth: "75%" }}>
+      <button
+        type="button"
+        onClick={() => onImageClick?.(src, alt)}
+        className="block w-full cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-un-accent rounded-xl overflow-hidden"
+        aria-label="View image larger"
+        title="Click to view larger"
+      >
+        <img src={imgSrc} alt={alt} className="w-full h-auto object-contain" />
+      </button>
+      {overlays.map(({ n, left, top }) => (
+        <a
+          key={n}
+          href={`#hud-${n}`}
+          className="absolute w-8 h-8 rounded-full bg-un-accent/90 text-un-dark font-bold text-sm flex items-center justify-center border-2 border-un-accent transition-colors cursor-pointer hover:bg-transparent hover:text-un-accent hover:border-un-accent"
+          style={{ left, top, transform: "translate(-50%, -50%)" }}
+          aria-label={`Jump to element ${n}`}
+          onMouseEnter={() => onHover?.(n)}
+          onMouseLeave={() => onHover?.(null)}
+        >
+          {n}
+        </a>
+      ))}
+    </div>
+  );
+}
 
 function fireConfetti() {
   const duration = 2500;
@@ -256,10 +295,10 @@ function getYouTubeEmbedUrl(url: string): string | null {
   return id ? `https://www.youtube.com/embed/${id}` : null;
 }
 
-/** High-quality thumbnail for a YouTube lesson video (16:9). Uses maxres (1280×720) when available. */
+/** Thumbnail for a YouTube lesson video. Uses hqdefault (480×360) so it works for all videos. */
 function getYouTubeThumbnailUrl(url: string): string | null {
   const id = getYouTubeVideoId(url);
-  return id ? `https://img.youtube.com/vi/${id}/maxresdefault.jpg` : null;
+  return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : null;
 }
 
 interface LessonContentProps {
@@ -295,12 +334,24 @@ function LessonContent({
 }: LessonContentProps) {
   const [videoRevealed, setVideoRevealed] = useState(false);
   const [thumbError, setThumbError] = useState(false);
+  const [hoveredHudId, setHoveredHudId] = useState<number | null>(null);
+  const [lightbox, setLightbox] = useState<{ src: string; alt: string } | null>(null);
   useEffect(() => {
     setThumbError(false);
     setVideoRevealed(false);
   }, [lesson.id]);
-  const embedUrl = lesson.videoUrl ? getYouTubeEmbedUrl(lesson.videoUrl) : null;
   const base = (import.meta as unknown as { env: { BASE_URL?: string } }).env?.BASE_URL ?? "/";
+  useEffect(() => {
+    if (!lightbox) return;
+    const onKeyDown = (e: KeyboardEvent) => { if (e.key === "Escape") setLightbox(null); };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [lightbox]);
+  const openLightbox = (src: string, alt: string) => {
+    const fullSrc = src.startsWith("http") ? src : (base === "/" ? src : base.replace(/\/$/, "") + src);
+    setLightbox({ src: fullSrc, alt });
+  };
+  const embedUrl = lesson.videoUrl ? getYouTubeEmbedUrl(lesson.videoUrl) : null;
   const rawThumb = lesson.imageUrl ?? (lesson.videoUrl ? getYouTubeThumbnailUrl(lesson.videoUrl) : null);
   const thumbUrl = rawThumb ? (base === "/" ? rawThumb : base.replace(/\/$/, "") + rawThumb) : null;
   const showThumb = thumbUrl && !thumbError;
@@ -310,6 +361,7 @@ function LessonContent({
   const checkpointText = checkpointIdx != null && checkpointIdx >= 0 ? lesson.text!.slice(checkpointIdx).trim() : null;
 
   return (
+    <>
     <div className="h-full flex flex-col">
       <div className="mb-4">
         <div>
@@ -327,14 +379,19 @@ function LessonContent({
         {isProfessionsIntro ? (
           <>
             {showThumb && (
-              <div className="w-full rounded-xl overflow-hidden border border-un-card-border bg-un-darker mb-6">
+              <button
+                type="button"
+                onClick={() => openLightbox(thumbUrl!, "Star Citizen 1.0 — six guilds and professions (CitizenCon 2954)")}
+                className="w-full rounded-xl overflow-hidden border border-un-card-border bg-un-darker mb-6 cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-un-accent"
+                title="Click to view larger"
+              >
                 <img
                   src={thumbUrl!}
                   alt="Star Citizen 1.0 — six guilds and professions (CitizenCon 2954)"
                   className="w-full h-auto object-contain"
                   onError={() => setThumbError(true)}
                 />
-              </div>
+              </button>
             )}
             <p className="text-un-muted text-sm leading-relaxed">
               Star Citizen 1.0 organises work into six guilds. Each guild has a set of jobs — the roles and missions you can take.
@@ -376,24 +433,39 @@ function LessonContent({
           <>
         {/* Video / thumbnail area */}
         {embedUrl && !videoRevealed && (
-          <button
-            type="button"
-            onClick={() => setVideoRevealed(true)}
-            className="w-full md:max-w-[75%] mx-auto relative rounded-xl overflow-hidden border border-un-card-border aspect-video bg-un-darker flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-un-accent group cursor-pointer"
-            aria-label="Play video"
-          >
+          <div className="w-full md:max-w-[75%] mx-auto relative rounded-xl overflow-hidden border border-un-card-border aspect-video bg-un-darker flex items-center justify-center group">
             {showThumb && (
-              <img
-                src={thumbUrl!}
-                alt=""
-                className="absolute inset-0 w-full h-full object-cover"
-                onError={() => setThumbError(true)}
-              />
+              <>
+                <img
+                  src={thumbUrl!}
+                  alt=""
+                  className="absolute inset-0 w-full h-full object-cover cursor-zoom-in"
+                  onError={() => setThumbError(true)}
+                  onClick={() => openLightbox(thumbUrl!, lesson.title)}
+                  title="Click to view larger"
+                />
+                <button
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); openLightbox(thumbUrl!, lesson.title); }}
+                  className="absolute top-2 right-2 z-20 px-2 py-1 rounded bg-black/60 text-white text-xs font-medium hover:bg-black/80 cursor-zoom-in"
+                  aria-label="View image larger"
+                >
+                  View larger
+                </button>
+              </>
             )}
-            <span className="relative z-10 w-14 h-14 rounded-full bg-un-accent/90 flex items-center justify-center shadow-lg group-hover:bg-un-accent transition-colors">
-              <Play className="w-7 h-7 text-un-darker ml-0.5" fill="currentColor" />
-            </span>
-          </button>
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); setVideoRevealed(true); }}
+              className="absolute inset-0 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-un-accent cursor-pointer z-10 pointer-events-none"
+              aria-label="Play video"
+              tabIndex={-1}
+            >
+              <span className="pointer-events-auto w-14 h-14 rounded-full bg-un-accent/90 flex items-center justify-center shadow-lg group-hover:bg-un-accent transition-colors">
+                <Play className="w-7 h-7 text-un-darker ml-0.5" fill="currentColor" />
+              </span>
+            </button>
+          </div>
         )}
         {embedUrl && videoRevealed && (
           <div className="w-full md:max-w-[75%] mx-auto relative rounded-xl overflow-hidden border border-un-card-border aspect-video bg-un-darker">
@@ -407,9 +479,14 @@ function LessonContent({
           </div>
         )}
         {!embedUrl && showThumb && (
-          <div className={`mx-auto rounded-xl overflow-hidden border border-un-card-border bg-un-darker ${["flying-11", "flying-ac"].includes(lesson.id) ? "max-w-[900px] w-full" : "w-full md:max-w-[75%] aspect-video"}`}>
+          <button
+            type="button"
+            onClick={() => openLightbox(thumbUrl!, lesson.title)}
+            className={`mx-auto rounded-xl overflow-hidden border border-un-card-border bg-un-darker block cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-un-accent ${["flying-11", "flying-ac"].includes(lesson.id) ? "max-w-[900px] w-full" : "w-full md:max-w-[75%] aspect-video"}`}
+            title="Click to view larger"
+          >
             <img src={thumbUrl!} alt="" className={["flying-11", "flying-ac"].includes(lesson.id) ? "w-full h-auto" : "w-full h-full object-cover"} onError={() => setThumbError(true)} />
-          </div>
+          </button>
         )}
         {!embedUrl && lesson.videoUrl && (
           <a
@@ -430,14 +507,17 @@ function LessonContent({
           const checkpoint = hasCheckpoint ? lesson.text.slice(idx).trim() : null;
           const tableBlock = /\[TABLE\]\n([\s\S]*?)\n\[END_TABLE\]/;
           const checklistBlock = /\[CHECKLIST\]\n([\s\S]*?)\n\[END_CHECKLIST\]/;
+          const hudKeyItemsBlock = /\[HUD_KEY_ITEMS\]\n([\s\S]*?)\n\[END_HUD_KEY_ITEMS\]/;
           const imageBlock = /\[IMAGE:([^\]]+)\]/g;
-          type Segment = { type: "text"; content: string } | { type: "image"; src: string; alt: string } | { type: "table"; headers: string[]; rows: string[][] } | { type: "checklist"; items: string[] };
+          type Segment = { type: "text"; content: string } | { type: "image"; src: string; alt: string } | { type: "table"; headers: string[]; rows: string[][] } | { type: "checklist"; items: string[] } | { type: "hudKeyItems"; items: { id: number; text: string }[] };
           const parseBlocks = (text: string): Segment[] => {
             const tableMatch = text.match(tableBlock);
             const checklistMatch = text.match(checklistBlock);
+            const hudMatch = text.match(hudKeyItemsBlock);
             const firstBlock = [
               tableMatch && { i: tableMatch.index!, len: tableMatch[0].length, type: "table" as const, match: tableMatch },
               checklistMatch && { i: checklistMatch.index!, len: checklistMatch[0].length, type: "checklist" as const, match: checklistMatch },
+              hudMatch && { i: hudMatch.index!, len: hudMatch[0].length, type: "hudKeyItems" as const, match: hudMatch },
             ].filter(Boolean).sort((a, b) => a!.i - b!.i)[0];
             if (!firstBlock) return [{ type: "text", content: text }];
             const { i, len, type, match } = firstBlock!;
@@ -450,6 +530,15 @@ function LessonContent({
               const headers = tableLines[0]?.split("|").map((c) => c.trim()) ?? [];
               const rows = tableLines.slice(1).map((line) => line.split("|").map((c) => c.trim()));
               segments.push({ type: "table", headers, rows });
+            } else if (type === "hudKeyItems") {
+              const lines = match![1].trim().split("\n").filter(Boolean);
+              const items = lines.map((line) => {
+                const pipeIdx = line.indexOf("|");
+                const id = pipeIdx >= 0 ? parseInt(line.slice(0, pipeIdx).trim(), 10) : 0;
+                const text = pipeIdx >= 0 ? line.slice(pipeIdx + 1).trim() : line;
+                return { id, text };
+              }).filter((item) => item.id > 0);
+              segments.push({ type: "hudKeyItems", items });
             } else {
               const items = match![1].trim().split("\n").map((line) => line.replace(/^[☐\s]+/, "").trim()).filter(Boolean);
               segments.push({ type: "checklist", items });
@@ -529,11 +618,39 @@ function LessonContent({
                         <div key={i} className="w-full">
                           <ArenaCommanderPath />
                         </div>
-                      ) : (
-                        <div key={i} className={`rounded-xl overflow-hidden border border-un-card-border bg-un-darker ${seg.maxWidth ? "mx-auto" : "w-full"}`} style={seg.maxWidth ? { maxWidth: seg.maxWidth } : undefined}>
-                          <img src={base === "/" ? seg.src : base.replace(/\/$/, "") + seg.src} alt={seg.alt} className="w-full h-auto object-contain" />
+                      ) :                       seg.src.includes("hud-key-elements") ? (
+                        <div key={i} className="w-full">
+                          <HudKeyElementsImage src={seg.src} base={base} onHover={setHoveredHudId} onImageClick={openLightbox} />
                         </div>
+                      ) : (
+                        <button
+                          key={i}
+                          type="button"
+                          onClick={() => openLightbox(seg.src, seg.alt)}
+                          className={`rounded-xl overflow-hidden border border-un-card-border bg-un-darker block w-full cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-un-accent ${seg.maxWidth ? "mx-auto" : ""}`}
+                          style={seg.maxWidth ? { maxWidth: seg.maxWidth } : undefined}
+                          title="Click to view larger"
+                        >
+                          <img src={base === "/" ? seg.src : base.replace(/\/$/, "") + seg.src} alt={seg.alt} className="w-full h-auto object-contain" />
+                        </button>
                       )
+                    ) : seg.type === "hudKeyItems" ? (
+                      <div key={i} className="space-y-3 px-1">
+                        {seg.items.map((item) => (
+                          <div
+                            key={item.id}
+                            id={`hud-${item.id}`}
+                            className={`scroll-mt-24 rounded-lg px-3 py-2 transition-colors ${
+                              hoveredHudId === item.id ? "bg-un-accent/15 ring-1 ring-un-accent/50 ring-inset" : ""
+                            }`}
+                          >
+                            <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-un-accent/20 text-un-accent text-sm font-bold mr-2 align-middle">
+                              {item.id}
+                            </span>
+                            <span className="align-middle">{item.text}</span>
+                          </div>
+                        ))}
+                      </div>
                     ) : seg.type === "checklist" ? (
                       <ChecklistBlock key={i} id={`${lesson.id}-checklist-${i}`} items={seg.items} />
                     ) : (
@@ -563,7 +680,15 @@ function LessonContent({
                                           <Play className="w-4 h-4" fill="currentColor" />
                                         </a>
                                       ) : isImage ? (
-                                        <img src={cell} alt={row[0] ?? ""} className="rounded-lg object-contain w-32 h-20 mx-auto block" />
+                                        <button
+                                          type="button"
+                                          onClick={() => openLightbox(cell, row[0] ?? "")}
+                                          className="rounded-lg overflow-hidden w-32 h-20 mx-auto block cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-un-accent"
+                                          aria-label="View image larger"
+                                          title="Click to view larger"
+                                        >
+                                          <img src={cell} alt={row[0] ?? ""} className="rounded-lg object-contain w-full h-full" />
+                                        </button>
                                       ) : (
                                         cell || "—"
                                       )}
@@ -667,19 +792,51 @@ function LessonContent({
         </div>
       )}
     </div>
+    {lightbox &&
+      createPortal(
+        <div
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black/85 p-4 cursor-zoom-out"
+          onClick={() => setLightbox(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Image enlarged — click outside to close"
+        >
+          <img
+            src={lightbox.src}
+            alt={lightbox.alt}
+            className="max-w-[90vw] max-h-[85vh] w-auto h-auto object-contain cursor-default"
+            onClick={(e) => e.stopPropagation()}
+            loading="eager"
+            decoding="async"
+          />
+          <p className="text-white/70 text-sm mt-2 cursor-zoom-out">Click outside to close</p>
+        </div>,
+        document.body
+      )}
+  </>
   );
 }
 
-const VALID_PATH_IDS = ["getting-started", "flying", "fps", "professions"];
+const VALID_PATH_IDS = ["getting-started", "flying", "fps", "professions", "dogfighting"];
+
+const PATH_ICONS: Record<string, React.ReactNode> = {
+  "getting-started": <Home className="w-5 h-5" />,
+  flying: <Rocket className="w-5 h-5" />,
+  dogfighting: <Swords className="w-5 h-5" />,
+  fps: <Crosshair className="w-5 h-5" />,
+  professions: <Briefcase className="w-5 h-5" />,
+};
 
 export default function BasicTraining() {
   const [searchParams] = useSearchParams();
   const pathParam = searchParams.get("path");
   const saved = loadProgress();
   const [viewMode, setViewMode] = useState<"learn" | "profile">("learn");
-  const [selectedPathId, setSelectedPathId] = useState<string>(
-    () => saved.selectedPathId ?? "getting-started"
-  );
+  const [selectedPathId, setSelectedPathId] = useState<string | null>(() => {
+    if (pathParam && VALID_PATH_IDS.includes(pathParam)) return pathParam;
+    if (saved.selectedPathId && VALID_PATH_IDS.includes(saved.selectedPathId)) return saved.selectedPathId;
+    return null;
+  });
 
   useEffect(() => {
     if (pathParam && VALID_PATH_IDS.includes(pathParam)) {
@@ -687,8 +844,8 @@ export default function BasicTraining() {
     }
   }, [pathParam]);
 
-  const pathOrder = getPathLessonOrder(selectedPathId);
-  const ordered = getLessonsInOrder(selectedPathId);
+  const pathOrder = selectedPathId ? getPathLessonOrder(selectedPathId) : [];
+  const ordered = selectedPathId ? getLessonsInOrder(selectedPathId) : [];
   const pathLessonCount = pathOrder.length;
 
   const [completedIds, setCompletedIds] = useState<string[]>(() => saved.completedIds);
@@ -700,10 +857,15 @@ export default function BasicTraining() {
   const pathCompletedCount = pathOrder.filter((id) => completedIds.includes(id)).length;
 
   useEffect(() => {
-    saveProgress({ completedIds, selectedPathId, selectedLessonId: selectedLessonId ?? undefined });
+    saveProgress({
+      completedIds,
+      selectedPathId: selectedPathId ?? undefined,
+      selectedLessonId: selectedLessonId ?? undefined,
+    });
   }, [completedIds, selectedPathId, selectedLessonId]);
 
   useEffect(() => {
+    if (!selectedPathId) return;
     if (!pathOrder.includes(selectedLessonId ?? "")) {
       setSelectedLessonId(ordered[0]?.lesson.id ?? null);
     }
@@ -721,15 +883,17 @@ export default function BasicTraining() {
           setBadgeJustEarned(newBadge);
         }
       }
-      if (isCompleting) {
-        const idx = ordered.findIndex((o) => o.lesson.id === id);
-        if (idx >= 0 && idx < ordered.length - 1) {
-          setSelectedLessonId(ordered[idx + 1].lesson.id);
-        }
-      }
       return next;
     });
-  }, [ordered]);
+    // When marking complete, advance to the next lesson in the series
+    const wasCompleted = completedIds.includes(id);
+    if (!wasCompleted) {
+      const idx = ordered.findIndex((o) => o.lesson.id === id);
+      if (idx >= 0 && idx < ordered.length - 1) {
+        setSelectedLessonId(ordered[idx + 1].lesson.id);
+      }
+    }
+  }, [ordered, completedIds]);
 
   const selectedItem = ordered.find((x) => x.lesson.id === selectedLessonId);
 
@@ -748,54 +912,44 @@ export default function BasicTraining() {
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
-            {/* Path selector — only when in Learn view */}
-            {viewMode === "learn" &&
-              LEARNING_PATHS.map((path) => (
-                <button
-                  key={path.id}
-                  type="button"
-                  onClick={() => setSelectedPathId(path.id)}
-                  className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
-                    selectedPathId === path.id
-                      ? "bg-un-accent/20 text-un-accent border border-un-accent/40"
-                      : "bg-un-card border border-un-card-border text-un-muted hover:text-un-text"
-                  }`}
-                >
-                  {path.name}
-                </button>
-              ))}
+            {/* Path selector — card-style with icons; clicking a path goes to learn */}
+            {LEARNING_PATHS.map((path) => (
+              <button
+                key={path.id}
+                type="button"
+                onClick={() => {
+                  setSelectedPathId(path.id);
+                  setViewMode("learn");
+                }}
+                className={`flex flex-col items-center gap-1 px-4 py-2.5 rounded-xl border text-sm font-medium transition-colors cursor-pointer shrink-0 ${
+                  viewMode === "learn" && selectedPathId === path.id
+                    ? "bg-un-accent/20 text-un-accent border-un-accent/40"
+                    : "bg-un-card border-un-card-border text-un-muted hover:text-un-text"
+                }`}
+              >
+                <span className="shrink-0">{PATH_ICONS[path.id] ?? <Rocket className="w-4 h-4" />}</span>
+                {path.name}
+              </button>
+            ))}
 
-            {/* Learn | Profile tabs */}
-            <div className="flex rounded-lg bg-un-card border border-un-card-border p-0.5">
-              <button
-                type="button"
-                onClick={() => setViewMode("learn")}
-                className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors cursor-pointer ${
-                  viewMode === "learn"
-                    ? "bg-un-accent/20 text-un-accent"
-                    : "text-un-muted hover:text-un-text"
-                }`}
-              >
-                <BookOpen className="w-4 h-4" />
-                Learn
-              </button>
-              <button
-                type="button"
-                onClick={() => setViewMode("profile")}
-                className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors cursor-pointer ${
-                  viewMode === "profile"
-                    ? "bg-un-accent/20 text-un-accent"
-                    : "text-un-muted hover:text-un-text"
-                }`}
-              >
-                <User className="w-4 h-4" />
-                Profile
-              </button>
-            </div>
+            {/* Profile — same style as path nav */}
+            <button
+              type="button"
+              onClick={() => setViewMode("profile")}
+              className={`flex flex-col items-center gap-1 px-4 py-2.5 rounded-xl border text-sm font-medium transition-colors cursor-pointer shrink-0 ${
+                viewMode === "profile"
+                  ? "bg-un-accent/20 text-un-accent border-un-accent/40"
+                  : "bg-un-card border-un-card-border text-un-muted hover:text-un-text"
+              }`}
+            >
+              <span className="shrink-0"><User className="w-5 h-5" /></span>
+              Profile
+            </button>
           </div>
         </div>
 
-        {/* ========== SECTION 2: PROGRESS ========== */}
+        {/* ========== SECTION 2: PROGRESS (only when a path is selected) ========== */}
+        {selectedPathId != null && (
         <div className="bg-un-card border border-un-card-border rounded-xl p-5 mb-8">
           <div className="flex flex-col md:flex-row md:items-center gap-6">
             <div className="flex-1 min-w-0">
@@ -835,6 +989,7 @@ export default function BasicTraining() {
             </div>
           </div>
         </div>
+        )}
 
         {/* Badge earned popup with confetti */}
         {badgeJustEarned && (
@@ -1011,9 +1166,46 @@ export default function BasicTraining() {
           );
         })()}
 
-        {/* ========== MAIN CONTENT: LEARN VIEW — Layout lessons left, content right ========== */}
-        {viewMode === "learn" && (
-          import.meta.env.PROD && ["flying", "dogfighting", "fps", "professions"].includes(selectedPathId) ? (
+        {/* ========== MAIN CONTENT: LEARN VIEW ========== */}
+        {viewMode === "learn" && selectedPathId === null && (
+          <div className="min-h-[420px]">
+            <p className="text-un-muted text-sm mb-6">
+              Choose a path below. You can switch anytime.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {LEARNING_PATHS.map((path) => {
+                const isPathComplete = path.lessonIds.every((id) => completedIds.includes(id));
+                return (
+                <button
+                  key={path.id}
+                  type="button"
+                  onClick={() => setSelectedPathId(path.id)}
+                  className={`flex flex-col items-center text-center rounded-xl border p-5 transition-all cursor-pointer group ${
+                    isPathComplete
+                      ? "border-un-accent/50 bg-un-accent/10 hover:border-un-accent/70 hover:bg-un-accent/15"
+                      : "border-un-card-border bg-un-card/80 hover:border-un-accent/40 hover:bg-un-card"
+                  }`}
+                >
+                  <span className={`shrink-0 w-12 h-12 rounded-xl flex items-center justify-center mb-3 transition-colors ${
+                    isPathComplete ? "bg-un-accent/20 text-un-accent" : "bg-un-card-border text-un-muted group-hover:text-un-accent"
+                  }`}>
+                    {PATH_ICONS[path.id] ?? <Rocket className="w-6 h-6" />}
+                  </span>
+                  <h3 className="font-display font-bold text-un-text">{path.name}</h3>
+                  <p className="text-un-muted text-sm mt-1 line-clamp-2">{path.description}</p>
+                  <span className="inline-flex items-center gap-1 text-un-accent text-xs font-medium mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    Start
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </span>
+                </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {viewMode === "learn" && selectedPathId != null && (
+          import.meta.env.PROD && ["dogfighting", "fps"].includes(selectedPathId) ? (
             <div className="bg-un-card border border-un-card-border rounded-xl p-12 text-center min-h-[400px] flex flex-col items-center justify-center">
               <p className="text-2xl font-display font-bold text-un-text">Coming soon</p>
               <p className="text-un-muted mt-2 max-w-md">

@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" fill="none">
+  <defs>
+    <linearGradient id="bg6dof" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0e17"/>
+      <stop offset="100%" stop-color="#0f1628"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+      <polygon points="0,0 8,4 0,8" fill="#00b4d8"/>
+    </marker>
+  </defs>
+  <rect width="720" height="340" fill="url(#bg6dof)"/>
+  <rect x="1" y="1" width="718" height="338" rx="12" stroke="#1e2d4a" stroke-width="1" fill="none"/>
+
+  <!-- Movement: Where you go -->
+  <text x="180" y="38" text-anchor="middle" fill="#00b4d8" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600">WHERE YOU GO</text>
+  <text x="180" y="56" text-anchor="middle" fill="#8892a4" font-family="Inter, system-ui, sans-serif" font-size="11">(Movement)</text>
+  <!-- Ship center for movement -->
+  <circle cx="180" cy="130" r="24" stroke="#00b4d8" stroke-width="1.5" fill="#00b4d8" fill-opacity="0.1"/>
+  <path d="M165 130 L195 130 M180 115 L180 145" stroke="#00b4d8" stroke-width="1" opacity="0.6"/>
+  <!-- Forward/back (throttle/retro) -->
+  <line x1="180" y1="130" x2="180" y2="70" stroke="#10b981" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="200" y="95" fill="#10b981" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="500">Forward / Back</text>
+  <text x="200" y="108" fill="#8892a4" font-family="Inter, system-ui, sans-serif" font-size="10">(throttle / retro)</text>
+  <!-- Up/down strafe -->
+  <line x1="180" y1="130" x2="130" y2="155" stroke="#48cae4" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="85" y="165" fill="#48cae4" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="500">Up / Down</text>
+  <text x="85" y="178" fill="#8892a4" font-family="Inter, system-ui, sans-serif" font-size="10">(vertical strafe)</text>
+  <!-- Left/right strafe -->
+  <line x1="180" y1="130" x2="230" y2="155" stroke="#f0a500" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="255" y="165" fill="#f0a500" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="500">Left / Right</text>
+  <text x="255" y="178" fill="#8892a4" font-family="Inter, system-ui, sans-serif" font-size="10">(horizontal strafe)</text>
+
+  <!-- Rotation: Where your nose points -->
+  <text x="540" y="38" text-anchor="middle" fill="#00b4d8" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600">WHERE YOUR NOSE POINTS</text>
+  <text x="540" y="56" text-anchor="middle" fill="#8892a4" font-family="Inter, system-ui, sans-serif" font-size="11">(Rotation)</text>
+  <!-- Ship nose for rotation -->
+  <circle cx="540" cy="130" r="24" stroke="#00b4d8" stroke-width="1.5" fill="#00b4d8" fill-opacity="0.1"/>
+  <path d="M525 130 L555 130 M540 115 L540 145" stroke="#00b4d8" stroke-width="1" opacity="0.6"/>
+  <!-- Pitch (up/down) - axis line -->
+  <line x1="540" y1="106" x2="540" y2="80" stroke="#10b981" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="485" y="95" fill="#10b981" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="500">Pitch</text>
+  <text x="485" y="108" fill="#8892a4" font-family="Inter, system-ui, sans-serif" font-size="10">(up / down)</text>
+  <!-- Yaw (left/right) - axis line -->
+  <line x1="564" y1="130" x2="600" y2="130" stroke="#48cae4" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="605" y="140" fill="#48cae4" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="500">Yaw</text>
+  <text x="605" y="153" fill="#8892a4" font-family="Inter, system-ui, sans-serif" font-size="10">(left / right)</text>
+  <!-- Roll - circular arrow -->
+  <path d="M516 106 A 24 24 0 0 1 564 106" stroke="#f0a500" stroke-width="2.5" fill="none" stroke-dasharray="5 4"/>
+  <polygon points="558,102 566,106 558,110" fill="#f0a500"/>
+  <text x="485" y="175" fill="#f0a500" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="500">Roll</text>
+  <text x="485" y="188" fill="#8892a4" font-family="Inter, system-ui, sans-serif" font-size="10">(rotation)</text>
+
+  <!-- Divider -->
+  <line x1="360" y1="20" x2="360" y2="320" stroke="#1e2d4a" stroke-width="1"/>
+  <text x="360" y="305" text-anchor="middle" fill="#6b7280" font-family="Inter, system-ui, sans-serif" font-size="10">6DOF  Six degrees of freedom</text>
+</svg>
