@@ -16,16 +16,18 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-un-dark text-un-text">
       <Navbar />
-      <Hero />
-      <About />
-      <Sherpa />
-      <BasicTrainingSection />
-      <Guides />
-      <Tools />
-      <Why />
-      <Values />
-      <Promise />
-      <Community />
+      <main>
+        <Hero />
+        <About />
+        <Sherpa />
+        <BasicTrainingSection />
+        <Guides />
+        <Tools />
+        <Why />
+        <Values />
+        <Promise />
+        <Community />
+      </main>
       <Footer />
       <ScrollToTop />
     </div>

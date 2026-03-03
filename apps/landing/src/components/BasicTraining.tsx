@@ -443,7 +443,7 @@ function LessonContent({
               <>
                 <img
                   src={thumbUrl!}
-                  alt=""
+                  alt={`Lesson thumbnail: ${lesson.title}`}
                   className="absolute inset-0 w-full h-full object-cover cursor-zoom-in"
                   onError={() => setThumbError(true)}
                   onClick={() => openLightbox(thumbUrl!, lesson.title)}
@@ -490,7 +490,7 @@ function LessonContent({
             className={`mx-auto rounded-xl overflow-hidden border border-un-card-border bg-un-darker block cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-un-accent ${["flying-11", "flying-ac"].includes(lesson.id) ? "max-w-[900px] w-full" : "w-full md:max-w-[75%] aspect-video"}`}
             title="Click to view larger"
           >
-            <img src={thumbUrl!} alt="" className={["flying-11", "flying-ac"].includes(lesson.id) ? "w-full h-auto" : "w-full h-full object-cover"} onError={() => setThumbError(true)} />
+            <img src={thumbUrl!} alt={`Lesson image: ${lesson.title}`} className={["flying-11", "flying-ac"].includes(lesson.id) ? "w-full h-auto" : "w-full h-full object-cover"} onError={() => setThumbError(true)} />
           </button>
         )}
         {!embedUrl && lesson.videoUrl && (
