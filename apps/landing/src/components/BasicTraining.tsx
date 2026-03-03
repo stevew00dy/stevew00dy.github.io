@@ -1005,45 +1005,43 @@ export default function BasicTraining() {
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
-            {/* Path selector — card-style with icons; clicking a path goes to learn */}
-            {LEARNING_PATHS.map((path) => (
+          {/* Path tabs: horizontal scroll on mobile so all tabs are reachable without wrapping */}
+          <div className="w-full lg:w-auto -mx-4 sm:mx-0 px-4 sm:px-0 overflow-x-auto overflow-y-hidden [scrollbar-width:none] [-webkit-overflow-scrolling:touch] [&::-webkit-scrollbar]:hidden">
+            <div className="flex items-center gap-2 min-w-max lg:min-w-0 lg:flex-wrap">
+              {LEARNING_PATHS.map((path) => (
+                <button
+                  key={path.id}
+                  type="button"
+                  onClick={() => {
+                    setSelectedPathId(path.id);
+                    setViewMode("learn");
+                  }}
+                  className={`flex flex-col items-center gap-1 px-3 sm:px-4 py-2.5 sm:py-2.5 rounded-xl border text-sm font-medium transition-colors cursor-pointer shrink-0 min-w-0 touch-manipulation ${
+                    viewMode === "learn" && selectedPathId === path.id
+                      ? "bg-un-accent/20 text-un-accent border-un-accent/40"
+                      : "bg-un-card border-un-card-border text-un-muted hover:text-un-text"
+                  }`}
+                >
+                  <span className="shrink-0">{PATH_ICONS[path.id] ?? <Rocket className="w-4 h-4" />}</span>
+                  <span className="flex items-center gap-1.5 min-w-0 flex-wrap justify-center">
+                    {path.name}
+                  </span>
+                </button>
+              ))}
+
               <button
-                key={path.id}
                 type="button"
-                onClick={() => {
-                  setSelectedPathId(path.id);
-                  setViewMode("learn");
-                }}
-                className={`flex flex-col items-center gap-1 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl border text-sm font-medium transition-colors cursor-pointer shrink-0 min-w-0 ${
-                  viewMode === "learn" && selectedPathId === path.id
+                onClick={() => setViewMode("profile")}
+                className={`flex flex-col items-center gap-1 px-3 sm:px-4 py-2.5 sm:py-2.5 rounded-xl border text-sm font-medium transition-colors cursor-pointer shrink-0 touch-manipulation ${
+                  viewMode === "profile"
                     ? "bg-un-accent/20 text-un-accent border-un-accent/40"
                     : "bg-un-card border-un-card-border text-un-muted hover:text-un-text"
                 }`}
               >
-                <span className="shrink-0">{PATH_ICONS[path.id] ?? <Rocket className="w-4 h-4" />}</span>
-                <span className="flex items-center gap-1.5 min-w-0 flex-wrap justify-center">
-                  {path.name}
-                  {path.comingSoon && import.meta.env.PROD && (
-                    <span className="text-[10px] uppercase tracking-wide text-un-muted/80">Coming soon</span>
-                  )}
-                </span>
+                <span className="shrink-0"><User className="w-5 h-5" /></span>
+                Profile
               </button>
-            ))}
-
-            {/* Profile — same style as path nav */}
-            <button
-              type="button"
-              onClick={() => setViewMode("profile")}
-              className={`flex flex-col items-center gap-1 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl border text-sm font-medium transition-colors cursor-pointer shrink-0 ${
-                viewMode === "profile"
-                  ? "bg-un-accent/20 text-un-accent border-un-accent/40"
-                  : "bg-un-card border-un-card-border text-un-muted hover:text-un-text"
-              }`}
-            >
-              <span className="shrink-0"><User className="w-5 h-5" /></span>
-              Profile
-            </button>
+            </div>
           </div>
         </div>
 
@@ -1294,9 +1292,6 @@ export default function BasicTraining() {
                     {PATH_ICONS[path.id] ?? <Rocket className="w-6 h-6" />}
                   </span>
                   <h3 className="font-display font-bold text-un-text">{path.name}</h3>
-                  {path.comingSoon && import.meta.env.PROD && (
-                    <span className="text-xs uppercase tracking-wide text-un-accent mt-0.5 inline-block">Coming soon</span>
-                  )}
                   <p className="text-un-muted text-sm mt-1 line-clamp-2">{path.description}</p>
                   <span className="inline-flex items-center gap-1 text-un-accent text-xs font-medium mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     Start
@@ -1310,7 +1305,7 @@ export default function BasicTraining() {
         )}
 
         {viewMode === "learn" && selectedPathId != null && (
-          import.meta.env.PROD && LEARNING_PATHS.find((p) => p.id === selectedPathId)?.comingSoon ? (
+          LEARNING_PATHS.find((p) => p.id === selectedPathId)?.comingSoon ? (
             <div className="bg-un-card border border-un-card-border rounded-xl p-12 text-center min-h-[400px] flex flex-col items-center justify-center">
               <p className="text-2xl font-display font-bold text-un-text">Coming soon</p>
               <p className="text-un-muted mt-2 max-w-md">
