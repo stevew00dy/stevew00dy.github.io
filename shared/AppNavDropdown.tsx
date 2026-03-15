@@ -14,37 +14,40 @@ export interface AppNavDropdownProps {
   /** App-specific Progress section: Export, Import, Reset buttons */
   progressSection: React.ReactNode;
   onClose: () => void;
+  /** Override Home icon color (e.g. "text-text-muted" for muted) */
+  homeIconClassName?: string;
 }
 
 export function AppNavDropdown({
   activePath,
   progressSection,
   onClose,
+  homeIconClassName = "text-accent-amber",
 }: AppNavDropdownProps) {
   return (
-    <div className="fixed sm:absolute right-2 sm:right-0 top-14 sm:top-full sm:mt-2 w-[calc(100vw-1rem)] sm:w-64 max-w-[16rem] p-3 shadow-xl z-50 rounded-xl border border-dark-700 bg-dark-900">
-      <div className="flex items-center justify-between mb-2">
-        <h3 className="text-xs font-semibold text-text-dim uppercase tracking-wide">
+    <div className="fixed sm:absolute right-2 sm:right-0 top-14 sm:top-full sm:mt-2 w-[calc(100vw-1rem)] sm:w-[18.25rem] max-w-[18.25rem] p-4 shadow-2xl z-50 rounded-2xl border border-dark-700/90 bg-dark-900/98 backdrop-blur-sm">
+      <div className="flex items-center justify-between mb-3">
+        <h3 className="text-[11px] font-semibold text-text-dim uppercase tracking-[0.12em]">
           Progress
         </h3>
         <button
           onClick={onClose}
-          className="p-0.5 rounded text-text-muted hover:text-text transition-colors"
+          className="p-1 rounded text-text-muted hover:text-text transition-colors"
           aria-label="Close menu"
         >
           <X className="w-3.5 h-3.5" />
         </button>
       </div>
-      <div className="space-y-0.5 mb-2">{progressSection}</div>
-      <div className="border-t border-dark-700 my-2" />
-      <h3 className="text-[10px] font-semibold text-text-dim uppercase tracking-wide mb-1.5">
+      <div className="space-y-1 mb-3">{progressSection}</div>
+      <div className="border-t border-dark-700 my-3" />
+      <h3 className="text-[11px] font-semibold text-text-dim uppercase tracking-[0.12em] mb-2">
         Tools
       </h3>
       {TOOL_LINKS.map(({ href, label }) => (
         <a
           key={href}
           href={href}
-          className={`block px-3 py-2 rounded-lg text-xs transition-all duration-200 ${
+          className={`block px-3 py-2.5 rounded-lg text-[13px] leading-none transition-all duration-200 ${
             href === activePath
               ? "text-accent-amber font-medium"
               : "text-text-dim hover:text-text hover:bg-dark-700"
@@ -53,19 +56,19 @@ export function AppNavDropdown({
           {label}
         </a>
       ))}
-      <div className="border-t border-dark-700 my-1.5" />
+      <div className="border-t border-dark-700 my-3" />
       <a
         href="/"
-        className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-text-dim hover:text-text hover:bg-dark-700 transition-all duration-200"
+        className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-[13px] leading-none text-text-dim hover:text-text hover:bg-dark-700 transition-all duration-200"
       >
-        <Home className="w-3.5 h-3.5 text-accent-amber" />
+        <Home className={`w-3.5 h-3.5 ${homeIconClassName}`} />
         Undisputed Noobs
       </a>
       <a
         href={STAR_CITIZEN_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center justify-between px-3 py-2 rounded-lg text-xs text-accent-blue hover:bg-dark-700 transition-all duration-200"
+        className="flex items-center justify-between px-3 py-2.5 rounded-lg text-[13px] leading-none text-accent-blue hover:bg-dark-700 transition-all duration-200"
       >
         Play Star Citizen
         <span className="text-[10px] text-text-muted">↗</span>
@@ -77,16 +80,37 @@ export function AppNavDropdown({
 /** Reusable Export button for Progress section */
 export function NavExportButton({
   onClick,
+  iconClassName = "text-accent-blue",
 }: {
   onClick: () => void;
+  iconClassName?: string;
 }) {
   return (
     <button
       onClick={onClick}
       className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-text-dim hover:text-text hover:bg-dark-700 transition-all duration-200"
     >
-      <Download className="w-3.5 h-3.5 text-accent-blue" />
+      <Download className={`w-3.5 h-3.5 ${iconClassName}`} />
       Export Progress
+      <span className="ml-auto text-[10px] text-text-muted">.json</span>
+    </button>
+  );
+}
+
+export function NavExportAllButton({
+  onClick,
+  iconClassName = "text-accent-blue",
+}: {
+  onClick: () => void;
+  iconClassName?: string;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-[13px] leading-none text-text-dim hover:text-text hover:bg-dark-700 transition-all duration-200"
+    >
+      <Download className={`w-3.5 h-3.5 ${iconClassName}`} />
+      Export All Tools
       <span className="ml-auto text-[10px] text-text-muted">.json</span>
     </button>
   );
@@ -97,10 +121,12 @@ export function NavImportButton({
   onClick,
   inputRef,
   onFileChange,
+  iconClassName = "text-accent-amber",
 }: {
   onClick: () => void;
   inputRef: React.RefObject<HTMLInputElement | null>;
   onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  iconClassName?: string;
 }) {
   return (
     <>
@@ -108,7 +134,7 @@ export function NavImportButton({
         onClick={onClick}
         className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-text-dim hover:text-text hover:bg-dark-700 transition-all duration-200"
       >
-        <Upload className="w-3.5 h-3.5 text-accent-amber" />
+        <Upload className={`w-3.5 h-3.5 ${iconClassName}`} />
         Import Progress
         <span className="ml-auto text-[10px] text-text-muted">.json</span>
       </button>
@@ -124,13 +150,13 @@ export function NavImportButton({
 }
 
 /** Import button that delegates to parent (e.g. Loadout Planner uses parent's file input) */
-export function NavImportButtonSimple({ onClick }: { onClick: () => void }) {
+export function NavImportButtonSimple({ onClick, iconClassName = "text-accent-amber" }: { onClick: () => void; iconClassName?: string }) {
   return (
     <button
       onClick={onClick}
       className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-text-dim hover:text-text hover:bg-dark-700 transition-all duration-200"
     >
-      <Upload className="w-3.5 h-3.5 text-accent-amber" />
+      <Upload className={`w-3.5 h-3.5 ${iconClassName}`} />
       Import Progress
       <span className="ml-auto text-[10px] text-text-muted">.json</span>
     </button>

@@ -1,7 +1,8 @@
 import { Flame, Menu, RefreshCw } from "lucide-react";
-import { AppNavDropdown, NavExportButton, NavImportButton, NavResetButton } from "../../../shared/AppNavDropdown";
+import { AppNavDropdown, NavExportAllButton, NavExportButton, NavImportButton, NavResetButton } from "../../../shared/AppNavDropdown";
 import { useState, useRef, useEffect } from "react";
 import { exportToJson, importFromJson } from "../lib/export";
+import { exportAllToolsData } from "../../../shared/exportAllTools";
 
 interface HeaderProps {
   loading: boolean;
@@ -68,6 +69,7 @@ export function Header({ loading, onRefresh }: HeaderProps) {
                 progressSection={
                   <>
                     <NavExportButton onClick={() => { exportToJson(); setNavOpen(false); }} />
+                    <NavExportAllButton onClick={() => { exportAllToolsData(); setNavOpen(false); }} />
                     <NavImportButton
                       inputRef={fileRef}
                       onClick={() => fileRef.current?.click()}

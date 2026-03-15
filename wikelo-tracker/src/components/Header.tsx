@@ -1,6 +1,7 @@
 import { Package, Menu } from "lucide-react";
-import { AppNavDropdown, NavExportButton, NavImportButton, NavResetButton } from "../../../shared/AppNavDropdown";
+import { AppNavDropdown, NavExportAllButton, NavExportButton, NavImportButton, NavResetButton } from "../../../shared/AppNavDropdown";
 import { useState, useRef, useEffect } from "react";
+import { exportAllToolsData } from "../../../shared/exportAllTools";
 
 interface HeaderProps {
   completedCount: number;
@@ -118,6 +119,7 @@ export function Header({ completedCount, craftableCount, totalCount, onReset }: 
                 progressSection={
                   <>
                     <NavExportButton onClick={() => { exportData(); setNavOpen(false); }} />
+                    <NavExportAllButton onClick={() => { exportAllToolsData(); setNavOpen(false); }} />
                     <NavImportButton
                       inputRef={fileRef}
                       onClick={() => fileRef.current?.click()}

@@ -32,7 +32,8 @@ import { getItems, clearUexCache, fetchThumbnails, fetchBuyableSet, getArmorClas
 import ItemCombobox from "./ItemCombobox";
 import DataNotice from "./components/DataNotice";
 import { FOOTER_LINKS } from "../../shared/nav-footer-links";
-import { AppNavDropdown, NavExportButton, NavImportButtonSimple, NavResetButtonSimple } from "../../shared/AppNavDropdown";
+import { AppNavDropdown, NavExportAllButton, NavExportButton, NavImportButtonSimple, NavResetButton } from "../../shared/AppNavDropdown";
+import { exportAllToolsData } from "../../shared/exportAllTools";
 import armorStatsData from "./armor-data.json";
 import weaponStatsData from "./weapon-stats.json";
 
@@ -252,6 +253,7 @@ function Header({
   onRefreshData,
   isRefreshing,
   onExport,
+  onExportAll,
   onImport,
 }: {
   count: number;
@@ -260,8 +262,10 @@ function Header({
   onRefreshData: () => void;
   isRefreshing: boolean;
   onExport: () => void;
+  onExportAll: () => void;
   onImport: () => void;
 }) {
+  const [confirming, setConfirming] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
 
@@ -270,6 +274,7 @@ function Header({
     function handleClick(e: MouseEvent) {
       if (navRef.current && !navRef.current.contains(e.target as Node)) {
         setNavOpen(false);
+        setConfirming(false);
       }
     }
     document.addEventListener("mousedown", handleClick);
@@ -301,30 +306,33 @@ function Header({
           </button>
           <div className="relative" ref={navRef}>
             <button
-              onClick={() => setNavOpen(!navOpen)}
+              onClick={() => { setNavOpen(!navOpen); setConfirming(false); }}
               className={`p-2 rounded-lg transition-all duration-200 ${
                 navOpen ? "text-text bg-dark-700" : "text-text-muted hover:text-text hover:bg-dark-800"
               }`}
               aria-label="Open menu"
               title="Menu"
             >
-              <Menu className="w-5 h-5" />
+              <Menu className="w-4 h-4" />
             </button>
             {navOpen && (
               <AppNavDropdown
                 activePath="/loadout-planner/"
-                onClose={() => setNavOpen(false)}
+                onClose={() => { setNavOpen(false); setConfirming(false); }}
                 progressSection={
                   <>
                     <NavExportButton onClick={() => { onExport(); setNavOpen(false); }} />
+                    <NavExportAllButton onClick={() => { onExportAll(); setNavOpen(false); }} />
                     <NavImportButtonSimple onClick={() => { onImport(); setNavOpen(false); }} />
-                    <NavResetButtonSimple
-                      onClick={() => {
-                        if (confirm("Delete all loadouts? This cannot be undone.")) {
-                          onReset();
-                          setNavOpen(false);
-                        }
+                    <NavResetButton
+                      confirming={confirming}
+                      onResetClick={() => setConfirming(true)}
+                      onConfirmReset={() => {
+                        onReset();
+                        setConfirming(false);
+                        setNavOpen(false);
                       }}
+                      onCancel={() => setConfirming(false)}
                     />
                   </>
                 }
@@ -1375,6 +1383,7 @@ export default function App() {
         onRefreshData={handleRefreshData}
         isRefreshing={uexLoading}
         onExport={exportAllData}
+        onExportAll={exportAllToolsData}
         onImport={() => fullImportRef.current?.click()}
       />
       <DataNotice />

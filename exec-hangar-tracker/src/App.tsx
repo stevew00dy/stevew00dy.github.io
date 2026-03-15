@@ -25,7 +25,8 @@ import {
 } from "./hooks";
 import DataNotice from "./components/DataNotice";
 import { FOOTER_LINKS } from "../../shared/nav-footer-links";
-import { AppNavDropdown, NavExportButton, NavImportButton, NavResetButton } from "../../shared/AppNavDropdown";
+import { AppNavDropdown, NavExportAllButton, NavExportButton, NavImportButton, NavResetButton } from "../../shared/AppNavDropdown";
+import { exportAllToolsData } from "../../shared/exportAllTools";
 
 const ZONE_NAMES: Record<string, string> = { checkmate: "Checkmate", orbituary: "Orbituary", ruin: "Ruin Station" };
 
@@ -749,6 +750,7 @@ function Header({ stagesCompleted, totalStages, onReset }: { stagesCompleted: nu
                 progressSection={
                   <>
                     <NavExportButton onClick={() => { exportData(); setNavOpen(false); }} />
+                    <NavExportAllButton onClick={() => { exportAllToolsData(); setNavOpen(false); }} />
                     <NavImportButton
                       inputRef={fileRef}
                       onClick={() => fileRef.current?.click()}

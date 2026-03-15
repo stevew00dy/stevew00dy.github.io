@@ -1,6 +1,6 @@
-# Star Citizen — Personal Armour Tracker
+# Rare Armor Tracker
 
-Tracker for rare/loot-only armor: locations, set pieces, variants, and grey-market values. Track progress and favourites.
+Tracker for rare and loot-only armor: locations, set pieces, variants, values, favorites, and collection progress.
 
 **Live:** [undisputednoobs.com/armor-tracker](https://undisputednoobs.com/armor-tracker)
 

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@source "../../shared";
 
 @theme {
   --font-body: "Inter", system-ui, sans-serif;

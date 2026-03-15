@@ -160,7 +160,7 @@ export function importSingleLoadout(file: File): Promise<Loadout> {
 
         resolve(loadout);
       } catch {
-        reject(new Error("Invalid file. Expected a Loadout Planner JSON export."));
+        reject(new Error("Invalid file. Expected an FPS Loadout Tracker JSON export."));
       }
     };
     reader.readAsText(file);
@@ -196,7 +196,7 @@ export function importAllData(file: File): Promise<void> {
         window.location.reload();
         resolve();
       } catch {
-        reject(new Error("Invalid backup file. Expected a Loadout Planner JSON export."));
+        reject(new Error("Invalid backup file. Expected an FPS Loadout Tracker JSON export."));
       }
     };
     reader.readAsText(file);

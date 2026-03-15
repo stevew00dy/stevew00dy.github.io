@@ -381,9 +381,9 @@ export const BASIC_TRAINING_CATEGORIES: TrainingCategory[] = [
         description: "What to carry, where to get it, and how to plan your loadout before you fly.",
         imageUrl: "/lesson-thumbnails/fps-1.svg",
         videoUrl: "https://youtu.be/vnkJymjOpf4",
-        text: "[SECTION]What to carry[/SECTION]\n\nStart with a rifle, a sidearm, and a medical gun (medgun — heals you and others). Armour affects how much damage you can take and how much you can carry. Pick something that balances protection and carry capacity for the mission you're doing.\n\n[SECTION]Where to get it[/SECTION]\n\nYou can buy weapons and armour from shops at landing zones, or loot them from enemies. Use the Loadout Planner and Armour Tracker (linked below) to plan your gear before you fly so you're not shopping under pressure.\n\nCheckpoint: You have a basic loadout ready before heading to a combat mission.",
+        text: "[SECTION]What to carry[/SECTION]\n\nStart with a rifle, a sidearm, and a medical gun (medgun — heals you and others). Armour affects how much damage you can take and how much you can carry. Pick something that balances protection and carry capacity for the mission you're doing.\n\n[SECTION]Where to get it[/SECTION]\n\nYou can buy weapons and armour from shops at landing zones, or loot them from enemies. Use the FPS Loadout Tracker and Armour Tracker (linked below) to plan your gear before you fly so you're not shopping under pressure.\n\nCheckpoint: You have a basic loadout ready before heading to a combat mission.",
         resources: [
-          { label: "Loadout Planner", url: "/loadout-planner/" },
+          { label: "FPS Loadout Tracker", url: "/loadout-planner/" },
           { label: "Armour Tracker", url: "/armor-tracker/" },
         ],
       },

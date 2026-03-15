@@ -17,11 +17,11 @@ This builds the landing page and all tracker apps (including armor-tracker), the
 
 ## Build
 
-The armor-tracker uses a copy-and-patch build (legacy pre-built assets):
+The armor-tracker is now a standard Vite app like the other trackers:
 
 ```powershell
 cd armor-tracker
-node scripts/build.mjs
+npm run build
 ```
 
-Output goes to `armor-tracker/dist/`. The main deploy script runs this automatically.
+Output goes to `armor-tracker/dist/`. The main site build copies that output into `stevew00dy.github.io/dist/armor-tracker/`.

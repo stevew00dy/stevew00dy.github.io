@@ -2,20 +2,24 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://cloudflareinsights.com; base-uri 'self'" />
-    <script>
-      try{var s=localStorage.getItem('personal-armour-tracker-settings');if(s){var p=JSON.parse(s);if(p.theme==='dark')document.documentElement.classList.add('dark');}}catch(_){}
-    </script>
-    <link rel="icon" type="image/svg+xml" href="/star-citizen-rare-armor/vite.svg" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://cloudflareinsights.com; base-uri 'self'"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Star Citizen — Personal Armour Tracker 4.6</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
-    <script type="module" crossorigin src="/star-citizen-rare-armor/assets/index-BoS9ciyU.js"></script>
-    <link rel="stylesheet" crossorigin href="/star-citizen-rare-armor/assets/index-COH93EfI.css">
+    <title>Rare Armor Tracker — Star Citizen</title>
+    <meta
+      name="description"
+      content="Track rare Star Citizen armor sets, locations, variants, values, and your collection progress."
+    />
+    <meta property="og:title" content="Rare Armor Tracker — Star Citizen" />
+    <meta
+      property="og:description"
+      content="Track rare Star Citizen armor sets, locations, variants, values, and your collection progress."
+    />
   </head>
   <body>
     <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
