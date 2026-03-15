@@ -1,6 +1,8 @@
 (function() {
   var STORAGE_PREFIX = 'personal-armour';
   var NOTICE_KEY = 'unoob-data-notice-dismissed';
+  var currentFilter = 'all';
+  var searchQuery = '';
 
   function getArmorKeys() {
     var keys = [];
@@ -100,5 +102,86 @@
   }
   if (notice && localStorage.getItem(NOTICE_KEY) === '1') {
     notice.style.display = 'none';
+  }
+
+  /* Hide the in-app second nav bar and wire up our search/filter */
+  function hideSecondNav() {
+    var root = document.getElementById('root');
+    if (!root || root.querySelector('[data-armor-second-nav]')) return;
+    var main = root.firstElementChild;
+    if (!main) return;
+    var searchInput = root.querySelector('input[placeholder*="Search" i], input[placeholder*="armor" i]');
+    var target = null;
+    if (searchInput) {
+      var el = searchInput;
+      while (el && el !== main) {
+        if (el.parentElement === main) { target = el; break; }
+        el = el.parentElement;
+      }
+    }
+    if (!target && main.children.length > 0) {
+      var first = main.children[0];
+      if (first.textContent && first.textContent.indexOf('Personal Armour') >= 0) target = first;
+    }
+    if (target) target.setAttribute('data-armor-second-nav', '1');
+  }
+
+  function getCards() {
+    var root = document.getElementById('root');
+    if (!root) return [];
+    var cards = root.querySelectorAll('[class*="rounded-xl"], [class*="rounded-lg"]');
+    return Array.prototype.filter.call(cards, function(c) {
+      return !c.closest('[data-armor-second-nav]');
+    });
+  }
+
+  function cardMatchesFilter(card, filter, query) {
+    var text = (card.textContent || '').toLowerCase();
+    var typeMatch = filter === 'all' || text.indexOf(filter) >= 0;
+    var searchMatch = !query || text.indexOf(query.toLowerCase()) >= 0;
+    return typeMatch && searchMatch;
+  }
+
+  function applyFilter() {
+    var cards = getCards();
+    cards.forEach(function(card) {
+      var show = cardMatchesFilter(card, currentFilter, searchQuery);
+      card.style.display = show ? '' : 'none';
+    });
+  }
+
+  var searchEl = document.getElementById('armor-nav-search');
+  var filterBtns = document.querySelectorAll('.nav-filter-btn[data-filter]');
+  if (searchEl) {
+    searchEl.addEventListener('input', function() {
+      searchQuery = searchEl.value.trim();
+      applyFilter();
+    });
+  }
+  filterBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      filterBtns.forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      currentFilter = btn.getAttribute('data-filter') || 'all';
+      applyFilter();
+    });
+  });
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(hideSecondNav, 100);
+      setTimeout(hideSecondNav, 500);
+    });
+  } else {
+    setTimeout(hideSecondNav, 100);
+    setTimeout(hideSecondNav, 500);
+  }
+  var mo = new MutationObserver(function() {
+    hideSecondNav();
+    applyFilter();
+  });
+  var rootEl = document.getElementById('root');
+  if (rootEl) {
+    mo.observe(rootEl, { childList: true, subtree: true });
   }
 })();

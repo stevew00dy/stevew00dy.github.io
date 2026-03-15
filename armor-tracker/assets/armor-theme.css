@@ -1,3 +1,8 @@
+/* Hide the in-app second nav bar (Personal Armour Tracker title, search, filters, cog) */
+#root [data-armor-second-nav] {
+  display: none !important;
+}
+
 /* Force dark mode - match other uNoob apps */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
@@ -38,15 +43,28 @@ body {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
 }
 
-/* Override light backgrounds in armor content */
+/* Main background area - transparent so body grid shows through */
 #root .bg-white,
 #root .bg-zinc-50,
 #root .bg-zinc-100 {
-  background-color: #1a1f2e !important;
+  background-color: transparent !important;
 }
 
-#root .bg-zinc-200 {
-  background-color: #252b3b !important;
+/* Exclude cards - they keep their styled background */
+#root .rounded-xl.bg-white,
+#root .rounded-xl.bg-zinc-50,
+#root .rounded-xl.bg-zinc-100,
+#root [class*="rounded-xl"].bg-white,
+#root [class*="rounded-xl"].bg-zinc-50,
+#root [class*="rounded-xl"].bg-zinc-100,
+#root [class*="rounded-lg"].bg-white,
+#root [class*="rounded-lg"].bg-zinc-50,
+#root [class*="rounded-lg"].bg-zinc-100 {
+  background-color: rgba(15, 20, 32, 0.8) !important;
+}
+
+#root .bg-zinc-200:not(.rounded-xl):not([class*="rounded-xl"]):not([class*="rounded-lg"]) {
+  background-color: transparent !important;
 }
 
 /* Text colors for dark theme */
