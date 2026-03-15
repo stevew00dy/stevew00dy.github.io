@@ -1,0 +1,19 @@
+{
+  "name": "undisputed-noobs",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "workspaces": [
+    "apps/landing"
+  ],
+  "scripts": {
+    "dev:landing": "npm run dev -w apps/landing",
+    "build": "node scripts/build.mjs",
+    "deploy": "npm run build && gh-pages -d dist",
+    "composite:basic-training": "node scripts/composite-basic-training.mjs"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0",
+    "sharp": "^0.34.5"
+  }
+}

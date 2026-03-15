@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0a0e17"/><stop offset="100%" stop-color="#0f1628"/></linearGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#bg)"/>
+  <path d="M280 140 L320 100 L360 140 L340 140 L340 200 L300 200 L300 140 Z" stroke="#00b4d8" stroke-width="2.5" fill="none" opacity="0.8"/>
+  <circle cx="320" cy="170" r="10" stroke="#00b4d8" stroke-width="2" fill="none" opacity="0.6"/>
+  <path d="M316 170 L324 170 M320 166 L320 174" stroke="#00b4d8" stroke-width="2" stroke-linecap="round" opacity="0.9"/>
+  <path d="M260 200 L380 200" stroke="#00b4d8" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.4"/>
+  <path d="M240 220 C240 220 280 210 320 210 C360 210 400 220 400 220" stroke="#00b4d8" stroke-width="1.5" fill="none" opacity="0.4"/>
+  <text x="320" y="260" text-anchor="middle" fill="#8892a4" font-family="system-ui,sans-serif" font-size="14" font-weight="600">DEATH & SPAWN</text>
+</svg>
