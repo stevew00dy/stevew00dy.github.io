@@ -1,13 +1,4 @@
-# DataMining — extraction process and output. NEVER publish (against Star Citizen TOS).
-DataMining/
-
-# PTU extracted data — game files, do not publish
-data/ptu-4.7/raw/
-
-# Data dashboard — local only, NEVER deploy to live
 data-dashboard/
-
-# Filter scripts and extracted/derived data — local only, NEVER deploy to live
 data-filter/
 data/
 
