@@ -8,13 +8,11 @@ import {
   ChevronUp,
   Download,
   Upload,
-  RotateCcw,
   RefreshCw,
   Shield,
   Sword,
   Wrench,
   X,
-  Home,
   Menu,
   Bomb,
   Heart,
@@ -33,6 +31,8 @@ import type { UexItem, ThumbnailMap, BuyableSet, ArmorClassMap } from "./uex-api
 import { getItems, clearUexCache, fetchThumbnails, fetchBuyableSet, getArmorClassMap } from "./uex-api";
 import ItemCombobox from "./ItemCombobox";
 import DataNotice from "./components/DataNotice";
+import { FOOTER_LINKS } from "../../shared/nav-footer-links";
+import { AppNavDropdown, NavExportButton, NavImportButtonSimple, NavResetButtonSimple } from "../../shared/AppNavDropdown";
 import armorStatsData from "./armor-data.json";
 import weaponStatsData from "./weapon-stats.json";
 
@@ -281,7 +281,7 @@ function Header({
       <div className="max-w-[1600px] mx-auto px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Crosshair className="w-6 h-6 text-accent-amber" />
-          <h1 className="text-lg font-semibold">SC Loadout Planner</h1>
+          <h1 className="text-lg font-semibold">FPS Loadout Tracker</h1>
           <span className="font-mono text-sm text-text-dim ml-1">
             {count} loadout{count !== 1 ? "s" : ""}
           </span>
@@ -305,68 +305,30 @@ function Header({
               className={`p-2 rounded-lg transition-all duration-200 ${
                 navOpen ? "text-text bg-dark-700" : "text-text-muted hover:text-text hover:bg-dark-800"
               }`}
+              aria-label="Open menu"
               title="Menu"
             >
               <Menu className="w-5 h-5" />
             </button>
             {navOpen && (
-              <div className="fixed sm:absolute right-2 sm:right-0 top-14 sm:top-full sm:mt-2 w-[calc(100vw-1rem)] sm:w-64 max-w-[16rem] p-3 shadow-xl z-50 rounded-xl border border-dark-700 bg-dark-900">
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-xs font-semibold text-text-dim uppercase tracking-wide">Progress</h3>
-                  <button
-                    onClick={() => setNavOpen(false)}
-                    className="p-0.5 rounded text-text-muted hover:text-text transition-colors"
-                  >
-                    <X className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-                <div className="space-y-0.5 mb-2">
-                  <button
-                    onClick={() => { onExport(); setNavOpen(false); }}
-                    className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-text-dim hover:text-text hover:bg-dark-700 transition-all duration-200"
-                  >
-                    <Download className="w-3.5 h-3.5 text-accent-blue" />
-                    Export Progress
-                    <span className="ml-auto text-[10px] text-text-muted">.json</span>
-                  </button>
-                  <button
-                    onClick={() => { onImport(); setNavOpen(false); }}
-                    className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-text-dim hover:text-text hover:bg-dark-700 transition-all duration-200"
-                  >
-                    <Upload className="w-3.5 h-3.5 text-accent-amber" />
-                    Import Progress
-                    <span className="ml-auto text-[10px] text-text-muted">.json</span>
-                  </button>
-                  <button
-                    onClick={() => {
-                      if (confirm("Delete all loadouts? This cannot be undone.")) {
-                        onReset();
-                        setNavOpen(false);
-                      }
-                    }}
-                    className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-text-muted hover:text-accent-red hover:bg-accent-red/10 transition-all duration-200"
-                  >
-                    <RotateCcw className="w-3.5 h-3.5" />
-                    Reset All Progress
-                  </button>
-                </div>
-                <div className="border-t border-dark-700 my-2" />
-                <h3 className="text-[10px] font-semibold text-text-dim uppercase tracking-wide mb-1.5">Tools</h3>
-                <a href="/armor-tracker/" className="block px-3 py-2 rounded-lg text-xs text-text-dim hover:text-text hover:bg-dark-700 transition-all duration-200">Rare Armor Tracker</a>
-                <a href="/exec-hangar-tracker/" className="block px-3 py-2 rounded-lg text-xs text-text-dim hover:text-text hover:bg-dark-700 transition-all duration-200">Exec Hangar Tracker</a>
-                <a href="/wikelo-tracker/" className="block px-3 py-2 rounded-lg text-xs text-text-dim hover:text-text hover:bg-dark-700 transition-all duration-200">Wikelo Tracker</a>
-                <a href="/loadout-planner/" className="block px-3 py-2 rounded-lg text-xs text-accent-amber font-medium">FPS Loadout Tracker</a>
-                <a href="/refining-tracker/" className="block px-3 py-2 rounded-lg text-xs text-text-dim hover:text-text hover:bg-dark-700 transition-all duration-200">Refining Tracker</a>
-                <div className="border-t border-dark-700 my-1.5" />
-                <a href="/" className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-text-dim hover:text-text hover:bg-dark-700 transition-all duration-200">
-                  <Home className="w-3.5 h-3.5 text-accent-amber" />
-                  Undisputed Noobs
-                </a>
-                <a href="https://robertsspaceindustries.com/enlist?referral=STAR-23GB-5J3N" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between px-3 py-2 rounded-lg text-xs text-accent-blue hover:bg-dark-700 transition-all duration-200">
-                  Play Star Citizen
-                  <span className="text-[10px] text-text-muted">↗</span>
-                </a>
-              </div>
+              <AppNavDropdown
+                activePath="/loadout-planner/"
+                onClose={() => setNavOpen(false)}
+                progressSection={
+                  <>
+                    <NavExportButton onClick={() => { onExport(); setNavOpen(false); }} />
+                    <NavImportButtonSimple onClick={() => { onImport(); setNavOpen(false); }} />
+                    <NavResetButtonSimple
+                      onClick={() => {
+                        if (confirm("Delete all loadouts? This cannot be undone.")) {
+                          onReset();
+                          setNavOpen(false);
+                        }
+                      }}
+                    />
+                  </>
+                }
+              />
             )}
           </div>
         </div>
@@ -1248,13 +1210,18 @@ function Footer() {
     <footer className="border-t border-dark-700 mt-12 py-6">
       <div className="max-w-[1600px] mx-auto px-4 flex flex-col items-center gap-3">
         <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1">
-          <a href="/" className="text-xs text-text-muted hover:text-accent-amber transition-colors">Home</a>
-          <a href="/armor-tracker/" className="text-xs text-text-muted hover:text-accent-amber transition-colors">Rare Armor Tracker</a>
-          <a href="/exec-hangar-tracker/" className="text-xs text-text-muted hover:text-accent-amber transition-colors">Exec Hangar Tracker</a>
-          <a href="/wikelo-tracker/" className="text-xs text-text-muted hover:text-accent-amber transition-colors">Wikelo Tracker</a>
-          <a href="/loadout-planner/" className="text-xs text-accent-amber font-medium">FPS Loadout Tracker</a>
-          <a href="/refining-tracker/" className="text-xs text-text-muted hover:text-accent-amber transition-colors">Refining Tracker</a>
-          <a href="https://www.youtube.com/@undisputednoobs" target="_blank" rel="noopener noreferrer" className="text-xs text-text-muted hover:text-accent-amber transition-colors">YouTube</a>
+          {FOOTER_LINKS.map(({ href, label, external }) => (
+            <a
+              key={href}
+              href={href}
+              {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              className={`text-xs transition-colors ${
+                href === "/loadout-planner/" ? "text-accent-amber font-medium" : "text-text-muted hover:text-accent-amber"
+              }`}
+            >
+              {label}
+            </a>
+          ))}
         </div>
         <p className="text-[10px] text-text-muted/50">Unofficial fan-made tool. Not affiliated with Cloud Imperium Games. All data may be inaccurate — use at your own risk.</p>
       </div>
@@ -1328,19 +1295,22 @@ export default function App() {
   const fullImportRef = useRef<HTMLInputElement>(null);
   const [uexItems, setUexItems] = useState<UexItem[]>([]);
   const [uexLoading, setUexLoading] = useState(false);
+  const [uexError, setUexError] = useState<string | null>(null);
   const [thumbs, setThumbs] = useState<ThumbnailMap>({});
   const [buyable, setBuyable] = useState<BuyableSet>(new Set());
   const [armorClassMap] = useState<ArmorClassMap>(() => getArmorClassMap());
 
   useEffect(() => {
     setUexLoading(true);
+    setUexError(null);
     getItems()
       .then((items) => {
         setUexItems(items);
+        setUexError(null);
         fetchThumbnails(items).then(setThumbs).catch(() => {});
         fetchBuyableSet().then(setBuyable).catch(() => {});
       })
-      .catch(() => {})
+      .catch((err) => setUexError(err instanceof Error ? err.message : "Failed to load item data"))
       .finally(() => setUexLoading(false));
   }, []);
 
@@ -1365,13 +1335,15 @@ export default function App() {
   const handleRefreshData = useCallback(() => {
     clearUexCache();
     setUexLoading(true);
+    setUexError(null);
     getItems(true)
       .then((items) => {
         setUexItems(items);
+        setUexError(null);
         fetchThumbnails(items).then(setThumbs).catch(() => {});
         fetchBuyableSet().then(setBuyable).catch(() => {});
       })
-      .catch(() => {})
+      .catch((err) => setUexError(err instanceof Error ? err.message : "Failed to load item data"))
       .finally(() => setUexLoading(false));
   }, []);
 
@@ -1390,6 +1362,12 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <a
+        href="#main"
+        className="sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-accent-amber focus:text-dark-950 focus:font-medium focus:w-auto focus:h-auto focus:m-0 focus:overflow-visible focus:clip-auto"
+      >
+        Skip to main content
+      </a>
       <Header
         count={loadouts.length}
         uexLoading={uexLoading}
@@ -1400,7 +1378,19 @@ export default function App() {
         onImport={() => fullImportRef.current?.click()}
       />
       <DataNotice />
-      <main className="flex-1 max-w-[1600px] w-full mx-auto px-4 py-6">
+      {uexError && (
+        <div className="mx-4 mt-4 p-4 rounded-lg bg-accent-red/10 border border-accent-red/30 text-accent-red text-sm flex items-center justify-between gap-4 flex-wrap">
+          <span>{uexError}</span>
+          <button
+            onClick={handleRefreshData}
+            disabled={uexLoading}
+            className="px-3 py-1.5 rounded-lg bg-accent-red/20 hover:bg-accent-red/30 font-medium disabled:opacity-50"
+          >
+            Retry
+          </button>
+        </div>
+      )}
+      <main id="main" className="flex-1 max-w-[1600px] w-full mx-auto px-4 py-6">
         {loadouts.length === 0 ? (
           <EmptyState onCreate={() => setShowNew(true)} />
         ) : (

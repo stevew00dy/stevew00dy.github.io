@@ -30,6 +30,7 @@ export default function BasicTrainingSection() {
             <img
               src="/lesson-thumbnails/basic-training-stack.png"
               alt="Basic Training — lessons, progress, and lesson view"
+              loading="lazy"
               className="w-full h-auto group-hover:scale-[1.02] transition-transform duration-300 drop-shadow-2xl"
             />
           </div>
@@ -39,6 +40,7 @@ export default function BasicTrainingSection() {
             <img
               src="/lesson-thumbnails/basic-training-stack.png"
               alt="Basic Training — lessons, progress, and lesson view"
+              loading="lazy"
               className="w-full h-auto"
             />
           </div>

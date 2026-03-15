@@ -17,20 +17,16 @@ const GUIDE_LINKS: { title: string; url: string }[] = [
   { title: "Basic Training", url: "/training" },
 ];
 
-const TOOL_LINKS: { title: string; url: string; external?: boolean }[] = [
-  { title: "Rare Armor Tracker", url: "/armor-tracker/" },
-  { title: "Exec Hangar Tracker", url: "/exec-hangar-tracker/" },
-  { title: "Wikelo Tracker", url: "/wikelo-tracker/" },
-  { title: "FPS Loadout Planner", url: "/loadout-planner/" },
-  { title: "Refining Tracker", url: "/refining-tracker/" },
+import { TOOL_LINKS as SHARED_TOOL_LINKS } from "../../../../../shared/nav-footer-links";
+
+const COMMUNITY_TOOLS: { title: string; url: string; external: true }[] = [
   { title: "Erkul Games", url: "https://www.erkul.games/", external: true },
   { title: "UEX Corp", url: "https://uexcorp.space/", external: true },
   { title: "SPViewer", url: "https://www.spviewer.eu/", external: true },
   { title: "Regolith Co.", url: "https://regolith.rocks/", external: true },
 ];
 
-const INTERNAL_TOOLS = TOOL_LINKS.filter((t) => !t.external);
-const COMMUNITY_TOOLS = TOOL_LINKS.filter((t) => t.external);
+const INTERNAL_TOOLS = SHARED_TOOL_LINKS.map((t) => ({ title: t.label, url: t.href }));
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);

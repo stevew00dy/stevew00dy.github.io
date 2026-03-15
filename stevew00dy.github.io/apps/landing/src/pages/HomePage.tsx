@@ -16,7 +16,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-un-dark text-un-text">
       <Navbar />
-      <main>
+      <main id="main">
         <Hero />
         <About />
         <Sherpa />

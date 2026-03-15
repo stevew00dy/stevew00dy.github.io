@@ -10,10 +10,7 @@ import {
   Users,
   ExternalLink,
   X,
-  Download,
-  Upload,
   Crosshair,
-  Home,
   Menu,
   Maximize2,
 } from "lucide-react";
@@ -27,6 +24,8 @@ import {
   formatTime,
 } from "./hooks";
 import DataNotice from "./components/DataNotice";
+import { FOOTER_LINKS } from "../../shared/nav-footer-links";
+import { AppNavDropdown, NavExportButton, NavImportButton, NavResetButton } from "../../shared/AppNavDropdown";
 
 const ZONE_NAMES: Record<string, string> = { checkmate: "Checkmate", orbituary: "Orbituary", ruin: "Ruin Station" };
 
@@ -611,6 +610,7 @@ function MapsSection() {
               <img
                 src={`${base}maps/${id}.webp`}
                 alt={title}
+                loading="lazy"
                 className="w-full h-full object-cover object-left-top"
               />
             </div>
@@ -743,89 +743,30 @@ function Header({ stagesCompleted, totalStages, onReset }: { stagesCompleted: nu
               <Menu className="w-4 h-4" />
             </button>
             {navOpen && (
-              <div className="fixed sm:absolute right-2 sm:right-0 top-14 sm:top-full sm:mt-2 w-[calc(100vw-1rem)] sm:w-64 max-w-[16rem] p-3 shadow-xl z-50 rounded-xl border border-dark-700 bg-dark-900">
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-xs font-semibold text-text-dim uppercase tracking-wide">Progress</h3>
-                  <button
-                    onClick={() => { setNavOpen(false); setConfirming(false); }}
-                    className="p-0.5 rounded text-text-muted hover:text-text transition-colors"
-                  >
-                    <X className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-                <div className="space-y-0.5 mb-2">
-                  <button
-                    onClick={() => { exportData(); setNavOpen(false); }}
-                    className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-text-dim hover:text-text hover:bg-dark-700 transition-all duration-200"
-                  >
-                    <Download className="w-3.5 h-3.5 text-accent-blue" />
-                    Export Progress
-                    <span className="ml-auto text-[10px] text-text-muted">.json</span>
-                  </button>
-                  <button
-                    onClick={() => fileRef.current?.click()}
-                    className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-text-dim hover:text-text hover:bg-dark-700 transition-all duration-200"
-                  >
-                    <Upload className="w-3.5 h-3.5 text-accent-amber" />
-                    Import Progress
-                    <span className="ml-auto text-[10px] text-text-muted">.json</span>
-                  </button>
-                  <input
-                    ref={fileRef}
-                    type="file"
-                    accept=".json"
-                    className="hidden"
-                    onChange={(e) => {
-                      const file = e.target.files?.[0];
-                      if (file) importData(file);
-                      e.target.value = "";
-                    }}
-                  />
-                  {confirming ? (
-                    <div className="px-3 py-2 rounded-lg bg-dark-800/80">
-                      <p className="text-xs text-accent-red mb-2">Reset all progress? This cannot be undone.</p>
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() => { onReset(); setConfirming(false); setNavOpen(false); }}
-                          className="flex-1 py-1.5 text-xs rounded-md bg-accent-red/20 text-accent-red hover:bg-accent-red/30 transition-colors font-medium"
-                        >
-                          Yes, reset
-                        </button>
-                        <button
-                          onClick={() => setConfirming(false)}
-                          className="flex-1 py-1.5 text-xs rounded-md bg-dark-700 text-text-muted hover:text-text transition-colors"
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    </div>
-                  ) : (
-                    <button
-                      onClick={() => setConfirming(true)}
-                      className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-text-muted hover:text-accent-red hover:bg-accent-red/10 transition-all duration-200"
-                    >
-                      <RotateCcw className="w-3.5 h-3.5" />
-                      Reset All Progress
-                    </button>
-                  )}
-                </div>
-                <div className="border-t border-dark-700 my-2" />
-                <h3 className="text-[10px] font-semibold text-text-dim uppercase tracking-wide mb-1.5">Tools</h3>
-                <a href="/armor-tracker/" className="block px-3 py-2 rounded-lg text-xs text-text-dim hover:text-text hover:bg-dark-700 transition-all duration-200">Rare Armor Tracker</a>
-                <a href="/exec-hangar-tracker/" className="block px-3 py-2 rounded-lg text-xs text-accent-amber font-medium">Exec Hangar Tracker</a>
-                <a href="/wikelo-tracker/" className="block px-3 py-2 rounded-lg text-xs text-text-dim hover:text-text hover:bg-dark-700 transition-all duration-200">Wikelo Tracker</a>
-                <a href="/loadout-planner/" className="block px-3 py-2 rounded-lg text-xs text-text-dim hover:text-text hover:bg-dark-700 transition-all duration-200">FPS Loadout Tracker</a>
-                <a href="/refining-tracker/" className="block px-3 py-2 rounded-lg text-xs text-text-dim hover:text-text hover:bg-dark-700 transition-all duration-200">Refining Tracker</a>
-                <div className="border-t border-dark-700 my-1.5" />
-                <a href="/" className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-text-dim hover:text-text hover:bg-dark-700 transition-all duration-200">
-                  <Home className="w-3.5 h-3.5 text-accent-amber" />
-                  Undisputed Noobs
-                </a>
-                <a href="https://robertsspaceindustries.com/enlist?referral=STAR-23GB-5J3N" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between px-3 py-2 rounded-lg text-xs text-accent-blue hover:bg-dark-700 transition-all duration-200">
-                  Play Star Citizen
-                  <span className="text-[10px] text-text-muted">↗</span>
-                </a>
-              </div>
+              <AppNavDropdown
+                activePath="/exec-hangar-tracker/"
+                onClose={() => { setNavOpen(false); setConfirming(false); }}
+                progressSection={
+                  <>
+                    <NavExportButton onClick={() => { exportData(); setNavOpen(false); }} />
+                    <NavImportButton
+                      inputRef={fileRef}
+                      onClick={() => fileRef.current?.click()}
+                      onFileChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) importData(file);
+                        e.target.value = "";
+                      }}
+                    />
+                    <NavResetButton
+                      confirming={confirming}
+                      onResetClick={() => setConfirming(true)}
+                      onConfirmReset={() => { onReset(); setConfirming(false); setNavOpen(false); }}
+                      onCancel={() => setConfirming(false)}
+                    />
+                  </>
+                }
+              />
             )}
             </div>
           </div>
@@ -867,9 +808,15 @@ export default function App() {
 
   return (
     <div className="min-h-screen">
+      <a
+        href="#main"
+        className="sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-accent-amber focus:text-dark-950 focus:font-medium focus:w-auto focus:h-auto focus:m-0 focus:overflow-visible focus:clip-auto"
+      >
+        Skip to main content
+      </a>
       <Header stagesCompleted={stagesCompleted} totalStages={5} onReset={handleReset} />
       <DataNotice />
-      <main className="max-w-[1600px] mx-auto px-4 py-4 space-y-8">
+      <main id="main" className="max-w-[1600px] mx-auto px-4 py-4 space-y-8">
         <IntroSection stagesDone={stagesDone} execBlocked={compboards.collected === compboards.total && !hangar.isGreen} />
         <SupervisorSection supervisorCards={supervisorCards} />
         <HangarSection compboards={compboards} hangar={hangar} />
@@ -923,13 +870,18 @@ export default function App() {
       <footer className="border-t border-dark-700 mt-12 py-6">
         <div className="max-w-[1600px] mx-auto px-4 flex flex-col items-center gap-3">
           <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1">
-            <a href="/" className="text-xs text-text-muted hover:text-accent-amber transition-colors">Home</a>
-            <a href="/armor-tracker/" className="text-xs text-text-muted hover:text-accent-amber transition-colors">Rare Armor Tracker</a>
-            <a href="/exec-hangar-tracker/" className="text-xs text-accent-amber font-medium">Exec Hangar Tracker</a>
-            <a href="/wikelo-tracker/" className="text-xs text-text-muted hover:text-accent-amber transition-colors">Wikelo Tracker</a>
-            <a href="/loadout-planner/" className="text-xs text-text-muted hover:text-accent-amber transition-colors">FPS Loadout Tracker</a>
-            <a href="/refining-tracker/" className="text-xs text-text-muted hover:text-accent-amber transition-colors">Refining Tracker</a>
-            <a href="https://www.youtube.com/@undisputednoobs" target="_blank" rel="noopener noreferrer" className="text-xs text-text-muted hover:text-accent-amber transition-colors">YouTube</a>
+            {FOOTER_LINKS.map(({ href, label, external }) => (
+              <a
+                key={href}
+                href={href}
+                {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                className={`text-xs transition-colors ${
+                  href === "/exec-hangar-tracker/" ? "text-accent-amber font-medium" : "text-text-muted hover:text-accent-amber"
+                }`}
+              >
+                {label}
+              </a>
+            ))}
           </div>
           <p className="text-[10px] text-text-muted/50">Unofficial fan-made tool. Not affiliated with Cloud Imperium Games. All data may be inaccurate — use at your own risk.</p>
         </div>

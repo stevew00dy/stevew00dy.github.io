@@ -1,4 +1,7 @@
 import Logo from "./Logo";
+import { FOOTER_LINKS } from "../../../../../shared/nav-footer-links";
+
+const ACTIVE_PATH = "/"; // Home is active on landing
 
 export default function Footer() {
   return (
@@ -12,21 +15,18 @@ export default function Footer() {
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1">
-          <a href="/" className="text-xs text-un-muted hover:text-un-accent transition-colors">Home</a>
-          <a href="/armor-tracker/" className="text-xs text-un-muted hover:text-un-accent transition-colors">Rare Armor Tracker</a>
-          <a href="/exec-hangar-tracker/" className="text-xs text-un-muted hover:text-un-accent transition-colors">Exec Hangar Tracker</a>
-          <a href="/wikelo-tracker/" className="text-xs text-un-muted hover:text-un-accent transition-colors">Wikelo Tracker</a>
-          <a href="/loadout-planner/" className="text-xs text-un-muted hover:text-un-accent transition-colors">FPS Loadout Tracker</a>
-          <a href="/refining-tracker/" className="text-xs text-un-muted hover:text-un-accent transition-colors">Refining Tracker</a>
-          <a href="https://www.youtube.com/@undisputednoobs" target="_blank" rel="noopener noreferrer" className="text-xs text-un-muted hover:text-un-accent transition-colors">YouTube</a>
-          <a
-            href="https://www.robertsspaceindustries.com/enlist?referral=STAR-23GB-5J3N"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs text-un-muted hover:text-un-accent transition-colors"
-          >
-            Join Star Citizen (+50k aUEC)
-          </a>
+          {FOOTER_LINKS.map(({ href, label, external }) => (
+            <a
+              key={href}
+              href={href}
+              {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              className={`text-xs transition-colors ${
+                href === ACTIVE_PATH ? "text-un-accent font-medium" : "text-un-muted hover:text-un-accent"
+              }`}
+            >
+              {label}
+            </a>
+          ))}
         </div>
 
         <p className="text-[10px] text-un-muted/50">

@@ -1,6 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App";
+import { ErrorBoundary } from "./components/ErrorBoundary";
 import "./index.css";
 
 const cfToken = import.meta.env.VITE_CF_ANALYTICS_TOKEN;
@@ -14,6 +15,8 @@ if (cfToken) {
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <App />
+    <ErrorBoundary appName="Refining Tracker">
+      <App />
+    </ErrorBoundary>
   </StrictMode>
 );

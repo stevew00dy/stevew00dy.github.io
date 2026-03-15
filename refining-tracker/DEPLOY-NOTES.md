@@ -10,7 +10,7 @@ All tracker apps are now in the **monorepo** and deploy from a **single build**:
 | Refining Tracker | `refining-tracker/` | `/refining-tracker/` |
 | Exec Hangar Tracker | `exec-hangar-tracker/` | `/exec-hangar-tracker/` |
 | Wikelo Tracker | `wikelo-tracker/` | `/wikelo-tracker/` |
-| FPS Loadout Planner | `loadout-planner/` | `/loadout-planner/` |
+| FPS Loadout Tracker | `loadout-planner/` | `/loadout-planner/` |
 | Armor Tracker | `armor-tracker/` | `/armor-tracker/` |
 
 ## Deploy Everything

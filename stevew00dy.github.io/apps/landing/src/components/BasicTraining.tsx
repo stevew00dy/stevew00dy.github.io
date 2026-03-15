@@ -656,7 +656,7 @@ function LessonContent({
                           style={seg.maxWidth ? { maxWidth: seg.maxWidth } : undefined}
                           title="Click to view larger"
                         >
-                          <img src={base === "/" ? seg.src : base.replace(/\/$/, "") + seg.src} alt={seg.alt} className="w-full h-auto object-contain" />
+                          <img src={base === "/" ? seg.src : base.replace(/\/$/, "") + seg.src} alt={seg.alt} loading="lazy" className="w-full h-auto object-contain" />
                         </button>
                       )
                     ) : seg.type === "hudKeyItems" ? (
@@ -781,7 +781,7 @@ function LessonContent({
                                           aria-label="View image larger"
                                           title="Click to view larger"
                                         >
-                                          <img src={cell} alt={row[0] ?? ""} className="rounded-lg object-contain w-full h-full" />
+                                          <img src={cell} alt={row[0] ?? ""} loading="lazy" className="rounded-lg object-contain w-full h-full" />
                                         </button>
                                       ) : (
                                         cell || "—"

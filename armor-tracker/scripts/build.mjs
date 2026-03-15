@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, writeFileSync, cpSync } from "fs";
+import { mkdirSync, readFileSync, writeFileSync, cpSync, readdirSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 
@@ -11,6 +11,13 @@ const NEW_BASE = "/armor-tracker/";
 
 function replaceBase(content) {
   return content.replaceAll(OLD_BASE, NEW_BASE);
+}
+
+function findAsset(assetsDir, pattern) {
+  const files = readdirSync(assetsDir);
+  const match = files.find((f) => pattern.test(f));
+  if (!match) throw new Error(`No asset matching ${pattern} in ${assetsDir}`);
+  return match;
 }
 
 console.log("Building armor-tracker (copying legacy app)...");
@@ -27,10 +34,17 @@ cpSync(join(root, "scripts", "armor-nav.css"), join(dist, "assets", "armor-nav.c
 cpSync(join(root, "scripts", "armor-nav.js"), join(dist, "assets", "armor-nav.js"));
 cpSync(join(root, "scripts", "armor-theme.css"), join(dist, "assets", "armor-theme.css"));
 
-const wrapperHtml = readFileSync(join(root, "scripts", "armor-wrapper.html"), "utf-8");
+const assetsDir = join(dist, "assets");
+const jsFile = findAsset(assetsDir, /^index-\w+\.js$/);
+const cssFile = findAsset(assetsDir, /^index-\w+\.css$/);
 
-// Read and adapt index.html
+const wrapperHtml = readFileSync(join(root, "scripts", "armor-wrapper.html"), "utf-8");
+const footerHtml = readFileSync(join(root, "scripts", "armor-footer.html"), "utf-8");
+
+// Read and adapt index.html (replace asset refs with dynamic filenames in case they change)
 let html = readFileSync(join(root, "index.html"), "utf-8");
+html = html.replace(/\/star-citizen-rare-armor\/assets\/index-\w+\.js/, `${OLD_BASE}assets/${jsFile}`);
+html = html.replace(/\/star-citizen-rare-armor\/assets\/index-\w+\.css/, `${OLD_BASE}assets/${cssFile}`);
 html = replaceBase(html);
 
 // Force dark mode always (replace theme script)
@@ -51,20 +65,20 @@ html = html.replace(
   `<body>\n${wrapperHtml}\n  `
 );
 
-// Inject nav script before </body>
+// Inject footer and nav script before </body>
 html = html.replace(
   "</body>",
-  `<script src="${NEW_BASE}assets/armor-nav.js"></script>\n  </body>`
+  `\n${footerHtml}\n  <script src="${NEW_BASE}assets/armor-nav.js"></script>\n  </body>`
 );
 
 writeFileSync(join(dist, "index.html"), html);
 
-// Replace base path in built JS and CSS
-const jsPath = join(dist, "assets", "index-BoS9ciyU.js");
+// Replace base path in built JS and CSS (use dynamic filenames)
+const jsPath = join(assetsDir, jsFile);
 let js = readFileSync(jsPath, "utf-8");
 writeFileSync(jsPath, replaceBase(js));
 
-const cssPath = join(dist, "assets", "index-COH93EfI.css");
+const cssPath = join(assetsDir, cssFile);
 let css = readFileSync(cssPath, "utf-8");
 writeFileSync(cssPath, replaceBase(css));
 

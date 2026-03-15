@@ -1,5 +1,6 @@
 import { createRoot } from "react-dom/client";
 import App from "./App";
+import { ErrorBoundary } from "./components/ErrorBoundary";
 import "./index.css";
 
 const cfToken = import.meta.env.VITE_CF_ANALYTICS_TOKEN;
@@ -11,4 +12,8 @@ if (cfToken) {
   document.head.appendChild(script);
 }
 
-createRoot(document.getElementById("root")!).render(<App />);
+createRoot(document.getElementById("root")!).render(
+  <ErrorBoundary appName="Exec Hangar Tracker">
+    <App />
+  </ErrorBoundary>
+);

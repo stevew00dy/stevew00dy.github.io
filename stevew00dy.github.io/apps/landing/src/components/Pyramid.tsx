@@ -4,6 +4,7 @@ export default function Pyramid({ className = "" }: { className?: string }) {
       <img
         src="/values-triangles.png"
         alt="Undisputed Noobs Values — Be Respectful, Stay Positive, Have Fun"
+        loading="lazy"
         className="w-full max-w-md mx-auto"
       />
     </div>

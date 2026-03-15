@@ -1,29 +1,27 @@
-# Deploy to GitHub Pages
+# Armor Tracker — Deployment
 
-**Deploy:** From project root run `.\deploy.ps1` (optionally pass a commit message). Builds, syncs dist to root, commits, pushes.
+Armor Tracker deploys as part of the **monorepo**. It is not deployed standalone.
 
----
+## Deploy
 
-## Initial setup (one-time)
+From the main site root:
 
-1. **Create the repo on GitHub**
-   - Go to [github.com/new](https://github.com/new)
-   - Repository name: **`star-citizen-rare-armor`** (must match for the URL to work)
-   - Public, no README/license (this folder already has them)
-   - Create repository
+```powershell
+cd d:\Cursor\projects\Undisputednoobs\stevew00dy.github.io
+npm run deploy
+```
 
-2. **Push this folder**
-   ```powershell
-   cd "d:\Cursor\Star Citizen\02-research\rare-armor-guide"
-   git remote add origin https://github.com/YOUR_USERNAME/star-citizen-rare-armor.git
-   git push -u origin main
-   ```
-   Replace `YOUR_USERNAME` with your GitHub username.
+This builds the landing page and all tracker apps (including armor-tracker), then deploys to `stevew00dy.github.io` (undisputednoobs.com).
 
-3. **Turn on Pages**
-   - On the repo page: **Settings** → **Pages** (left sidebar)
-   - **Build and deployment** → Source: **Deploy from a branch**
-   - Branch: **main** → Folder: **/ (root)** → **Save**
+**Live:** https://undisputednoobs.com/armor-tracker/
 
-4. **Wait 1–2 minutes**, then open:
-   **https://YOUR_USERNAME.github.io/star-citizen-rare-armor/**
+## Build
+
+The armor-tracker uses a copy-and-patch build (legacy pre-built assets):
+
+```powershell
+cd armor-tracker
+node scripts/build.mjs
+```
+
+Output goes to `armor-tracker/dist/`. The main deploy script runs this automatically.

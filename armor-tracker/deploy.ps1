@@ -27,7 +27,7 @@ try {
 
     Write-Host "Pushing to origin..." -ForegroundColor Cyan
     git push origin main
-    Write-Host "Done. Site: https://stevew00dy.github.io/star-citizen-rare-armor/" -ForegroundColor Green
+    Write-Host "Done. Site: https://undisputednoobs.com/armor-tracker/" -ForegroundColor Green
 } finally {
     Pop-Location
 }

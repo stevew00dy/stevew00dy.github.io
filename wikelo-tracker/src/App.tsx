@@ -34,6 +34,12 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-dark-950 text-text font-body">
+      <a
+        href="#main"
+        className="sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-accent-purple focus:text-white focus:font-medium focus:w-auto focus:h-auto focus:m-0 focus:overflow-visible focus:clip-auto"
+      >
+        Skip to main content
+      </a>
       <Header
         completedCount={completedCount}
         craftableCount={craftableCount}
@@ -45,7 +51,7 @@ export default function App() {
         }}
       />
       <DataNotice />
-      <main className="max-w-[1600px] mx-auto px-4 py-6 lg:flex lg:gap-6">
+      <main id="main" className="max-w-[1600px] mx-auto px-4 py-6 lg:flex lg:gap-6">
         <InventoryPanel
           inventory={inventory}
           isOpen={inventoryOpen}

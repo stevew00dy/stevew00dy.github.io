@@ -43,8 +43,8 @@ export default function App() {
     try {
       const d = await getRefiningData(true);
       setData(d);
-    } catch (e: any) {
-      setError(e.message);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Failed to load data");
     } finally {
       setLoading(false);
     }
@@ -62,6 +62,12 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <a
+        href="#main"
+        className="sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-accent-amber focus:text-dark-950 focus:font-medium focus:w-auto focus:h-auto focus:m-0 focus:overflow-visible focus:clip-auto"
+      >
+        Skip to main content
+      </a>
       <Header loading={loading} onRefresh={handleRefresh} />
       <DataNotice />
 
@@ -73,6 +79,8 @@ export default function App() {
               <button
                 key={t.id}
                 onClick={() => setTab(t.id)}
+                aria-label={`Switch to ${t.label} tab`}
+                aria-current={tab === t.id ? "true" : undefined}
                 className={`flex items-center gap-2 px-4 py-3 min-h-[44px] text-sm font-medium border-b-2 transition-all whitespace-nowrap ${
                   tab === t.id
                     ? "border-accent-amber text-accent-amber"
@@ -87,7 +95,7 @@ export default function App() {
         </div>
       </nav>
 
-      <main className="flex-1 max-w-[1600px] mx-auto w-full px-4 py-6">
+      <main id="main" className="flex-1 max-w-[1600px] mx-auto w-full px-4 py-6">
         {(tab === "sessions" || tab === "stats" || tab === "loadouts" || tab === "signatures" || tab === "finder") ? (
           <>
             {tab === "sessions" && <Sessions />}
