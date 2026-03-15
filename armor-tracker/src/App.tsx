@@ -8,16 +8,22 @@ import {
 } from "../../shared/AppNavDropdown";
 import { FOOTER_LINKS } from "../../shared/nav-footer-links";
 import { exportAllToolsData } from "../../shared/exportAllTools";
-import { Check, MapPin, Menu, Search, Shield, Sparkles, Star, Tag } from "lucide-react";
+import { Check, ChevronDown, MapPin, Menu, Search, Shield, Sparkles, Star } from "lucide-react";
 import DataNotice from "./components/DataNotice";
 import { armors } from "./data/armorAll";
-import type { ArmorItem, ArmorType } from "./types";
+import type { ArmorItem, ArmorType, ArmorVariant } from "./types";
 
 type ArmorFilter = "all" | ArmorType;
 
 interface ArmorProgress {
   favorite: boolean;
-  pieces: Record<string, boolean>;
+  variants: Record<string, Record<string, boolean>>;
+}
+
+interface ParsedArmorProgress {
+  favorite?: boolean;
+  pieces?: Record<string, boolean>;
+  variants?: Record<string, Record<string, boolean>>;
 }
 
 const NEW_STATE_PREFIX = "personal-armour-state-";
@@ -52,18 +58,9 @@ function safeParse(raw: string | null): unknown | undefined {
   }
 }
 
-function extractProgress(value: unknown, keyHint = ""): Partial<ArmorProgress> | null {
+function extractProgress(value: unknown, keyHint = ""): ParsedArmorProgress | null {
   if (value && typeof value === "object" && !Array.isArray(value)) {
     const record = value as Record<string, unknown>;
-    const owned = coerceBoolean(
-      record.owned ??
-        record.found ??
-        record.checked ??
-        record.complete ??
-        record.completed ??
-        record.collected ??
-        record.tracked,
-    );
     const favorite = coerceBoolean(record.favorite ?? record.favourite ?? record.starred);
     const pieces = record.pieces && typeof record.pieces === "object" && !Array.isArray(record.pieces)
       ? Object.fromEntries(
@@ -73,11 +70,36 @@ function extractProgress(value: unknown, keyHint = ""): Partial<ArmorProgress> |
           ]),
         )
       : undefined;
+    const variants = record.variants && typeof record.variants === "object" && !Array.isArray(record.variants)
+      ? Object.fromEntries(
+          Object.entries(record.variants as Record<string, unknown>).map(([variantId, variantValue]) => [
+            variantId,
+            variantValue && typeof variantValue === "object" && !Array.isArray(variantValue)
+              ? Object.fromEntries(
+                  Object.entries(variantValue as Record<string, unknown>).map(([pieceKey, pieceValue]) => [
+                    pieceKey,
+                    coerceBoolean(pieceValue) ?? false,
+                  ]),
+                )
+              : {},
+          ]),
+        )
+      : undefined;
+    const owned = coerceBoolean(
+      record.owned ??
+        record.found ??
+        record.checked ??
+        record.complete ??
+        record.completed ??
+        record.collected ??
+        record.tracked,
+    );
 
-    if (owned !== undefined || favorite !== undefined || pieces !== undefined) {
+    if (owned !== undefined || favorite !== undefined || pieces !== undefined || variants !== undefined) {
       return {
         favorite: favorite ?? false,
         pieces,
+        variants,
       };
     }
   }
@@ -93,14 +115,115 @@ function extractProgress(value: unknown, keyHint = ""): Partial<ArmorProgress> |
   return null;
 }
 
-function createPieceState(armor: ArmorItem, fill = false) {
-  return Object.fromEntries((armor.setPieces ?? []).map((piece) => [piece.slot, fill]));
+function createVariantState(armor: ArmorItem, fill = false) {
+  return Object.fromEntries(
+    armor.variants.map((variant) => [
+      variant.id,
+      Object.fromEntries(variant.pieces.map((piece) => [piece.slot, fill])),
+    ]),
+  );
+}
+
+function getDefaultVariantId(armor: ArmorItem) {
+  return armor.variants.find((variant) => variant.id === "base")?.id ?? armor.variants[0]?.id;
+}
+
+function mergeVariantState(
+  armor: ArmorItem,
+  current: Record<string, Record<string, boolean>>,
+  incoming?: Record<string, Record<string, boolean>>,
+) {
+  if (!incoming) return current;
+
+  const merged = { ...current };
+
+  for (const variant of armor.variants) {
+    merged[variant.id] = {
+      ...(current[variant.id] ?? {}),
+      ...(incoming[variant.id] ?? {}),
+    };
+  }
+
+  return merged;
+}
+
+function applyLegacyPieceState(
+  armor: ArmorItem,
+  current: Record<string, Record<string, boolean>>,
+  incoming?: Record<string, boolean>,
+) {
+  if (!incoming) return current;
+
+  const targetVariantId = getDefaultVariantId(armor);
+  if (!targetVariantId) return current;
+
+  const next = { ...current };
+  const targetVariant = armor.variants.find((variant) => variant.id === targetVariantId);
+  if (!targetVariant) return current;
+
+  next[targetVariantId] = { ...(next[targetVariantId] ?? {}) };
+
+  if (incoming.__all__) {
+    for (const piece of targetVariant.pieces) {
+      next[targetVariantId][piece.slot] = true;
+    }
+    return next;
+  }
+
+  for (const piece of targetVariant.pieces) {
+    if (piece.slot in incoming) {
+      next[targetVariantId][piece.slot] = incoming[piece.slot];
+    }
+  }
+
+  return next;
+}
+
+function isVariantComplete(variant: ArmorVariant, checkedPieces: Record<string, boolean> | undefined) {
+  if (variant.pieces.length === 0) return false;
+  return variant.pieces.every((piece) => checkedPieces?.[piece.slot]);
 }
 
 function isArmorComplete(armor: ArmorItem, progress: ArmorProgress | undefined) {
-  const pieces = armor.setPieces ?? [];
-  if (pieces.length === 0) return false;
-  return pieces.every((piece) => progress?.pieces?.[piece.slot]);
+  return armor.variants.some((variant) => isVariantComplete(variant, progress?.variants?.[variant.id]));
+}
+
+function countArmorFoundPieces(armor: ArmorItem, progress: ArmorProgress | undefined) {
+  return armor.variants.reduce(
+    (total, variant) =>
+      total + variant.pieces.filter((piece) => progress?.variants?.[variant.id]?.[piece.slot]).length,
+    0,
+  );
+}
+
+function countArmorTotalPieces(armor: ArmorItem) {
+  return armor.variants.reduce((total, variant) => total + variant.pieces.length, 0);
+}
+
+function countCompletedVariants(armor: ArmorItem, progress: ArmorProgress | undefined) {
+  return armor.variants.filter((variant) => isVariantComplete(variant, progress?.variants?.[variant.id])).length;
+}
+
+function percentage(completed: number, total: number) {
+  if (total <= 0) return 0;
+  return Math.round((completed / total) * 100);
+}
+
+function ProgressBar({
+  value,
+  colorClassName,
+}: {
+  value: number;
+  colorClassName: string;
+}) {
+  return (
+    <div className="w-full h-2 rounded-full bg-dark-800 overflow-hidden">
+      <div
+        className={`h-full rounded-full transition-all duration-300 ${colorClassName}`}
+        style={{ width: `${Math.max(0, Math.min(100, value))}%` }}
+      />
+    </div>
+  );
 }
 
 function getArmorById(id: string) {
@@ -126,19 +249,18 @@ function loadProgress() {
   for (const armor of armors) {
     next[armor.id] = {
       favorite: false,
-      pieces: createPieceState(armor),
+      variants: createVariantState(armor),
     };
 
     const direct = extractProgress(safeParse(localStorage.getItem(`${NEW_STATE_PREFIX}${armor.id}`)));
     if (direct) {
       next[armor.id] = {
         favorite: direct.favorite ?? next[armor.id].favorite,
-        pieces: direct.pieces?.__all__
-          ? createPieceState(armor, true)
-          : {
-              ...next[armor.id].pieces,
-              ...(direct.pieces ?? {}),
-            },
+        variants: applyLegacyPieceState(
+          armor,
+          mergeVariantState(armor, next[armor.id].variants, direct.variants),
+          direct.pieces,
+        ),
       };
       continue;
     }
@@ -159,12 +281,11 @@ function loadProgress() {
 
       next[armor.id] = {
         favorite: inferred.favorite ?? next[armor.id].favorite,
-        pieces: inferred.pieces?.__all__
-          ? createPieceState(armor, true)
-          : {
-              ...next[armor.id].pieces,
-              ...(inferred.pieces ?? {}),
-            },
+        variants: applyLegacyPieceState(
+          armor,
+          mergeVariantState(armor, next[armor.id].variants, inferred.variants),
+          inferred.pieces,
+        ),
       };
     }
   }
@@ -174,9 +295,9 @@ function loadProgress() {
 
 function saveProgress(progress: Record<string, ArmorProgress>) {
   for (const armor of armors) {
-    const state = progress[armor.id] ?? { favorite: false, pieces: createPieceState(armor) };
+    const state = progress[armor.id] ?? { favorite: false, variants: createVariantState(armor) };
     const key = `${NEW_STATE_PREFIX}${armor.id}`;
-    const hasCheckedPieces = Object.values(state.pieces).some(Boolean);
+    const hasCheckedPieces = Object.values(state.variants).some((variant) => Object.values(variant).some(Boolean));
 
     if (!hasCheckedPieces && !state.favorite) {
       localStorage.removeItem(key);
@@ -187,7 +308,7 @@ function saveProgress(progress: Record<string, ArmorProgress>) {
       key,
       JSON.stringify({
         favorite: state.favorite,
-        pieces: state.pieces,
+        variants: state.variants,
       }),
     );
   }
@@ -278,14 +399,26 @@ function ArmorCard({
 }: {
   armor: ArmorItem;
   progress: ArmorProgress;
-  onTogglePiece: (pieceSlot: string) => void;
+  onTogglePiece: (variantId: string, pieceSlot: string) => void;
   onToggleFavorite: () => void;
 }) {
   const base = import.meta.env.BASE_URL;
   const hasImage = Boolean(armor.image);
-  const totalPieces = armor.setPieces?.length ?? 0;
-  const foundPieces = (armor.setPieces ?? []).filter((piece) => progress.pieces[piece.slot]).length;
+  const totalPieces = countArmorTotalPieces(armor);
+  const foundPieces = countArmorFoundPieces(armor, progress);
   const complete = isArmorComplete(armor, progress);
+  const completedVariants = countCompletedVariants(armor, progress);
+  const armorProgressPercent = percentage(completedVariants, armor.variants.length);
+  const [expandedVariants, setExpandedVariants] = useState<Record<string, boolean>>(() =>
+    Object.fromEntries(armor.variants.map((variant, index) => [variant.id, armor.variants.length === 1 || index === 0])),
+  );
+
+  function toggleVariant(variantId: string) {
+    setExpandedVariants((current) => ({
+      ...current,
+      [variantId]: !current[variantId],
+    }));
+  }
 
   return (
     <article
@@ -333,14 +466,23 @@ function ArmorCard({
                   </span>
                 )}
               </div>
-              <p className="text-sm text-text-dim">{armor.manufacturer}</p>
               {totalPieces > 0 && (
-                <p className="text-xs text-text-muted mt-2">
-                  <span className={`font-mono font-semibold ${complete ? "text-accent-green" : "text-text-dim"}`}>
-                    {foundPieces}/{totalPieces}
-                  </span>{" "}
-                  pieces found
-                </p>
+                <div className="mt-2 space-y-2">
+                  <p className="text-xs text-text-muted">
+                    <span className={`font-mono font-semibold ${complete ? "text-accent-green" : "text-text-dim"}`}>
+                      {foundPieces}/{totalPieces}
+                    </span>{" "}
+                    pieces found across{" "}
+                    <span className={complete ? "text-accent-green" : "text-text-dim"}>
+                      {completedVariants}/{armor.variants.length}
+                    </span>{" "}
+                    variants
+                  </p>
+                  <ProgressBar
+                    value={armorProgressPercent}
+                    colorClassName={complete ? "bg-accent-green" : "bg-accent-blue"}
+                  />
+                </div>
               )}
             </div>
 
@@ -359,83 +501,105 @@ function ArmorCard({
           </div>
 
           <div className="rounded-xl border border-dark-700 bg-dark-900/50 p-4">
+            <div className="flex items-center gap-2 text-accent-blue mb-2">
+              <MapPin className="w-4 h-4" />
+              <h3 className="text-sm font-semibold text-text">Where to find it</h3>
+            </div>
+            <p className="text-sm text-text-dim leading-relaxed">{armor.where}</p>
+            {armor.how && <p className="text-sm text-text-muted leading-relaxed mt-3">{armor.how}</p>}
+          </div>
+
+          <div className="rounded-xl border border-dark-700 bg-dark-900/50 p-4">
             <div className="flex items-center gap-2 text-accent-green mb-3">
               <Check className="w-4 h-4" />
-              <h3 className="text-sm font-semibold text-text">Set pieces</h3>
+              <h3 className="text-sm font-semibold text-text">Variants</h3>
             </div>
-            {armor.setPieces && armor.setPieces.length > 0 ? (
-              <div className="space-y-2">
-                {armor.setPieces.map((piece) => {
-                  const checked = progress.pieces[piece.slot] ?? false;
+            {armor.variants.length > 0 ? (
+              <div className="space-y-3">
+                {armor.variants.map((variant) => {
+                  const variantProgress = progress.variants[variant.id] ?? {};
+                  const variantFoundCount = variant.pieces.filter((piece) => variantProgress[piece.slot]).length;
+                  const variantComplete = isVariantComplete(variant, variantProgress);
+                  const variantProgressPercent = percentage(variantFoundCount, variant.pieces.length);
+                  const expanded = expandedVariants[variant.id] ?? false;
+
                   return (
-                    <button
-                      key={`${armor.id}-${piece.slot}`}
-                      onClick={() => onTogglePiece(piece.slot)}
-                      className={`w-full flex items-start gap-3 rounded-lg border px-3 py-2.5 text-left transition-colors ${
-                        checked
-                          ? "border-accent-green/30 bg-accent-green/10"
-                          : "border-dark-700 bg-dark-800/70 hover:border-dark-600"
+                    <div
+                      key={`${armor.id}-${variant.id}`}
+                      className={`rounded-xl border ${
+                        variantComplete
+                          ? "border-accent-green/30 bg-accent-green/5"
+                          : "border-dark-700 bg-dark-800/40"
                       }`}
                     >
-                      <span
-                        className={`mt-0.5 w-5 h-5 rounded border flex items-center justify-center shrink-0 ${
-                          checked
-                            ? "border-accent-green bg-accent-green text-dark-950"
-                            : "border-dark-600 text-transparent"
-                        }`}
+                      <button
+                        type="button"
+                        onClick={() => toggleVariant(variant.id)}
+                        className="w-full flex items-center justify-between gap-3 px-3 py-3 text-left"
+                        aria-expanded={expanded}
                       >
-                        <Check className="w-3.5 h-3.5" />
-                      </span>
-                      <div className="min-w-0">
-                        <div className={`text-sm font-medium ${checked ? "text-accent-green" : "text-text-secondary"}`}>
-                          {piece.slot}
+                        <div className="min-w-0 flex-1">
+                          <h4 className="text-sm font-semibold text-text">{variant.name}</h4>
+                          <p className="text-xs text-text-muted mt-1">
+                            {variantFoundCount}/{variant.pieces.length} pieces found
+                          </p>
+                          <div className="mt-2 pr-2">
+                            <ProgressBar
+                              value={variantProgressPercent}
+                              colorClassName={variantComplete ? "bg-accent-green" : "bg-accent-amber"}
+                            />
+                          </div>
                         </div>
-                        <div className={`text-xs ${checked ? "text-text-dim" : "text-text-muted"}`}>{piece.item}</div>
-                      </div>
-                    </button>
+                        <ChevronDown
+                          className={`w-4 h-4 shrink-0 text-text-muted transition-transform ${expanded ? "rotate-180" : ""}`}
+                        />
+                      </button>
+
+                      {expanded && (
+                        <div className="px-3 pb-3 pt-1 border-t border-dark-700/70">
+                          <div className="flex flex-wrap gap-2">
+                            {variant.pieces.map((piece) => {
+                              const checked = variantProgress[piece.slot] ?? false;
+                              return (
+                                <button
+                                  key={`${armor.id}-${variant.id}-${piece.slot}`}
+                                  type="button"
+                                  onClick={() => onTogglePiece(variant.id, piece.slot)}
+                                  title={piece.item}
+                                  className={`inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-colors ${
+                                    checked
+                                      ? "border-accent-green/30 bg-accent-green/10 text-accent-green"
+                                      : "border-dark-700 bg-dark-900/60 text-text-secondary hover:border-dark-600 hover:text-text"
+                                  }`}
+                                >
+                                  <span
+                                    className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 ${
+                                      checked
+                                        ? "border-accent-green bg-accent-green text-dark-950"
+                                        : "border-dark-600 text-transparent"
+                                    }`}
+                                  >
+                                    <Check className="w-3 h-3" />
+                                  </span>
+                                  {piece.slot}
+                                </button>
+                              );
+                            })}
+                          </div>
+
+                          {variant.note && <p className="text-xs text-text-muted mt-3">{variant.note}</p>}
+                        </div>
+                      )}
+                    </div>
                   );
                 })}
               </div>
             ) : (
-              <p className="text-sm text-text-muted">No tracked pieces listed for this set yet.</p>
+              <p className="text-sm text-text-muted">No trackable variants listed for this armor yet.</p>
             )}
           </div>
 
-          <div className="space-y-3">
-            <div className="rounded-xl border border-dark-700 bg-dark-900/50 p-4">
-              <div className="flex items-center gap-2 text-accent-blue mb-2">
-                <MapPin className="w-4 h-4" />
-                <h3 className="text-sm font-semibold text-text">Where to find it</h3>
-              </div>
-              <p className="text-sm text-text-dim leading-relaxed">{armor.where}</p>
-              {armor.how && <p className="text-sm text-text-muted leading-relaxed mt-3">{armor.how}</p>}
-            </div>
-
-            <div className="rounded-xl border border-dark-700 bg-dark-900/50 p-4">
-              <div className="flex items-center gap-2 text-accent-amber mb-2">
-                <Tag className="w-4 h-4" />
-                <h3 className="text-sm font-semibold text-text">Value</h3>
-              </div>
-              <p className="text-sm text-text-dim">{armor.val}</p>
-            </div>
-          </div>
-
-          {armor.variants.length > 0 && (
-            <div>
-              <h3 className="text-xs uppercase tracking-wide font-semibold text-text-muted mb-2">Variants</h3>
-              <div className="flex flex-wrap gap-2">
-                {armor.variants.map((variant) => (
-                  <span
-                    key={`${armor.id}-${variant}`}
-                    className="px-2.5 py-1 rounded-full bg-dark-800 border border-dark-700 text-xs text-text-dim"
-                  >
-                    {variant}
-                  </span>
-                ))}
-              </div>
-              {armor.variantNote && <p className="text-xs text-text-muted mt-2">{armor.variantNote}</p>}
-            </div>
-          )}
+          {armor.variantNote && <p className="text-xs text-text-muted">{armor.variantNote}</p>}
         </div>
       </div>
     </article>
@@ -634,7 +798,11 @@ export default function App() {
   }, [progress]);
 
   const ownedCount = useMemo(
-    () => armors.filter((armor) => isArmorComplete(armor, progress[armor.id])).length,
+    () =>
+      armors.reduce(
+        (total, armor) => total + armor.variants.filter((variant) => isVariantComplete(variant, progress[armor.id]?.variants?.[variant.id])).length,
+        0,
+      ),
     [progress],
   );
   const favoriteCount = useMemo(
@@ -644,14 +812,26 @@ export default function App() {
   const foundPieceCount = useMemo(
     () =>
       armors.reduce(
-        (total, armor) => total + (armor.setPieces ?? []).filter((piece) => progress[armor.id]?.pieces?.[piece.slot]).length,
+        (total, armor) => total + countArmorFoundPieces(armor, progress[armor.id]),
         0,
       ),
     [progress],
   );
   const totalPieceCount = useMemo(
-    () => armors.reduce((total, armor) => total + (armor.setPieces?.length ?? 0), 0),
+    () => armors.reduce((total, armor) => total + countArmorTotalPieces(armor), 0),
     [],
+  );
+  const totalVariantCount = useMemo(
+    () => armors.reduce((total, armor) => total + armor.variants.length, 0),
+    [],
+  );
+  const overallProgressPercent = useMemo(
+    () => percentage(ownedCount, totalVariantCount),
+    [ownedCount, totalVariantCount],
+  );
+  const piecesProgressPercent = useMemo(
+    () => percentage(foundPieceCount, totalPieceCount),
+    [foundPieceCount, totalPieceCount],
   );
 
   const filteredArmors = useMemo(() => {
@@ -669,8 +849,9 @@ export default function App() {
           armor.where,
           armor.how ?? "",
           armor.val,
-          armor.variants.join(" "),
-          armor.setPieces?.map((piece) => `${piece.slot} ${piece.item}`).join(" ") ?? "",
+          armor.variants
+            .map((variant) => [variant.name, ...variant.pieces.map((piece) => `${piece.slot} ${piece.item}`)].join(" "))
+            .join(" "),
         ]
           .join(" ")
           .toLowerCase();
@@ -698,17 +879,20 @@ export default function App() {
       ...current,
       [id]: {
         favorite: current[id]?.favorite ?? false,
-        pieces: current[id]?.pieces ?? createPieceState(armor),
+        variants: current[id]?.variants ?? createVariantState(armor),
         ...updates,
       },
     }));
   }
 
-  function togglePiece(armor: ArmorItem, pieceSlot: string) {
+  function togglePiece(armor: ArmorItem, variantId: string, pieceSlot: string) {
     updateArmor(armor.id, {
-      pieces: {
-        ...(progress[armor.id]?.pieces ?? createPieceState(armor)),
-        [pieceSlot]: !(progress[armor.id]?.pieces?.[pieceSlot] ?? false),
+      variants: {
+        ...(progress[armor.id]?.variants ?? createVariantState(armor)),
+        [variantId]: {
+          ...(progress[armor.id]?.variants?.[variantId] ?? {}),
+          [pieceSlot]: !(progress[armor.id]?.variants?.[variantId]?.[pieceSlot] ?? false),
+        },
       },
     });
   }
@@ -730,7 +914,7 @@ export default function App() {
       <Header
         ownedCount={ownedCount}
         favoriteCount={favoriteCount}
-        totalCount={armors.length}
+        totalCount={totalVariantCount}
         query={query}
         onQueryChange={setQuery}
         filter={filter}
@@ -747,18 +931,24 @@ export default function App() {
         <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="card p-4">
             <p className="text-xs uppercase tracking-wide font-semibold text-text-muted mb-2">
-              Sets completed
+              Variants completed
             </p>
-            <div className="flex items-end gap-2">
-              <span className="font-mono text-3xl font-black text-accent-green">{ownedCount}</span>
-              <span className="text-text-muted pb-1">of {armors.length} sets fully checked</span>
+            <div className="space-y-3">
+              <div className="flex items-end gap-2">
+                <span className="font-mono text-3xl font-black text-accent-green">{ownedCount}</span>
+                <span className="text-text-muted pb-1">of {totalVariantCount} variants fully checked</span>
+              </div>
+              <ProgressBar value={overallProgressPercent} colorClassName="bg-accent-green" />
             </div>
           </div>
           <div className="card p-4">
             <p className="text-xs uppercase tracking-wide font-semibold text-text-muted mb-2">Pieces found</p>
-            <div className="flex items-end gap-2">
-              <span className="font-mono text-3xl font-black text-accent-blue">{foundPieceCount}</span>
-              <span className="text-text-muted pb-1">of {totalPieceCount} tracked pieces checked</span>
+            <div className="space-y-3">
+              <div className="flex items-end gap-2">
+                <span className="font-mono text-3xl font-black text-accent-blue">{foundPieceCount}</span>
+                <span className="text-text-muted pb-1">of {totalPieceCount} tracked pieces checked</span>
+              </div>
+              <ProgressBar value={piecesProgressPercent} colorClassName="bg-accent-blue" />
             </div>
           </div>
           <div className="card p-4">
@@ -783,8 +973,8 @@ export default function App() {
               <ArmorCard
                 key={armor.id}
                 armor={armor}
-                progress={progress[armor.id] ?? { favorite: false, pieces: createPieceState(armor) }}
-                onTogglePiece={(pieceSlot) => togglePiece(armor, pieceSlot)}
+                progress={progress[armor.id] ?? { favorite: false, variants: createVariantState(armor) }}
+                onTogglePiece={(variantId, pieceSlot) => togglePiece(armor, variantId, pieceSlot)}
                 onToggleFavorite={() =>
                   updateArmor(armor.id, { favorite: !(progress[armor.id]?.favorite ?? false) })
                 }

@@ -5,6 +5,13 @@ export interface SetPiece {
   item: string
 }
 
+export interface ArmorVariant {
+  id: string
+  name: string
+  pieces: SetPiece[]
+  note?: string
+}
+
 export interface ArmorItem {
   id: string
   name: string
@@ -13,8 +20,7 @@ export interface ArmorItem {
   where: string
   how?: string
   val: string
-  setPieces?: SetPiece[]
-  variants: string[]
+  variants: ArmorVariant[]
   variantNote?: string
   image: string | null
   rare?: boolean
