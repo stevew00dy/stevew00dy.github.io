@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://cloudflareinsights.com; base-uri 'self'" />
     <script>
       document.documentElement.classList.add('dark');
     </script>
@@ -70,6 +71,24 @@
 
   
     <div id="root"></div>
+  
+<!-- uNoob footer - same links as other apps, injected by build -->
+<footer id="armor-unob-footer" class="armor-footer">
+  <div class="armor-footer-inner">
+    <div class="armor-footer-links">
+      <a href="/">Home</a>
+      <a href="/armor-tracker/" class="armor-footer-active">Rare Armor Tracker</a>
+      <a href="/exec-hangar-tracker/">Exec Hangar Tracker</a>
+      <a href="/wikelo-tracker/">Wikelo Tracker</a>
+      <a href="/loadout-planner/">FPS Loadout Tracker</a>
+      <a href="/refining-tracker/">Refining Tracker</a>
+      <a href="https://www.youtube.com/@undisputednoobs" target="_blank" rel="noopener noreferrer">YouTube</a>
+      <a href="https://www.robertsspaceindustries.com/enlist?referral=STAR-23GB-5J3N" target="_blank" rel="noopener noreferrer">Join Star Citizen (+50k aUEC)</a>
+    </div>
+    <p class="armor-footer-disclaimer">Unofficial fan-made tool. Not affiliated with Cloud Imperium Games. All data may be inaccurate — use at your own risk.</p>
+  </div>
+</footer>
+
   <script src="/armor-tracker/assets/armor-nav.js"></script>
   </body>
 </html>

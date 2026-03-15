@@ -295,15 +295,11 @@
 #armor-unob-nav .nav-dropdown button:hover,
 #armor-unob-nav .nav-dropdown a:hover {
   color: var(--nav-text);
-  background: var(--nav-dark-700);
 }
 
 #armor-unob-nav .nav-dropdown .nav-item-current {
   color: var(--nav-accent-amber);
   font-weight: 500;
-  border-left: 2px solid var(--nav-accent-amber);
-  padding-left: calc(0.75rem - 2px);
-  margin-left: 2px;
 }
 
 #armor-unob-nav .nav-dropdown .nav-divider {
@@ -366,4 +362,52 @@
 #armor-unob-notice .notice-dismiss:hover {
   color: var(--nav-text);
   background: rgba(245, 158, 11, 0.2);
+}
+
+/* Armor footer - matches other uNoob apps */
+.armor-footer {
+  border-top: 1px solid var(--nav-dark-700);
+  margin-top: 3rem;
+  padding: 1.5rem 1rem;
+  font-family: Inter, system-ui, sans-serif;
+}
+
+.armor-footer-inner {
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.armor-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0 1.25rem;
+  row-gap: 0.25rem;
+}
+
+.armor-footer-links a {
+  font-size: 0.75rem;
+  color: var(--nav-text-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.armor-footer-links a:hover {
+  color: var(--nav-accent-amber);
+}
+
+.armor-footer-links a.armor-footer-active {
+  color: var(--nav-accent-amber);
+  font-weight: 500;
+}
+
+.armor-footer-disclaimer {
+  font-size: 10px;
+  color: rgba(107, 114, 128, 0.5);
+  margin: 0;
 }
