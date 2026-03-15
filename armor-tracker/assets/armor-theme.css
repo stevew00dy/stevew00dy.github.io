@@ -19,6 +19,57 @@ body {
   color: inherit;
 }
 
+/* Main content - match other apps */
+#root > div {
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem 1.5rem 2rem;
+}
+
+/* Cards - match refining/wikelo/exec style */
+#root .rounded-xl,
+#root [class*="rounded-xl"],
+#root [class*="rounded-lg"] {
+  border-radius: 0.75rem !important;
+  border: 1px solid #252b3b !important;
+  background-color: rgba(15, 20, 32, 0.8) !important;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+}
+
+/* Override light backgrounds in armor content */
+#root .bg-white,
+#root .bg-zinc-50,
+#root .bg-zinc-100 {
+  background-color: #1a1f2e !important;
+}
+
+#root .bg-zinc-200 {
+  background-color: #252b3b !important;
+}
+
+/* Text colors for dark theme */
+#root .text-zinc-800,
+#root .text-zinc-900 {
+  color: #f3f4f6 !important;
+}
+
+#root .text-zinc-600,
+#root .text-zinc-700 {
+  color: #9ca3af !important;
+}
+
+#root .text-zinc-500 {
+  color: #6b7280 !important;
+}
+
+/* Borders */
+#root .border-zinc-200,
+#root .border-zinc-300 {
+  border-color: #252b3b !important;
+}
+
 /* Scrollbars to match other apps */
 html, body, * {
   scrollbar-width: thin !important;

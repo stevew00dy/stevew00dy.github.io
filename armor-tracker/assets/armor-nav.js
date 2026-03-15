@@ -61,10 +61,10 @@
   var dismissBtn = document.getElementById('armor-notice-dismiss');
 
   if (menuBtn && dropdown) {
-    menuBtn.addEventListener('click', function() {
-      var open = !dropdown.hidden;
-      dropdown.hidden = !open;
-      menuBtn.classList.toggle('open', !open);
+    menuBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      dropdown.hidden = !dropdown.hidden;
+      menuBtn.classList.toggle('open', !dropdown.hidden);
     });
   }
   if (closeBtn && dropdown) {

@@ -110,6 +110,11 @@
   border-radius: 0.75rem;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   z-index: 10000;
+  display: block;
+}
+
+#armor-unob-nav .nav-dropdown[hidden] {
+  display: none !important;
 }
 
 @media (min-width: 640px) {
