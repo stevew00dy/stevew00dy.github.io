@@ -17,89 +17,10 @@
       property="og:description"
       content="Track rare Star Citizen armor sets, locations, variants, values, and your collection progress."
     />
-  <link rel="stylesheet" href="/armor-tracker/assets/armor-nav.css">
-    <link rel="stylesheet" href="/armor-tracker/assets/armor-theme.css">
+    <script type="module" crossorigin src="/armor-tracker/assets/index-Bm-L5eH_.js"></script>
+    <link rel="stylesheet" crossorigin href="/armor-tracker/assets/index-De02AvKa.css">
   </head>
   <body>
-<!-- uNoob header + notice - injected by build -->
-<header id="armor-unob-nav">
-  <div class="nav-inner">
-    <div class="nav-brand">
-      <div class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-      <div>
-        <div class="nav-title">Rare Armor Tracker</div>
-        <div class="nav-subtitle">Star Citizen 4.6</div>
-      </div>
-    </div>
-    <div class="nav-search-filter">
-      <input type="text" id="armor-nav-search" class="nav-search-input" placeholder="Search armor..." aria-label="Search armor">
-      <div class="nav-filter-btns">
-        <button type="button" class="nav-filter-btn active" data-filter="all">All</button>
-        <button type="button" class="nav-filter-btn" data-filter="heavy">Heavy</button>
-        <button type="button" class="nav-filter-btn" data-filter="medium">Medium</button>
-        <button type="button" class="nav-filter-btn" data-filter="light">Light</button>
-      </div>
-    </div>
-    <div class="nav-actions">
-      <button type="button" class="nav-menu-btn" id="armor-nav-menu-btn" aria-label="Menu">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-      </button>
-      <div id="armor-nav-dropdown" class="nav-dropdown" hidden>
-        <div class="nav-dropdown-header"><h3>Progress</h3><button type="button" class="nav-close" id="armor-nav-close" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
-        <button type="button" id="armor-nav-export" class="nav-export-btn"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Export Progress <span class="nav-json">.json</span></button>
-        <button type="button" id="armor-nav-import" class="nav-import-btn"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Import Progress <span class="nav-json">.json</span></button>
-        <input type="file" id="armor-nav-file" accept=".json" hidden>
-        <button type="button" class="nav-reset" id="armor-nav-reset"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg> Reset All Progress</button>
-        <div class="nav-reset-confirm" id="armor-nav-reset-confirm" hidden>
-          <p class="nav-reset-confirm-text">Reset all progress? This cannot be undone.</p>
-          <div class="nav-reset-confirm-actions">
-            <button type="button" class="nav-reset-confirm-btn nav-reset-confirm-btn-danger" id="armor-nav-reset-confirm-yes">Yes, reset</button>
-            <button type="button" class="nav-reset-confirm-btn nav-reset-confirm-btn-cancel" id="armor-nav-reset-confirm-cancel">Cancel</button>
-          </div>
-        </div>
-        <div class="nav-divider"></div>
-        <h3 class="nav-section-title">Tools</h3>
-        <a href="/armor-tracker/" class="nav-item-current">Rare Armor Tracker</a>
-        <a href="/exec-hangar-tracker/">Exec Hangar Tracker</a>
-        <a href="/wikelo-tracker/">Wikelo Tracker</a>
-        <a href="/loadout-planner/">FPS Loadout Tracker</a>
-        <a href="/refining-tracker/">Refining Tracker</a>
-        <div class="nav-divider"></div>
-        <a href="/" class="nav-home"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Undisputed Noobs</a>
-        <a href="https://robertsspaceindustries.com/enlist?referral=STAR-23GB-5J3N" target="_blank" rel="noopener noreferrer" class="nav-play-star">Play Star Citizen <span class="nav-arrow">↗</span></a>
-      </div>
-    </div>
-  </div>
-</header>
-<div id="armor-unob-notice">
-  <div class="notice-inner">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-    <p class="notice-text"><strong>Your data, your responsibility.</strong> Our uNoob trackers don't store any personal information — no login, we never see your data. Progress stays in your browser. If you clear your cache, you'll lose it. Please use Export in each tool to back up regularly.</p>
-    <button type="button" class="notice-dismiss" id="armor-notice-dismiss" aria-label="Dismiss">✕</button>
-  </div>
-</div>
-
-  
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  
-<!-- uNoob footer - same links as other apps, injected by build -->
-<footer id="armor-unob-footer" class="armor-footer">
-  <div class="armor-footer-inner">
-    <div class="armor-footer-links">
-      <a href="/">Home</a>
-      <a href="/armor-tracker/" class="armor-footer-active">Rare Armor Tracker</a>
-      <a href="/exec-hangar-tracker/">Exec Hangar Tracker</a>
-      <a href="/wikelo-tracker/">Wikelo Tracker</a>
-      <a href="/loadout-planner/">FPS Loadout Tracker</a>
-      <a href="/refining-tracker/">Refining Tracker</a>
-      <a href="https://www.youtube.com/@undisputednoobs" target="_blank" rel="noopener noreferrer">YouTube</a>
-      <a href="https://www.robertsspaceindustries.com/enlist?referral=STAR-23GB-5J3N" target="_blank" rel="noopener noreferrer">Join Star Citizen (+50k aUEC)</a>
-    </div>
-    <p class="armor-footer-disclaimer">Unofficial fan-made tool. Not affiliated with Cloud Imperium Games. All data may be inaccurate — use at your own risk.</p>
-  </div>
-</footer>
-
-  <script src="/armor-tracker/assets/armor-nav.js"></script>
   </body>
 </html>
