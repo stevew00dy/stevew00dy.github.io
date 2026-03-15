@@ -18,13 +18,27 @@
   function exportData() {
     var data = { version: 1, exportedAt: new Date().toISOString(), items: {} };
     getArmorKeys().forEach(function(k) {
-      data.items[k] = localStorage.getItem(k);
+      data.items[k] = readStorageValue(k);
     });
+    downloadJson('armor-tracker-' + new Date().toISOString().slice(0, 10) + '.json', data);
+  }
+
+  function readStorageValue(key) {
+    var raw = localStorage.getItem(key);
+    if (raw == null) return undefined;
+    try {
+      return JSON.parse(raw);
+    } catch (e) {
+      return raw;
+    }
+  }
+
+  function downloadJson(filename, data) {
     var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
     a.href = url;
-    a.download = 'armor-tracker-' + new Date().toISOString().slice(0, 10) + '.json';
+    a.download = filename;
     a.click();
     URL.revokeObjectURL(url);
   }
@@ -50,9 +64,15 @@
   }
 
   function resetData() {
-    if (!confirm('Reset all progress? This cannot be undone.')) return;
     getArmorKeys().forEach(function(k) { localStorage.removeItem(k); });
     window.location.reload();
+  }
+
+  function setResetConfirming(confirming) {
+    var resetBtn = document.getElementById('armor-nav-reset');
+    var confirmBox = document.getElementById('armor-nav-reset-confirm');
+    if (resetBtn) resetBtn.hidden = !!confirming;
+    if (confirmBox) confirmBox.hidden = !confirming;
   }
 
   var menuBtn = document.getElementById('armor-nav-menu-btn');
@@ -67,18 +87,21 @@
       e.stopPropagation();
       dropdown.hidden = !dropdown.hidden;
       menuBtn.classList.toggle('open', !dropdown.hidden);
+      if (dropdown.hidden) setResetConfirming(false);
     });
   }
   if (closeBtn && dropdown) {
     closeBtn.addEventListener('click', function() {
       dropdown.hidden = true;
       if (menuBtn) menuBtn.classList.remove('open');
+      setResetConfirming(false);
     });
   }
   document.addEventListener('click', function(e) {
     if (dropdown && !dropdown.hidden && menuBtn && !menuBtn.contains(e.target) && !dropdown.contains(e.target)) {
       dropdown.hidden = true;
       menuBtn.classList.remove('open');
+      setResetConfirming(false);
     }
   });
 
@@ -92,7 +115,12 @@
     e.target.value = '';
   });
   var resetBtn = document.getElementById('armor-nav-reset');
-  if (resetBtn) resetBtn.addEventListener('click', resetData);
+  if (resetBtn) resetBtn.addEventListener('click', function() { setResetConfirming(true); });
+  var resetConfirmYes = document.getElementById('armor-nav-reset-confirm-yes');
+  if (resetConfirmYes) resetConfirmYes.addEventListener('click', resetData);
+  var resetConfirmCancel = document.getElementById('armor-nav-reset-confirm-cancel');
+  if (resetConfirmCancel) resetConfirmCancel.addEventListener('click', function() { setResetConfirming(false); });
+  setResetConfirming(false);
 
   if (dismissBtn && notice) {
     dismissBtn.addEventListener('click', function() {

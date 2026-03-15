@@ -2,18 +2,21 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://cloudflareinsights.com; base-uri 'self'" />
-    <script>
-      document.documentElement.classList.add('dark');
-    </script>
-    <link rel="icon" type="image/svg+xml" href="/armor-tracker/vite.svg" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://cloudflareinsights.com; base-uri 'self'"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Star Citizen — Personal Armour Tracker 4.6</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
-    <script type="module" crossorigin src="/armor-tracker/assets/index-BoS9ciyU.js"></script>
-    <link rel="stylesheet" crossorigin href="/armor-tracker/assets/index-COH93EfI.css">
+    <title>Rare Armor Tracker — Star Citizen</title>
+    <meta
+      name="description"
+      content="Track rare Star Citizen armor sets, locations, variants, values, and your collection progress."
+    />
+    <meta property="og:title" content="Rare Armor Tracker — Star Citizen" />
+    <meta
+      property="og:description"
+      content="Track rare Star Citizen armor sets, locations, variants, values, and your collection progress."
+    />
   <link rel="stylesheet" href="/armor-tracker/assets/armor-nav.css">
     <link rel="stylesheet" href="/armor-tracker/assets/armor-theme.css">
   </head>
@@ -47,6 +50,13 @@
         <button type="button" id="armor-nav-import" class="nav-import-btn"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Import Progress <span class="nav-json">.json</span></button>
         <input type="file" id="armor-nav-file" accept=".json" hidden>
         <button type="button" class="nav-reset" id="armor-nav-reset"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg> Reset All Progress</button>
+        <div class="nav-reset-confirm" id="armor-nav-reset-confirm" hidden>
+          <p class="nav-reset-confirm-text">Reset all progress? This cannot be undone.</p>
+          <div class="nav-reset-confirm-actions">
+            <button type="button" class="nav-reset-confirm-btn nav-reset-confirm-btn-danger" id="armor-nav-reset-confirm-yes">Yes, reset</button>
+            <button type="button" class="nav-reset-confirm-btn nav-reset-confirm-btn-cancel" id="armor-nav-reset-confirm-cancel">Cancel</button>
+          </div>
+        </div>
         <div class="nav-divider"></div>
         <h3 class="nav-section-title">Tools</h3>
         <a href="/armor-tracker/" class="nav-item-current">Rare Armor Tracker</a>
@@ -71,6 +81,7 @@
 
   
     <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   
 <!-- uNoob footer - same links as other apps, injected by build -->
 <footer id="armor-unob-footer" class="armor-footer">
