@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   Crosshair,
   Timer,
@@ -11,6 +12,8 @@ import {
   Swords,
   Gauge,
   Pickaxe,
+  Info,
+  X,
 } from "lucide-react";
 
 const tools = [
@@ -107,6 +110,19 @@ const tools = [
 ];
 
 export default function Tools() {
+  const [infoDismissed, setInfoDismissed] = useState(false);
+
+  useEffect(() => {
+    setInfoDismissed(localStorage.getItem("tools-info-dismissed") === "1");
+  }, []);
+
+  function dismissInfo() {
+    setInfoDismissed(true);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("tools-info-dismissed", "1");
+    }
+  }
+
   return (
     <section id="tools" className="py-28 md:py-32 relative">
       <div className="max-w-[1600px] mx-auto px-6 md:px-10">
@@ -121,7 +137,35 @@ export default function Tools() {
             Our own trackers plus the best community tools out there.
           </p>
         </div>
+      </div>
 
+      {!infoDismissed && (
+        <div className="max-w-[1600px] mx-auto px-6 md:px-10 mb-10">
+          <div className="relative w-full bg-un-gold/10 border border-un-gold/30 rounded-xl p-6">
+            <button
+              onClick={dismissInfo}
+              className="absolute top-4 right-4 p-1 rounded-lg text-un-muted hover:text-un-text hover:bg-un-gold/20 transition-colors"
+              aria-label="Dismiss"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            <div className="flex gap-4 pr-8">
+              <Info className="w-6 h-6 text-un-gold shrink-0 mt-0.5" />
+              <div className="text-left min-w-0 flex-1">
+                <h3 className="font-semibold text-un-text mb-2">Your data, your responsibility</h3>
+                <p className="text-un-muted text-sm leading-relaxed">
+                  Our uNoob trackers don&apos;t store any personal information. There&apos;s no login — we never see or control your data. Everything stays in your browser. Your progress is saved in simple text files that you can export and import between our tools (note: not every tool can share data with every other one).
+                </p>
+                <p className="text-un-muted text-sm leading-relaxed mt-2">
+                  <strong className="text-un-text">Important:</strong> If you clear your browser cache or data, you will lose your progress. Please use the Export option in each tool to back up your data regularly.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="max-w-[1600px] mx-auto px-6 md:px-10">
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {tools.map((tool) => (
             <a

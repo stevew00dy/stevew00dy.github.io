@@ -32,6 +32,7 @@ import { useLoadouts, exportAllData, importAllData, exportSingleLoadout, importS
 import type { UexItem, ThumbnailMap, BuyableSet, ArmorClassMap } from "./uex-api";
 import { getItems, clearUexCache, fetchThumbnails, fetchBuyableSet, getArmorClassMap } from "./uex-api";
 import ItemCombobox from "./ItemCombobox";
+import DataNotice from "./components/DataNotice";
 import armorStatsData from "./armor-data.json";
 import weaponStatsData from "./weapon-stats.json";
 
@@ -288,7 +289,16 @@ function Header({
             <span className="text-xs text-accent-amber animate-pulse ml-2">Loading items…</span>
           )}
         </div>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => onRefreshData()}
+            disabled={isRefreshing}
+            className="p-2 rounded-lg transition-all duration-200 text-text-muted hover:text-text hover:bg-dark-800 disabled:opacity-50"
+            title="Refresh item data from UEX"
+            aria-label="Refresh data"
+          >
+            <RefreshCw size={16} className={isRefreshing ? "animate-spin" : ""} />
+          </button>
           <div className="relative" ref={navRef}>
             <button
               onClick={() => setNavOpen(!navOpen)}
@@ -312,26 +322,20 @@ function Header({
                 </div>
                 <div className="space-y-0.5 mb-2">
                   <button
-                    onClick={() => { onRefreshData(); setNavOpen(false); }}
-                    disabled={isRefreshing}
-                    className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-text-dim hover:text-text hover:bg-dark-700 transition-all duration-200 disabled:opacity-50"
-                  >
-                    <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? "animate-spin" : ""}`} />
-                    {isRefreshing ? "Refreshing…" : "Refresh Item Data"}
-                  </button>
-                  <button
                     onClick={() => { onExport(); setNavOpen(false); }}
                     className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-text-dim hover:text-text hover:bg-dark-700 transition-all duration-200"
                   >
                     <Download className="w-3.5 h-3.5 text-accent-blue" />
-                    Export JSON
+                    Export Progress
+                    <span className="ml-auto text-[10px] text-text-muted">.json</span>
                   </button>
                   <button
                     onClick={() => { onImport(); setNavOpen(false); }}
                     className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-text-dim hover:text-text hover:bg-dark-700 transition-all duration-200"
                   >
                     <Upload className="w-3.5 h-3.5 text-accent-amber" />
-                    Import JSON
+                    Import Progress
+                    <span className="ml-auto text-[10px] text-text-muted">.json</span>
                   </button>
                   <button
                     onClick={() => {
@@ -343,7 +347,7 @@ function Header({
                     className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-text-muted hover:text-accent-red hover:bg-accent-red/10 transition-all duration-200"
                   >
                     <RotateCcw className="w-3.5 h-3.5" />
-                    Reset All
+                    Reset All Progress
                   </button>
                 </div>
                 <div className="border-t border-dark-700 my-2" />
@@ -1395,7 +1399,7 @@ export default function App() {
         onExport={exportAllData}
         onImport={() => fullImportRef.current?.click()}
       />
-
+      <DataNotice />
       <main className="flex-1 max-w-[1600px] w-full mx-auto px-4 py-6">
         {loadouts.length === 0 ? (
           <EmptyState onCreate={() => setShowNew(true)} />

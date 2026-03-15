@@ -26,6 +26,7 @@ import {
   useSupervisorCards,
   formatTime,
 } from "./hooks";
+import DataNotice from "./components/DataNotice";
 
 const ZONE_NAMES: Record<string, string> = { checkmate: "Checkmate", orbituary: "Orbituary", ruin: "Ruin Station" };
 
@@ -867,6 +868,7 @@ export default function App() {
   return (
     <div className="min-h-screen">
       <Header stagesCompleted={stagesCompleted} totalStages={5} onReset={handleReset} />
+      <DataNotice />
       <main className="max-w-[1600px] mx-auto px-4 py-4 space-y-8">
         <IntroSection stagesDone={stagesDone} execBlocked={compboards.collected === compboards.total && !hangar.isGreen} />
         <SupervisorSection supervisorCards={supervisorCards} />

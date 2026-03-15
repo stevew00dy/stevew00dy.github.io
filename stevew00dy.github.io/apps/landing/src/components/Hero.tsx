@@ -1,4 +1,4 @@
-import { Compass, Youtube, ChevronDown, Wrench } from "lucide-react";
+import { Compass, Youtube, ChevronDown } from "lucide-react";
 import Logo from "./Logo";
 
 export default function Hero() {
@@ -47,13 +47,6 @@ export default function Hero() {
           >
             <Compass className="w-5 h-5" />
             Start Here
-          </a>
-          <a
-            href="#tools"
-            className="inline-flex items-center gap-2 border border-un-card-border text-un-text font-semibold px-8 py-3.5 rounded-xl hover:border-un-accent/50 hover:text-un-accent transition-all text-lg"
-          >
-            <Wrench className="w-5 h-5" />
-            Tools
           </a>
           <a
             href="https://www.youtube.com/@undisputednoobs"

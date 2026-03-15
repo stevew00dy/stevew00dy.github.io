@@ -29,13 +29,13 @@ const categories: { key: ContractCategory | "all"; label: string }[] = [
 
 export function FilterBar({ active, onChange, counts, activeCategory, onCategoryChange, categoryCounts }: FilterBarProps) {
   return (
-    <div className="space-y-2">
-      <div className="flex gap-1 p-1 bg-dark-800 rounded-lg">
+    <div className="flex flex-nowrap items-center gap-2 min-w-0 overflow-x-auto">
+      <div className="flex gap-1 p-1 bg-dark-800 rounded-lg shrink-0">
         {filters.map(({ key, label }) => (
           <button
             key={key}
             onClick={() => onChange(key)}
-            className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200 ${
+            className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200 whitespace-nowrap ${
               active === key
                 ? "bg-dark-600 text-text shadow-sm"
                 : "text-text-muted hover:text-text-dim"
@@ -52,12 +52,12 @@ export function FilterBar({ active, onChange, counts, activeCategory, onCategory
           </button>
         ))}
       </div>
-      <div className="flex gap-1 p-1 bg-dark-800 rounded-lg">
+      <div className="flex gap-1 p-1 bg-dark-800 rounded-lg shrink-0">
         {categories.map(({ key, label }) => (
           <button
             key={key}
             onClick={() => onCategoryChange(key)}
-            className={`px-2.5 py-1 rounded-md text-[11px] font-medium transition-all duration-200 ${
+            className={`px-2.5 py-1 rounded-md text-[11px] font-medium transition-all duration-200 whitespace-nowrap ${
               activeCategory === key
                 ? "bg-dark-600 text-text shadow-sm"
                 : "text-text-muted hover:text-text-dim"

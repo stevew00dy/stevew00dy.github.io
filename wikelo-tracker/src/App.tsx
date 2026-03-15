@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef } from "react";
 import { Header } from "./components/Header";
+import DataNotice from "./components/DataNotice";
 import { Footer } from "./components/Footer";
 import { InventoryPanel } from "./components/InventoryPanel";
 import { ContractsPanel } from "./components/ContractsPanel";
@@ -43,6 +44,7 @@ export default function App() {
           completed.clearAll();
         }}
       />
+      <DataNotice />
       <main className="max-w-[1600px] mx-auto px-4 py-6 lg:flex lg:gap-6">
         <InventoryPanel
           inventory={inventory}

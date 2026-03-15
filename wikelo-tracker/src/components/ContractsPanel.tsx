@@ -128,7 +128,7 @@ export function ContractsPanel({ inventory, tracked, completed, onSelectMaterial
 
   return (
     <div className="flex-1 min-w-0">
-      <div className="flex flex-col sm:flex-row gap-3 mb-4">
+      <div className="flex flex-nowrap items-center gap-3 mb-4 min-w-0">
         <FilterBar
           active={filter}
           onChange={setFilter}
@@ -137,7 +137,7 @@ export function ContractsPanel({ inventory, tracked, completed, onSelectMaterial
           onCategoryChange={setCategory}
           categoryCounts={categoryCounts}
         />
-        <div className="sm:w-64">
+        <div className="shrink-0 w-48 sm:w-64">
           <SearchBar
             value={search}
             onChange={setSearch}
