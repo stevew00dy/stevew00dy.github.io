@@ -1,3 +1,8 @@
+/* Hide the in-app second nav bar (Personal Armour Tracker title, search, filters, cog) */
+#root [data-armor-second-nav] {
+  display: none !important;
+}
+
 /* Force dark mode - match other uNoob apps */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
@@ -17,6 +22,70 @@ body {
 
 #root {
   color: inherit;
+}
+
+/* Main content - match other apps */
+#root > div {
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem 1.5rem 2rem;
+}
+
+/* Cards - match refining/wikelo/exec style */
+#root .rounded-xl,
+#root [class*="rounded-xl"],
+#root [class*="rounded-lg"] {
+  border-radius: 0.75rem !important;
+  border: 1px solid #252b3b !important;
+  background-color: rgba(15, 20, 32, 0.8) !important;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+}
+
+/* Main background area - transparent so body grid shows through */
+#root .bg-white,
+#root .bg-zinc-50,
+#root .bg-zinc-100 {
+  background-color: transparent !important;
+}
+
+/* Exclude cards - they keep their styled background */
+#root .rounded-xl.bg-white,
+#root .rounded-xl.bg-zinc-50,
+#root .rounded-xl.bg-zinc-100,
+#root [class*="rounded-xl"].bg-white,
+#root [class*="rounded-xl"].bg-zinc-50,
+#root [class*="rounded-xl"].bg-zinc-100,
+#root [class*="rounded-lg"].bg-white,
+#root [class*="rounded-lg"].bg-zinc-50,
+#root [class*="rounded-lg"].bg-zinc-100 {
+  background-color: rgba(15, 20, 32, 0.8) !important;
+}
+
+#root .bg-zinc-200:not(.rounded-xl):not([class*="rounded-xl"]):not([class*="rounded-lg"]) {
+  background-color: transparent !important;
+}
+
+/* Text colors for dark theme */
+#root .text-zinc-800,
+#root .text-zinc-900 {
+  color: #f3f4f6 !important;
+}
+
+#root .text-zinc-600,
+#root .text-zinc-700 {
+  color: #9ca3af !important;
+}
+
+#root .text-zinc-500 {
+  color: #6b7280 !important;
+}
+
+/* Borders */
+#root .border-zinc-200,
+#root .border-zinc-300 {
+  border-color: #252b3b !important;
 }
 
 /* Scrollbars to match other apps */
