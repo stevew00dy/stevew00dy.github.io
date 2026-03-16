@@ -13,6 +13,7 @@ export const TOOL_LINKS = [
 
 export const FOOTER_LINKS: { href: string; label: string; external?: boolean }[] = [
   { href: "/", label: "Home" },
+  { href: "/training", label: "Training" },
   ...TOOL_LINKS,
   { href: "https://www.youtube.com/@undisputednoobs", label: "YouTube", external: true },
   {

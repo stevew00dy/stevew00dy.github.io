@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown, ExternalLink, Menu, X } from "lucide-react";
 import Logo from "./Logo";
@@ -30,24 +30,61 @@ const INTERNAL_TOOLS = SHARED_TOOL_LINKS.map((t) => ({ title: t.label, url: t.hr
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [guidesOpen, setGuidesOpen] = useState(false);
+  const [toolsOpen, setToolsOpen] = useState(false);
+
+  useEffect(() => {
+    if (!guidesOpen && !toolsOpen) return;
+    const close = () => {
+      setGuidesOpen(false);
+      setToolsOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close();
+    };
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("click", close);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("click", close);
+    };
+  }, [guidesOpen, toolsOpen]);
 
   const renderNavLink = (label: string, href: string | null) => {
     if (label === "Guides") {
       return (
-        <div key={label} className="relative group">
-          <a
-            href="/#guides"
-            className="text-sm text-un-muted hover:text-un-accent transition-colors font-medium inline-flex items-center gap-1"
+        <div
+          key={label}
+          className="relative group"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button
+            type="button"
+            onClick={() => setGuidesOpen((v) => !v)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                setGuidesOpen((v) => !v);
+              }
+            }}
+            aria-haspopup="true"
+            aria-expanded={guidesOpen}
+            className="text-sm text-un-muted hover:text-un-accent transition-colors font-medium inline-flex items-center gap-1 bg-transparent border-0 cursor-pointer p-0"
           >
             {label}
-            <ChevronDown className="w-3.5 h-3.5 transition-transform group-hover:rotate-180" />
-          </a>
-          <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150">
+            <ChevronDown className={`w-3.5 h-3.5 transition-transform ${guidesOpen ? "rotate-180" : "group-hover:rotate-180"}`} />
+          </button>
+          <div
+            className={`absolute top-full left-1/2 -translate-x-1/2 mt-3 pt-2 transition-all duration-150 ${
+              guidesOpen ? "opacity-100 visible" : "opacity-0 invisible group-hover:opacity-100 group-hover:visible"
+            }`}
+          >
             <div className="bg-un-darker/95 backdrop-blur-md border border-un-card-border rounded-xl py-2 min-w-[200px] shadow-xl">
               {GUIDE_LINKS.map((item) => (
                 <Link
                   key={item.title}
                   to={item.url}
+                  onClick={() => setGuidesOpen(false)}
                   className="flex items-center justify-between px-4 py-2 text-sm text-un-muted hover:text-un-accent hover:bg-un-card-border/30 transition-colors"
                 >
                   {item.title}
@@ -60,20 +97,38 @@ export default function Navbar() {
     }
     if (label === "Tools") {
       return (
-        <div key={label} className="relative group">
-          <a
-            href="/#tools"
-            className="text-sm text-un-muted hover:text-un-accent transition-colors font-medium inline-flex items-center gap-1"
+        <div
+          key={label}
+          className="relative group"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button
+            type="button"
+            onClick={() => setToolsOpen((v) => !v)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                setToolsOpen((v) => !v);
+              }
+            }}
+            aria-haspopup="true"
+            aria-expanded={toolsOpen}
+            className="text-sm text-un-muted hover:text-un-accent transition-colors font-medium inline-flex items-center gap-1 bg-transparent border-0 cursor-pointer p-0"
           >
             {label}
-            <ChevronDown className="w-3.5 h-3.5 transition-transform group-hover:rotate-180" />
-          </a>
-          <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150">
+            <ChevronDown className={`w-3.5 h-3.5 transition-transform ${toolsOpen ? "rotate-180" : "group-hover:rotate-180"}`} />
+          </button>
+          <div
+            className={`absolute top-full left-1/2 -translate-x-1/2 mt-3 pt-2 transition-all duration-150 ${
+              toolsOpen ? "opacity-100 visible" : "opacity-0 invisible group-hover:opacity-100 group-hover:visible"
+            }`}
+          >
             <div className="bg-un-darker/95 backdrop-blur-md border border-un-card-border rounded-xl py-2 min-w-[200px] shadow-xl">
               {INTERNAL_TOOLS.map((tool) => (
                 <a
                   key={tool.title}
                   href={tool.url}
+                  onClick={() => setToolsOpen(false)}
                   className="flex items-center justify-between px-4 py-2 text-sm text-un-muted hover:text-un-accent hover:bg-un-card-border/30 transition-colors"
                 >
                   {tool.title}
@@ -89,6 +144,7 @@ export default function Navbar() {
                   href={tool.url}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => setToolsOpen(false)}
                   className="flex items-center justify-between px-4 py-2 text-sm text-un-muted hover:text-un-accent hover:bg-un-card-border/30 transition-colors"
                 >
                   {tool.title}
@@ -98,6 +154,7 @@ export default function Navbar() {
               <div className="border-t border-un-card-border my-1" />
               <a
                 href="/#tools"
+                onClick={() => setToolsOpen(false)}
                 className="flex items-center px-4 py-2 text-sm text-un-accent/70 hover:text-un-accent transition-colors font-medium"
               >
                 View all tools

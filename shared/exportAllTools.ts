@@ -210,7 +210,6 @@ function buildExecHangarTrackerExport(exportedAt: string) {
     exportedAt,
   };
 
-  collectKeys(EXEC_STORAGE_KEYS);
   EXEC_STORAGE_KEYS.forEach((key) => {
     const value = safeReadJson(key);
     if (value !== undefined) {

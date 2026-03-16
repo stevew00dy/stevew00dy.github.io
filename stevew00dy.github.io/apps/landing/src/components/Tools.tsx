@@ -19,8 +19,8 @@ import {
 const tools = [
   {
     icon: <Crosshair className="w-8 h-8" />,
-    title: "Rare Armour Tracker",
-    desc: "Track and find every rare armour set in Star Citizen. Locations, screenshots, and checklist.",
+    title: "Rare Armor Tracker",
+    desc: "Track and find every rare armor set in Star Citizen. Locations, screenshots, and checklist.",
     tag: "uNoob",
     url: "/armor-tracker/",
     external: false,

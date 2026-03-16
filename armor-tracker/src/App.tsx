@@ -8,12 +8,10 @@ import {
 } from "../../shared/AppNavDropdown";
 import { FOOTER_LINKS } from "../../shared/nav-footer-links";
 import { exportAllToolsData } from "../../shared/exportAllTools";
-import { Check, ChevronDown, MapPin, Menu, Search, Shield, Sparkles, Star } from "lucide-react";
+import { Check, ChevronDown, MapPin, Menu, Shield, Sparkles, Star } from "lucide-react";
 import DataNotice from "./components/DataNotice";
 import { armors } from "./data/armorAll";
 import type { ArmorItem, ArmorType, ArmorVariant } from "./types";
-
-type ArmorFilter = "all" | ArmorType;
 
 interface ArmorProgress {
   favorite: boolean;
@@ -412,6 +410,7 @@ function ArmorCard({
   const [expandedVariants, setExpandedVariants] = useState<Record<string, boolean>>(() =>
     Object.fromEntries(armor.variants.map((variant, index) => [variant.id, armor.variants.length === 1 || index === 0])),
   );
+  const [whereExpanded, setWhereExpanded] = useState(false);
 
   function toggleVariant(variantId: string) {
     setExpandedVariants((current) => ({
@@ -500,17 +499,29 @@ function ArmorCard({
             </button>
           </div>
 
-          <div className="rounded-xl border border-dark-700 bg-dark-900/50 p-4">
-            <div className="flex items-center gap-2 text-accent-blue mb-2">
-              <MapPin className="w-4 h-4" />
+          <button
+            type="button"
+            onClick={() => setWhereExpanded((v) => !v)}
+            className="w-full rounded-xl border border-dark-700 bg-dark-900/50 p-4 text-left transition-colors hover:border-dark-600"
+          >
+            <div className="flex items-center gap-2 text-accent-blue">
+              <MapPin className="w-4 h-4 shrink-0" />
               <h3 className="text-sm font-semibold text-text">Where to find it</h3>
+              <ChevronDown
+                className={`w-4 h-4 shrink-0 ml-auto transition-transform ${whereExpanded ? "rotate-180" : ""}`}
+                aria-hidden
+              />
             </div>
-            <p className="text-sm text-text-dim leading-relaxed">{armor.where}</p>
-            {armor.how && <p className="text-sm text-text-muted leading-relaxed mt-3">{armor.how}</p>}
-          </div>
+            {whereExpanded && (
+              <div className="mt-3 space-y-1">
+                <p className="text-sm text-text-dim leading-relaxed">{armor.where}</p>
+                {armor.how && <p className="text-sm text-text-muted leading-relaxed mt-3">{armor.how}</p>}
+              </div>
+            )}
+          </button>
 
-          <div className="rounded-xl border border-dark-700 bg-dark-900/50 p-4">
-            <div className="flex items-center gap-2 text-accent-green mb-3">
+          <div className="space-y-3">
+            <div className="flex items-center gap-2 text-accent-green">
               <Check className="w-4 h-4" />
               <h3 className="text-sm font-semibold text-text">Variants</h3>
             </div>
@@ -535,20 +546,15 @@ function ArmorCard({
                       <button
                         type="button"
                         onClick={() => toggleVariant(variant.id)}
-                        className="w-full flex items-center justify-between gap-3 px-3 py-3 text-left"
+                        className="w-full flex items-center gap-3 px-3 py-3 text-left min-w-0"
                         aria-expanded={expanded}
                       >
+                        <h4 className="text-sm font-semibold text-text shrink-0">{variant.name}</h4>
                         <div className="min-w-0 flex-1">
-                          <h4 className="text-sm font-semibold text-text">{variant.name}</h4>
-                          <p className="text-xs text-text-muted mt-1">
-                            {variantFoundCount}/{variant.pieces.length} pieces found
-                          </p>
-                          <div className="mt-2 pr-2">
-                            <ProgressBar
-                              value={variantProgressPercent}
-                              colorClassName={variantComplete ? "bg-accent-green" : "bg-accent-amber"}
-                            />
-                          </div>
+                          <ProgressBar
+                            value={variantProgressPercent}
+                            colorClassName={variantComplete ? "bg-accent-green" : "bg-accent-amber"}
+                          />
                         </div>
                         <ChevronDown
                           className={`w-4 h-4 shrink-0 text-text-muted transition-transform ${expanded ? "rotate-180" : ""}`}
@@ -556,8 +562,8 @@ function ArmorCard({
                       </button>
 
                       {expanded && (
-                        <div className="px-3 pb-3 pt-1 border-t border-dark-700/70">
-                          <div className="flex flex-wrap gap-2">
+                        <div className="px-3 pb-3 pt-1">
+                          <div className="flex flex-wrap gap-1.5">
                             {variant.pieces.map((piece) => {
                               const checked = variantProgress[piece.slot] ?? false;
                               return (
@@ -566,7 +572,7 @@ function ArmorCard({
                                   type="button"
                                   onClick={() => onTogglePiece(variant.id, piece.slot)}
                                   title={piece.item}
-                                  className={`inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-colors ${
+                                  className={`inline-flex items-center gap-1.5 rounded-lg border px-2 py-1.5 text-[14px] font-medium transition-colors ${
                                     checked
                                       ? "border-accent-green/30 bg-accent-green/10 text-accent-green"
                                       : "border-dark-700 bg-dark-900/60 text-text-secondary hover:border-dark-600 hover:text-text"
@@ -599,7 +605,7 @@ function ArmorCard({
             )}
           </div>
 
-          {armor.variantNote && <p className="text-xs text-text-muted">{armor.variantNote}</p>}
+          {armor.variantNote && <p className="text-xs text-text-muted mt-2">{armor.variantNote}</p>}
         </div>
       </div>
     </article>
@@ -611,10 +617,6 @@ function Header({
   totalCount,
   piecesFound,
   piecesTotal,
-  query,
-  onQueryChange,
-  filter,
-  onFilterChange,
   onExport,
   onExportAll,
   onImport,
@@ -624,10 +626,6 @@ function Header({
   totalCount: number;
   piecesFound: number;
   piecesTotal: number;
-  query: string;
-  onQueryChange: (value: string) => void;
-  filter: ArmorFilter;
-  onFilterChange: (value: ArmorFilter) => void;
   onExport: () => void;
   onExportAll: () => void;
   onImport: (file: File) => void;
@@ -651,8 +649,6 @@ function Header({
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, [navOpen]);
-
-  const filters: ArmorFilter[] = ["all", "Heavy", "Medium", "Light"];
 
   return (
     <header className="sticky top-0 z-50 border-b border-dark-700 bg-dark-900/80 backdrop-blur-sm">
@@ -755,38 +751,6 @@ function Header({
             </span>
           </div>
         </div>
-
-        <div className="flex flex-col lg:flex-row gap-3 lg:items-center">
-          <div className="relative flex-1 min-w-0">
-            <Search className="w-4 h-4 text-text-muted absolute left-3 top-1/2 -translate-y-1/2" />
-            <input
-              value={query}
-              onChange={(event) => onQueryChange(event.target.value)}
-              placeholder="Search armor, locations, variants..."
-              className="w-full rounded-lg border border-dark-600 bg-dark-800 text-text text-sm pl-10 pr-3 py-2.5 outline-none focus:border-accent-amber"
-            />
-          </div>
-
-          <div className="flex flex-wrap gap-2">
-            {filters.map((value) => {
-              const active = filter === value;
-
-              return (
-                <button
-                  key={value}
-                  onClick={() => onFilterChange(value)}
-                  className={`px-3 py-2 rounded-lg text-sm transition-colors border ${
-                    active
-                      ? "border-accent-amber/30 bg-accent-amber/10 text-accent-amber"
-                      : "border-dark-700 bg-dark-800 text-text-muted hover:text-text"
-                  }`}
-                >
-                  {value === "all" ? "All" : value}
-                </button>
-              );
-            })}
-          </div>
-        </div>
       </div>
     </header>
   );
@@ -794,8 +758,6 @@ function Header({
 
 export default function App() {
   const [progress, setProgress] = useState<Record<string, ArmorProgress>>(() => loadProgress());
-  const [query, setQuery] = useState("");
-  const [filter, setFilter] = useState<ArmorFilter>("all");
 
   useEffect(() => {
     saveProgress(progress);
@@ -826,42 +788,19 @@ export default function App() {
     [],
   );
 
-  const filteredArmors = useMemo(() => {
-    const normalizedQuery = query.trim().toLowerCase();
+  const sortedArmors = useMemo(() => {
+    return [...armors].sort((left, right) => {
+      const leftFavorite = progress[left.id]?.favorite ? 1 : 0;
+      const rightFavorite = progress[right.id]?.favorite ? 1 : 0;
+      if (leftFavorite !== rightFavorite) return rightFavorite - leftFavorite;
 
-    return [...armors]
-      .filter((armor) => (filter === "all" ? true : armor.type === filter))
-      .filter((armor) => {
-        if (!normalizedQuery) return true;
+      const leftOwned = isArmorComplete(left, progress[left.id]) ? 1 : 0;
+      const rightOwned = isArmorComplete(right, progress[right.id]) ? 1 : 0;
+      if (leftOwned !== rightOwned) return rightOwned - leftOwned;
 
-        const haystack = [
-          armor.name,
-          armor.type ?? "",
-          armor.manufacturer,
-          armor.where,
-          armor.how ?? "",
-          armor.val,
-          armor.variants
-            .map((variant) => [variant.name, ...variant.pieces.map((piece) => `${piece.slot} ${piece.item}`)].join(" "))
-            .join(" "),
-        ]
-          .join(" ")
-          .toLowerCase();
-
-        return haystack.includes(normalizedQuery);
-      })
-      .sort((left, right) => {
-        const leftFavorite = progress[left.id]?.favorite ? 1 : 0;
-        const rightFavorite = progress[right.id]?.favorite ? 1 : 0;
-        if (leftFavorite !== rightFavorite) return rightFavorite - leftFavorite;
-
-        const leftOwned = isArmorComplete(left, progress[left.id]) ? 1 : 0;
-        const rightOwned = isArmorComplete(right, progress[right.id]) ? 1 : 0;
-        if (leftOwned !== rightOwned) return rightOwned - leftOwned;
-
-        return left.name.localeCompare(right.name);
-      });
-  }, [filter, progress, query]);
+      return left.name.localeCompare(right.name);
+    });
+  }, [progress]);
 
   function updateArmor(id: string, updates: Partial<ArmorProgress>) {
     const armor = getArmorById(id);
@@ -908,10 +847,6 @@ export default function App() {
         totalCount={totalVariantCount}
         piecesFound={foundPieceCount}
         piecesTotal={totalPieceCount}
-        query={query}
-        onQueryChange={setQuery}
-        filter={filter}
-        onFilterChange={setFilter}
         onExport={exportData}
         onExportAll={exportAllToolsData}
         onImport={importData}
@@ -921,16 +856,13 @@ export default function App() {
       <DataNotice />
 
       <main id="main" className="max-w-[1600px] mx-auto px-4 py-6 space-y-6">
-        {filteredArmors.length === 0 ? (
+        {sortedArmors.length === 0 ? (
           <section className="card p-8 text-center">
-            <p className="text-lg font-semibold text-text">No armor matches that search.</p>
-            <p className="text-sm text-text-muted mt-2">
-              Try a different search term or switch the armor type filter.
-            </p>
+            <p className="text-lg font-semibold text-text">No armor in the list.</p>
           </section>
         ) : (
           <section className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4">
-            {filteredArmors.map((armor) => (
+            {sortedArmors.map((armor) => (
               <ArmorCard
                 key={armor.id}
                 armor={armor}

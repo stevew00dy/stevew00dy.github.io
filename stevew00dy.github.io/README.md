@@ -57,18 +57,6 @@ The goal is simple:
 - Progress is stored in the browser unless a tool provides export/import backup
 - All game information may change with patches
 
-## Analytics (Cloudflare Web Analytics)
-
-Visitor tracking uses Cloudflare Web Analytics (privacy-first, no cookies). To enable:
-
-1. Go to [dash.cloudflare.com](https://dash.cloudflare.com) → **Web Analytics** → **Add a site**
-2. Add `undisputednoobs.com` (or your hostname)
-3. Copy the token from the JS snippet
-4. Create `apps/landing/.env` with: `VITE_CF_ANALYTICS_TOKEN=your_token_here`
-5. Rebuild and deploy
-
-Analytics will appear in the Cloudflare dashboard within a few minutes.
-
 ## Built With
 
 - React 19
