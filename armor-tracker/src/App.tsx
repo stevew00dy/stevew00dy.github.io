@@ -608,8 +608,9 @@ function ArmorCard({
 
 function Header({
   ownedCount,
-  favoriteCount,
   totalCount,
+  piecesFound,
+  piecesTotal,
   query,
   onQueryChange,
   filter,
@@ -620,8 +621,9 @@ function Header({
   onReset,
 }: {
   ownedCount: number;
-  favoriteCount: number;
   totalCount: number;
+  piecesFound: number;
+  piecesTotal: number;
   query: string;
   onQueryChange: (value: string) => void;
   filter: ArmorFilter;
@@ -672,13 +674,14 @@ function Header({
                 <span className="w-2 h-2 rounded-full bg-accent-green" />
                 <span className="text-text-dim">
                   <span className="font-mono font-semibold text-accent-green">{ownedCount}</span>
-                  <span className="text-text-muted">/{totalCount}</span> found
+                  <span className="text-text-muted">/{totalCount}</span> variants
                 </span>
               </div>
               <div className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-accent-amber" />
+                <span className="w-2 h-2 rounded-full bg-accent-blue" />
                 <span className="text-text-dim">
-                  <span className="font-mono font-semibold text-accent-amber">{favoriteCount}</span> favorites
+                  <span className="font-mono font-semibold text-accent-blue">{piecesFound}</span>
+                  <span className="text-text-muted">/{piecesTotal}</span> pieces
                 </span>
               </div>
             </div>
@@ -741,13 +744,14 @@ function Header({
             <span className="w-2 h-2 rounded-full bg-accent-green" />
             <span className="text-text-dim">
               <span className="font-mono font-semibold text-accent-green">{ownedCount}</span>
-              <span className="text-text-muted">/{totalCount}</span> found
+              <span className="text-text-muted">/{totalCount}</span> variants
             </span>
           </div>
           <div className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-accent-amber" />
+            <span className="w-2 h-2 rounded-full bg-accent-blue" />
             <span className="text-text-dim">
-              <span className="font-mono font-semibold text-accent-amber">{favoriteCount}</span> favorites
+              <span className="font-mono font-semibold text-accent-blue">{piecesFound}</span>
+              <span className="text-text-muted">/{piecesTotal}</span> pieces
             </span>
           </div>
         </div>
@@ -805,10 +809,6 @@ export default function App() {
       ),
     [progress],
   );
-  const favoriteCount = useMemo(
-    () => armors.filter((armor) => progress[armor.id]?.favorite).length,
-    [progress],
-  );
   const foundPieceCount = useMemo(
     () =>
       armors.reduce(
@@ -824,14 +824,6 @@ export default function App() {
   const totalVariantCount = useMemo(
     () => armors.reduce((total, armor) => total + armor.variants.length, 0),
     [],
-  );
-  const overallProgressPercent = useMemo(
-    () => percentage(ownedCount, totalVariantCount),
-    [ownedCount, totalVariantCount],
-  );
-  const piecesProgressPercent = useMemo(
-    () => percentage(foundPieceCount, totalPieceCount),
-    [foundPieceCount, totalPieceCount],
   );
 
   const filteredArmors = useMemo(() => {
@@ -913,8 +905,9 @@ export default function App() {
 
       <Header
         ownedCount={ownedCount}
-        favoriteCount={favoriteCount}
         totalCount={totalVariantCount}
+        piecesFound={foundPieceCount}
+        piecesTotal={totalPieceCount}
         query={query}
         onQueryChange={setQuery}
         filter={filter}
@@ -928,38 +921,6 @@ export default function App() {
       <DataNotice />
 
       <main id="main" className="max-w-[1600px] mx-auto px-4 py-6 space-y-6">
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="card p-4">
-            <p className="text-xs uppercase tracking-wide font-semibold text-text-muted mb-2">
-              Variants completed
-            </p>
-            <div className="space-y-3">
-              <div className="flex items-end gap-2">
-                <span className="font-mono text-3xl font-black text-accent-green">{ownedCount}</span>
-                <span className="text-text-muted pb-1">of {totalVariantCount} variants fully checked</span>
-              </div>
-              <ProgressBar value={overallProgressPercent} colorClassName="bg-accent-green" />
-            </div>
-          </div>
-          <div className="card p-4">
-            <p className="text-xs uppercase tracking-wide font-semibold text-text-muted mb-2">Pieces found</p>
-            <div className="space-y-3">
-              <div className="flex items-end gap-2">
-                <span className="font-mono text-3xl font-black text-accent-blue">{foundPieceCount}</span>
-                <span className="text-text-muted pb-1">of {totalPieceCount} tracked pieces checked</span>
-              </div>
-              <ProgressBar value={piecesProgressPercent} colorClassName="bg-accent-blue" />
-            </div>
-          </div>
-          <div className="card p-4">
-            <p className="text-xs uppercase tracking-wide font-semibold text-text-muted mb-2">Favorites</p>
-            <div className="flex items-end gap-2">
-              <span className="font-mono text-3xl font-black text-accent-amber">{favoriteCount}</span>
-              <span className="text-text-muted pb-1">sets pinned for quick reference</span>
-            </div>
-          </div>
-        </section>
-
         {filteredArmors.length === 0 ? (
           <section className="card p-8 text-center">
             <p className="text-lg font-semibold text-text">No armor matches that search.</p>
