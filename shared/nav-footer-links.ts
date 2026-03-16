@@ -16,6 +16,7 @@ export const FOOTER_LINKS: { href: string; label: string; external?: boolean }[]
   { href: "/training", label: "Training" },
   ...TOOL_LINKS,
   { href: "https://www.youtube.com/@undisputednoobs", label: "YouTube", external: true },
+  { href: "https://x.com/UndisputedNoobs", label: "X", external: true },
   {
     href: "https://www.robertsspaceindustries.com/enlist?referral=STAR-23GB-5J3N",
     label: "Join Star Citizen (+50k aUEC)",
