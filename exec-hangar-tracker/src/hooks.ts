@@ -6,6 +6,8 @@ const GREEN_PHASE_MS = 3_900_415;
 const RED_PHASE_MS = 7_200_767;
 // Known green-phase start timestamp (from cztimer.com calibration data)
 const EPOCH_REF = 1_769_983_794_775;
+// Correction: timer was 3 minutes slow — advance cycle by 3 min so display matches in-game
+const HANGAR_CORRECTION_MS = 3 * 60 * 1000;
 
 const VAULT_OPEN_MS = 60 * 1000;
 const VAULT_CLOSED_MS = 20 * 60 * 1000;
@@ -34,7 +36,7 @@ export function useHangarTimer(syncOffsetKey = "cz-hangar-sync") {
   }, []);
 
   const adjustedNow = now + syncOffset;
-  const elapsed = adjustedNow - EPOCH_REF;
+  const elapsed = (adjustedNow - EPOCH_REF) + HANGAR_CORRECTION_MS;
   const cyclePos = ((elapsed % CYCLE_TOTAL_MS) + CYCLE_TOTAL_MS) % CYCLE_TOTAL_MS;
 
   // Cycle order: GREEN (0 → GREEN_PHASE_MS) then RED (GREEN_PHASE_MS → CYCLE_TOTAL_MS)
@@ -56,8 +58,8 @@ export function useHangarTimer(syncOffsetKey = "cz-hangar-sync") {
   const changeAtStr = changeAt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "UTC" }) + " UTC";
 
   const sync = useCallback(() => {
-    // When user clicks sync as hangar OPENS, we nudge so cyclePos = 0 right now
-    const currentElapsed = Date.now() - EPOCH_REF;
+    // When user clicks sync as hangar OPENS, we nudge so cyclePos = 0 right now (use same correction as display)
+    const currentElapsed = Date.now() - EPOCH_REF + HANGAR_CORRECTION_MS;
     const currentPos = ((currentElapsed % CYCLE_TOTAL_MS) + CYCLE_TOTAL_MS) % CYCLE_TOTAL_MS;
     const offset = -currentPos;
     setSyncOffset(offset);
