@@ -25,7 +25,7 @@ const apps = [
   { name: "refining-tracker", path: "refining-tracker" },
   { name: "exec-hangar-tracker", path: "exec-hangar-tracker" },
   { name: "wikelo-tracker", path: "wikelo-tracker" },
-  { name: "loadout-planner", path: "loadout-planner" },
+  { name: "fps-loadout-tracker", path: "fps-loadout-tracker" },
   { name: "armor-tracker", path: "armor-tracker" },
 ];
 
@@ -53,5 +53,5 @@ console.log("  /training               → Basic Training (SPA route)");
 console.log("  /refining-tracker/      → Refining Tracker");
 console.log("  /exec-hangar-tracker/  → Exec Hangar Tracker");
 console.log("  /wikelo-tracker/       → Wikelo Tracker");
-console.log("  /loadout-planner/      → FPS Loadout Planner");
+console.log("  /fps-loadout-tracker/  → FPS Loadout Tracker");
 console.log("  /armor-tracker/        → Armor Tracker");

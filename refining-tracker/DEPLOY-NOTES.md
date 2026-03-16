@@ -10,7 +10,7 @@ All tracker apps are now in the **monorepo** and deploy from a **single build**:
 | Refining Tracker | `refining-tracker/` | `/refining-tracker/` |
 | Exec Hangar Tracker | `exec-hangar-tracker/` | `/exec-hangar-tracker/` |
 | Wikelo Tracker | `wikelo-tracker/` | `/wikelo-tracker/` |
-| FPS Loadout Tracker | `loadout-planner/` | `/loadout-planner/` |
+| FPS Loadout Tracker | `fps-loadout-tracker/` | `/fps-loadout-tracker/` |
 | Armor Tracker | `armor-tracker/` | `/armor-tracker/` |
 
 ## Deploy Everything
@@ -31,7 +31,7 @@ If you clone the monorepo fresh, run `npm install` in each app folder before the
 ```powershell
 cd exec-hangar-tracker && npm install
 cd ../wikelo-tracker && npm install
-cd ../loadout-planner && npm install
+cd ../fps-loadout-tracker && npm install
 ```
 
 ## Consistent Nav

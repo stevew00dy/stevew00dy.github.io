@@ -1,7 +1,3 @@
-data-dashboard/
-data-filter/
-data/
-
 # Dependencies & build output
 node_modules/
 dist/

@@ -52,7 +52,7 @@ const tools = [
     title: "FPS Loadout Tracker",
     desc: "Plan your FPS loadouts with UEX-powered autocomplete. Buy locations, prices, and system filtering.",
     tag: "uNoob",
-    url: "/loadout-planner/",
+    url: "/fps-loadout-tracker/",
     external: false,
     color: "text-emerald-400",
     tagBg: "bg-emerald-400/10 text-emerald-400",

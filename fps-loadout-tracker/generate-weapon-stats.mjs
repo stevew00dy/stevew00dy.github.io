@@ -65,7 +65,7 @@ for (let i = dataStart; i < allRows.length; i++) {
   const fireMode = (r[7] || "").trim();
   
   // Skip items without fire mode (consumables, knives, etc. already in weapon-mass.json)
-  // But keep tools/medical for reference
+  // But keep utility / medical items for reference
   const ammoCount = parseInt(r[1]) || 0;
   const ammoSpeed = parseInt(r[8]) || 0;
   const range = parseFloat(r[10]?.replace(/,/g, "")) || 0;

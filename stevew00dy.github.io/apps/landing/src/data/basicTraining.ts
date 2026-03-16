@@ -383,7 +383,7 @@ export const BASIC_TRAINING_CATEGORIES: TrainingCategory[] = [
         videoUrl: "https://youtu.be/vnkJymjOpf4",
         text: "[SECTION]What to carry[/SECTION]\n\nStart with a rifle, a sidearm, and a medical gun (medgun — heals you and others). Armour affects how much damage you can take and how much you can carry. Pick something that balances protection and carry capacity for the mission you're doing.\n\n[SECTION]Where to get it[/SECTION]\n\nYou can buy weapons and armour from shops at landing zones, or loot them from enemies. Use the FPS Loadout Tracker and Armour Tracker (linked below) to plan your gear before you fly so you're not shopping under pressure.\n\nCheckpoint: You have a basic loadout ready before heading to a combat mission.",
         resources: [
-          { label: "FPS Loadout Tracker", url: "/loadout-planner/" },
+          { label: "FPS Loadout Tracker", url: "/fps-loadout-tracker/" },
           { label: "Armour Tracker", url: "/armor-tracker/" },
         ],
       },

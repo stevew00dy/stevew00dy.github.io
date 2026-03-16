@@ -118,7 +118,7 @@ export function useLoadouts() {
 export function exportSingleLoadout(loadout: Loadout) {
   const data = {
     version: 1,
-    tool: "loadout-planner",
+    tool: "fps-loadout-tracker",
     type: "single",
     exportedAt: new Date().toISOString(),
     loadout,
@@ -170,7 +170,7 @@ export function importSingleLoadout(file: File): Promise<Loadout> {
 export function exportAllData() {
   const data = {
     version: 1,
-    tool: "loadout-planner",
+    tool: "fps-loadout-tracker",
     exportedAt: new Date().toISOString(),
     loadouts: JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"),
   };
@@ -178,7 +178,7 @@ export function exportAllData() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `loadout-planner-${new Date().toISOString().slice(0, 10)}.json`;
+  a.download = `fps-loadout-tracker-${new Date().toISOString().slice(0, 10)}.json`;
   a.click();
   URL.revokeObjectURL(url);
 }

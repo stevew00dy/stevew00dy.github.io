@@ -7,7 +7,7 @@ export const TOOL_LINKS = [
   { href: "/armor-tracker/", label: "Rare Armor Tracker" },
   { href: "/exec-hangar-tracker/", label: "Exec Hangar Tracker" },
   { href: "/wikelo-tracker/", label: "Wikelo Tracker" },
-  { href: "/loadout-planner/", label: "FPS Loadout Tracker" },
+  { href: "/fps-loadout-tracker/", label: "FPS Loadout Tracker" },
   { href: "/refining-tracker/", label: "Refining Tracker" },
 ] as const;
 

@@ -317,7 +317,7 @@ function Header({
             </button>
             {navOpen && (
               <AppNavDropdown
-                activePath="/loadout-planner/"
+                activePath="/fps-loadout-tracker/"
                 onClose={() => { setNavOpen(false); setConfirming(false); }}
                 progressSection={
                   <>
@@ -1224,7 +1224,7 @@ function Footer() {
               href={href}
               {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               className={`text-xs transition-colors ${
-                href === "/loadout-planner/" ? "text-accent-amber font-medium" : "text-text-muted hover:text-accent-amber"
+                href === "/fps-loadout-tracker/" ? "text-accent-amber font-medium" : "text-text-muted hover:text-accent-amber"
               }`}
             >
               {label}
