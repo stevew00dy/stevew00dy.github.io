@@ -5,4 +5,5 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   base: "/exec-hangar-tracker/",
   plugins: [react(), tailwindcss()],
+  server: { port: 5176 },
 });

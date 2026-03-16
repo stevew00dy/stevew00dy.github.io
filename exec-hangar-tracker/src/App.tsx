@@ -279,13 +279,14 @@ function HangarSection({ compboards, hangar }: { compboards: ReturnType<typeof u
               <p className="text-xs text-text-muted">Cycle Progress: {Math.round(progress)}%</p>
             </div>
 
-            {/* Sync icon — top right */}
+            {/* ReSync — top right */}
             <button
               onClick={sync}
-              title="Sync timer — click the moment you see the hangar open in-game"
-              className="absolute top-3 right-3 w-8 h-8 rounded-full bg-dark-800/80 border border-dark-600 flex items-center justify-center text-text-muted hover:text-accent-amber hover:border-accent-amber/40 transition-all"
+              title="Sometimes the servers desync - use this the moment the final light turns green to sync your local version of this app to match."
+              className="absolute top-3 right-3 flex items-center gap-1.5 rounded-full bg-dark-800/80 border border-dark-600 pl-2.5 pr-3 py-1.5 text-text-muted hover:text-accent-amber hover:border-accent-amber/40 transition-all text-xs font-medium"
             >
               <Zap className="w-3.5 h-3.5" />
+              ReSync
             </button>
 
             {/* LEDs */}
