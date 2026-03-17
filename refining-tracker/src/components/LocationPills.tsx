@@ -15,13 +15,13 @@ const LOCATION_PILL_STYLES: Record<LocationType, string> = {
 };
 
 export function LocationPills({ types }: { types?: LocationType[] }) {
-  if (!types?.length) return <span className="text-text-dim">—</span>;
+  if (!types?.length) return <span className="text-text-dim">-</span>;
   return (
     <div className="flex flex-wrap gap-1">
       {types.map((t) => (
         <span
           key={t}
-          className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[11px] font-medium border ${LOCATION_PILL_STYLES[t]}`}
+          className={`inline-flex items-center gap-0.5 rounded-full border px-1.5 py-0.5 text-[11px] font-medium ${LOCATION_PILL_STYLES[t]}`}
         >
           {t === "space" && <Rocket size={10} />}
           {t === "planet" && <Globe size={10} />}
@@ -42,15 +42,15 @@ const SYSTEM_PILL_STYLES: Record<SystemType, string> = {
 };
 
 export function SystemPills({ systems }: { systems?: string[] }) {
-  if (!systems?.length) return <span className="text-text-dim">—</span>;
+  if (!systems?.length) return <span className="text-text-dim">-</span>;
   const valid = systems.filter((s): s is SystemType => s === "Stanton" || s === "Pyro" || s === "Nyx");
-  if (!valid.length) return <span className="text-text-dim">—</span>;
+  if (!valid.length) return <span className="text-text-dim">-</span>;
   return (
     <div className="flex flex-wrap gap-1">
       {valid.map((s) => (
         <span
           key={s}
-          className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[11px] font-medium ${SYSTEM_PILL_STYLES[s]}`}
+          className={`inline-flex items-center gap-0.5 rounded px-1.5 py-0.5 text-[11px] font-medium ${SYSTEM_PILL_STYLES[s]}`}
         >
           {s}
         </span>

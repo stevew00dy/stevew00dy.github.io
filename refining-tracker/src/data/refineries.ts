@@ -12,10 +12,10 @@ export const FALLBACK_METHODS: RefineryMethod[] = [
   { id: 2, name: "Dinyx Solventation", code: "DIN", ratingYield: 3, ratingCost: 1, ratingSpeed: 1 },
   { id: 3, name: "Electrostarolysis", code: "EST", ratingYield: 2, ratingCost: 2, ratingSpeed: 2 },
   { id: 4, name: "Gaskin Process", code: "GAS", ratingYield: 2, ratingCost: 3, ratingSpeed: 3 },
-  { id: 5, name: "Pyrometric Chromalysis", code: "PYR", ratingYield: 3, ratingCost: 3, ratingSpeed: 1 },
-  { id: 6, name: "Kazen Winnowing", code: "KZW", ratingYield: 1, ratingCost: 2, ratingSpeed: 2 },
-  { id: 7, name: "Thermonatic Deposition", code: "TND", ratingYield: 2, ratingCost: 2, ratingSpeed: 1 },
-  { id: 8, name: "Ferron Exchange", code: "FRX", ratingYield: 3, ratingCost: 2, ratingSpeed: 1 },
+  { id: 5, name: "Pyrometric Chromalysis", code: "PYR", ratingYield: 3, ratingCost: 3, ratingSpeed: 3 },
+  { id: 6, name: "Kazen Winnowing", code: "KZW", ratingYield: 1, ratingCost: 1, ratingSpeed: 1 },
+  { id: 7, name: "Thermonatic Deposition", code: "TND", ratingYield: 2, ratingCost: 1, ratingSpeed: 1 },
+  { id: 8, name: "Ferron Exchange", code: "FRX", ratingYield: 3, ratingCost: 2, ratingSpeed: 2 },
   { id: 9, name: "XCR Reaction", code: "XCR", ratingYield: 1, ratingCost: 3, ratingSpeed: 3 },
 ];
 

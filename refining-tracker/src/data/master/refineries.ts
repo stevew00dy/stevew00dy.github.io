@@ -9,10 +9,10 @@ export const REFINERY_METHODS = [
   { id: "din", name: "Dinyx Solventation", code: "DIN", ratingYield: 3, ratingCost: 1, ratingSpeed: 1 },
   { id: "est", name: "Electrostarolysis", code: "EST", ratingYield: 2, ratingCost: 2, ratingSpeed: 2 },
   { id: "gas", name: "Gaskin Process", code: "GAS", ratingYield: 2, ratingCost: 3, ratingSpeed: 3 },
-  { id: "pyr", name: "Pyrometric Chromalysis", code: "PYR", ratingYield: 3, ratingCost: 3, ratingSpeed: 1 },
-  { id: "kzw", name: "Kazen Winnowing", code: "KZW", ratingYield: 1, ratingCost: 2, ratingSpeed: 2 },
-  { id: "tnd", name: "Thermonatic Deposition", code: "TND", ratingYield: 2, ratingCost: 2, ratingSpeed: 1 },
-  { id: "frx", name: "Ferron Exchange", code: "FRX", ratingYield: 3, ratingCost: 2, ratingSpeed: 1 },
+  { id: "pyr", name: "Pyrometric Chromalysis", code: "PYR", ratingYield: 3, ratingCost: 3, ratingSpeed: 3 },
+  { id: "kzw", name: "Kazen Winnowing", code: "KZW", ratingYield: 1, ratingCost: 1, ratingSpeed: 1 },
+  { id: "tnd", name: "Thermonatic Deposition", code: "TND", ratingYield: 2, ratingCost: 1, ratingSpeed: 1 },
+  { id: "frx", name: "Ferron Exchange", code: "FRX", ratingYield: 3, ratingCost: 2, ratingSpeed: 2 },
   { id: "xcr", name: "XCR Reaction", code: "XCR", ratingYield: 1, ratingCost: 3, ratingSpeed: 3 },
 ] as const;
 

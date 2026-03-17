@@ -14,11 +14,14 @@ export interface PlanetMaterial {
 
 /** Normalize game material names to match ORE_TYPES */
 const MATERIAL_ALIASES: Record<string, string> = {
-  Aluminum: "Aluminium",
-  Alumium: "Aluminium",
-  Quantainium: "Quantanium",
+  Aluminum: "Aluminum",
+  Aluminium: "Aluminum",
+  Alumium: "Aluminum",
+  Quantanium: "Quantainium",
+  Quantainium: "Quantainium",
   Tarantite: "Taranite",
   Beradon: "Beradom",
+  Savrillium: "Savrilium",
   "Janalite (Caves only)": "Janalite",
 };
 
@@ -50,7 +53,7 @@ export const PLANET_MATERIALS: PlanetMaterial[] = [
     name: "Aberdeen",
     shipMineables: ["Aluminium", "Titanium", "Ouratite", "Quantanium"],
     groundVehicleMineables: [],
-    handMineables: ["Aphorite", "Dolivine", "Hadanite", "Janalite"],
+    handMineables: ["Aphorite", "Dolivine", "Hadanite", "Janalite", "Carinite"],
   },
   {
     id: "Stanton1c",
@@ -82,7 +85,7 @@ export const PLANET_MATERIALS: PlanetMaterial[] = [
     name: "Daymar",
     shipMineables: ["Quartz", "Agricium", "Silicon", "Quantanium", "Titanium"],
     groundVehicleMineables: [],
-    handMineables: ["Aphorite", "Dolivine", "Hadanite", "Janalite"],
+    handMineables: ["Aphorite", "Dolivine", "Hadanite", "Janalite", "Carinite"],
   },
   {
     id: "Stanton2c",
@@ -235,7 +238,7 @@ export const PLANET_MATERIALS: PlanetMaterial[] = [
     id: "NyxGlacium",
     system: "Nyx",
     name: "Glacium ring",
-    shipMineables: ["Lindinium", "Savrillium"],
+    shipMineables: ["Lindinium", "Savrilium"],
     groundVehicleMineables: [],
     handMineables: [],
   },

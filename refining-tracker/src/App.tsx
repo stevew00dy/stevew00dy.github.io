@@ -4,24 +4,22 @@ import {
   TrendingUp,
   Building2,
   Loader2,
-  Search,
   BarChart3,
   Wrench,
-  Radio,
+  Search,
 } from "lucide-react";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import Optimizer from "./components/Optimizer";
 import StationBonuses from "./components/StationBonuses";
 import Sessions from "./components/Sessions";
-import MaterialFinder from "./components/MaterialFinder";
 import Statistics from "./components/Statistics";
 import Loadouts from "./components/Loadouts";
 import RSSignatures from "./components/RSSignatures";
 import DataNotice from "./components/DataNotice";
 import { getRefiningData, clearCache, type RefiningData } from "./uex-api";
 
-type Tab = "sessions" | "stats" | "loadouts" | "signatures" | "optimizer" | "stations" | "finder";
+type Tab = "sessions" | "stats" | "loadouts" | "signatures" | "optimizer" | "stations";
 
 export default function App() {
   const [tab, setTab] = useState<Tab>("sessions");
@@ -55,8 +53,7 @@ export default function App() {
     { id: "loadouts", label: "Loadouts", icon: Wrench },
     { id: "optimizer", label: "Methods", icon: TrendingUp },
     { id: "stations", label: "Stations", icon: Building2 },
-    { id: "signatures", label: "RS Signatures", icon: Radio },
-    { id: "finder", label: "Material Finder", icon: Search },
+    { id: "signatures", label: "Material Finder", icon: Search },
     { id: "stats", label: "Statistics", icon: BarChart3 },
   ];
 
@@ -96,13 +93,12 @@ export default function App() {
       </nav>
 
       <main id="main" className="flex-1 max-w-[1600px] mx-auto w-full px-4 py-6">
-        {(tab === "sessions" || tab === "stats" || tab === "loadouts" || tab === "signatures" || tab === "finder") ? (
+        {(tab === "sessions" || tab === "stats" || tab === "loadouts" || tab === "signatures") ? (
           <>
             {tab === "sessions" && <Sessions />}
             {tab === "stats" && <Statistics />}
             {tab === "loadouts" && <Loadouts />}
             {tab === "signatures" && <RSSignatures />}
-            {tab === "finder" && <MaterialFinder />}
           </>
         ) : loading ? (
           <div className="flex flex-col items-center justify-center py-24">
@@ -127,7 +123,7 @@ export default function App() {
           </>
         ) : null}
 
-        {data && tab !== "sessions" && tab !== "stats" && tab !== "loadouts" && tab !== "signatures" && tab !== "finder" && (
+        {data && tab !== "sessions" && tab !== "stats" && tab !== "loadouts" && tab !== "signatures" && (
           <div className="mt-4 text-center text-[10px] text-text-muted">
             Data {data.fromCache ? "from cache" : "fetched live"} · Last updated{" "}
             {new Date(data.fetchedAt).toLocaleString()}
