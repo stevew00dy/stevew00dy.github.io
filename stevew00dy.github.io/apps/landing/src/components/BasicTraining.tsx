@@ -966,21 +966,23 @@ export default function BasicTraining() {
   }, [selectedPathId, pathOrder, ordered, selectedLessonId]);
 
   const toggleComplete = useCallback((id: string) => {
-    setCompletedIds((prev) => {
-      const isCompleting = !prev.includes(id);
-      const next = isCompleting ? [...prev, id] : prev.filter((x) => x !== id);
-      const prevEarned = getEarnedBadges(prev);
-      const nextEarned = getEarnedBadges(next);
-      if (nextEarned.length > prevEarned.length) {
-        const newBadge = nextEarned.find((b) => !prevEarned.some((p) => p.id === b.id));
-        if (newBadge) {
-          setBadgeJustEarned(newBadge);
-        }
-      }
-      return next;
-    });
-    // When marking complete, advance to the next lesson in the series
     const wasCompleted = completedIds.includes(id);
+    const nextCompletedIds = wasCompleted
+      ? completedIds.filter((x) => x !== id)
+      : [...completedIds, id];
+
+    if (!wasCompleted) {
+      const prevEarned = getEarnedBadges(completedIds);
+      const nextEarned = getEarnedBadges(nextCompletedIds);
+      const newBadge = nextEarned.find((badge) => !prevEarned.some((earned) => earned.id === badge.id));
+      if (newBadge) {
+        setBadgeJustEarned(newBadge);
+      }
+    }
+
+    setCompletedIds(nextCompletedIds);
+
+    // When marking complete, advance to the next lesson in the series
     if (!wasCompleted) {
       const idx = ordered.findIndex((o) => o.lesson.id === id);
       if (idx >= 0 && idx < ordered.length - 1) {
