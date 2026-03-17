@@ -20,9 +20,18 @@ import DataNotice from "./components/DataNotice";
 import { getRefiningData, clearCache, type RefiningData } from "./uex-api";
 
 type Tab = "sessions" | "stats" | "loadouts" | "signatures" | "optimizer" | "stations";
+const TAB_STORAGE_KEY = "refining-tracker:active-tab";
+const VALID_TABS: Tab[] = ["sessions", "stats", "loadouts", "signatures", "optimizer", "stations"];
+
+function getInitialTab(): Tab {
+  if (typeof window === "undefined") return "sessions";
+
+  const storedTab = window.localStorage.getItem(TAB_STORAGE_KEY);
+  return storedTab && VALID_TABS.includes(storedTab as Tab) ? (storedTab as Tab) : "sessions";
+}
 
 export default function App() {
-  const [tab, setTab] = useState<Tab>("sessions");
+  const [tab, setTab] = useState<Tab>(getInitialTab);
   const [data, setData] = useState<RefiningData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -32,6 +41,10 @@ export default function App() {
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem(TAB_STORAGE_KEY, tab);
+  }, [tab]);
 
 
   async function handleRefresh() {
