@@ -270,6 +270,7 @@ export function CraftingExpandedRow(props: {
   materialInventory: MaterialInventoryReader;
   craftability: CraftabilitySummary;
   qualityBaseline: number;
+  onFindMaterial?: (materialName: string) => void;
 }) {
   const [selectedRequirementSlot, setSelectedRequirementSlot] = useState<string | null>(null);
   const [qualityDrafts, setQualityDrafts] = useState<Record<string, string>>({});
@@ -350,6 +351,21 @@ export function CraftingExpandedRow(props: {
                         <span className={`rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] ${typeClasses(input.type)}`}>
                           {input.type}
                         </span>
+                        {props.onFindMaterial && (
+                          <button
+                            type="button"
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              props.onFindMaterial?.(input.requirement);
+                            }}
+                            onKeyDown={(event) => event.stopPropagation()}
+                            className="inline-flex items-center gap-1 rounded-full border border-accent-green/20 bg-accent-green/10 px-2.5 py-1 text-[11px] font-medium text-accent-green transition-colors hover:border-accent-green/35"
+                            aria-label={`Find ${input.requirement} locations`}
+                          >
+                            <MapPinned className="h-3.5 w-3.5" />
+                            Find
+                          </button>
+                        )}
                       </div>
                       <RequirementEffectsHover slot={input.slot} effects={input.effects} />
                     </div>

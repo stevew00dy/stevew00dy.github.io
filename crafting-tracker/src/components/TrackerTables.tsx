@@ -38,6 +38,7 @@ export function CraftingRecipeTable(props: {
   recipeLoadMoreRef: RefObject<HTMLDivElement | null>;
   renderedCount: number;
   totalCount: number;
+  onFindMaterial?: (materialName: string) => void;
 }) {
   return (
     <section className="panel mt-6 overflow-hidden p-0">
@@ -151,7 +152,15 @@ export function CraftingRecipeTable(props: {
                       <span className={`font-mono text-xs ${isSelected ? "text-accent-blue" : "text-text-dim"}`}>{item.craftTime}</span>
                     </div>
                     <div className="flex items-center justify-end">
-                      <MissionPoolDropdown item={item} />
+                      <span
+                        className={`inline-flex min-w-9 items-center justify-center rounded-lg border px-2.5 py-1 text-[11px] font-mono ${
+                          isSelected
+                            ? "border-accent-blue/30 bg-accent-blue/12 text-accent-blue"
+                            : "border-dark-700 bg-dark-900/70 text-text-dim"
+                        }`}
+                      >
+                        {item.blueprintSources.length}
+                      </span>
                     </div>
                   </div>
 
@@ -164,6 +173,7 @@ export function CraftingRecipeTable(props: {
                         materialInventory={props.materialInventory}
                         craftability={props.craftabilityByItem[item.id]}
                         qualityBaseline={props.qualityBaseline}
+                        onFindMaterial={props.onFindMaterial}
                       />
                     </div>
                   )}

@@ -61,7 +61,7 @@ export type BrowseFilterState = {
 };
 
 export type ScopedFilterState = {
-  activeTab: "crafting" | "blueprints";
+  activeTab: "crafting" | "blueprints" | "materials";
   craftabilityFilter: "all" | "craftable" | "missing";
   blueprintOwnershipFilter: "all" | "owned" | "missing";
 };

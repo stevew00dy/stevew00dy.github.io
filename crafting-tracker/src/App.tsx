@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useRef, useState, type ChangeEvent } from "react";
-import { Filter, Hammer, PackageCheck, Search } from "lucide-react";
+import { Compass, Filter, Hammer, PackageCheck, Search } from "lucide-react";
 import { AppNavDropdown, NavExportAllButton, NavExportButton, NavImportButton, NavResetButton } from "../../shared/AppNavDropdown";
 import { exportAllToolsData } from "../../shared/exportAllTools";
 import { FOOTER_LINKS } from "../../shared/nav-footer-links";
 import { TrackerHeader } from "../../shared/TrackerHeader";
 import { CRAFTING_DATA, type CraftingItem } from "./data";
 import { BlueprintOverviewPanel, FilterChip, SectionHeader } from "./components/CraftingSections";
+import { MaterialFinderPanel } from "./components/MaterialFinder";
 import { MaterialInventoryPanel, TrackerFilterPanel } from "./components/TrackerPanels";
 import { BlueprintTable, CraftingRecipeTable } from "./components/TrackerTables";
 import { useMaterialInventory } from "./hooks/useMaterialInventory";
@@ -23,7 +24,7 @@ import {
 } from "./lib/craftingUtils";
 import { exportCraftingTrackerState, parseCraftingTrackerImport } from "./lib/localState";
 
-type AppTab = "blueprints" | "crafting";
+type AppTab = "blueprints" | "crafting" | "materials";
 type CraftabilityFilter = "all" | "craftable" | "missing";
 type BlueprintOwnershipFilter = "all" | "owned" | "missing";
 
@@ -40,7 +41,7 @@ const WEAPON_CLASS_OPTIONS = ["All", ...new Set(ITEMS.map((item) => item.weaponC
 function loadActiveTab(): AppTab {
   try {
     const stored = localStorage.getItem(ACTIVE_TAB_STORAGE_KEY);
-    return stored === "blueprints" ? "blueprints" : "crafting";
+    return stored === "blueprints" || stored === "materials" ? stored : "crafting";
   } catch {
     return "crafting";
   }
@@ -68,6 +69,7 @@ export default function App() {
   const [sortBy, setSortBy] = useState<SortKey>("name");
   const [expandedCraftingId, setExpandedCraftingId] = useState("");
   const [expandedBlueprintId, setExpandedBlueprintId] = useState("");
+  const [materialFinderTarget, setMaterialFinderTarget] = useState<{ name: string; nonce: number } | null>(null);
   const [renderedRecipeCount, setRenderedRecipeCount] = useState(RECIPE_TABLE_BATCH_SIZE);
   const [navOpen, setNavOpen] = useState(false);
   const [inputQualities, setInputQualities] = useState<Record<string, number>>(() =>
@@ -230,6 +232,11 @@ export default function App() {
     setActiveTab(nextTab);
   }
 
+  function openMaterialFinder(materialName: string) {
+    setMaterialFinderTarget({ name: materialName, nonce: Date.now() });
+    handleTabChange("materials");
+  }
+
   function exportLocalProgress() {
     exportCraftingTrackerState({
       gameVersion: PATCH,
@@ -359,6 +366,7 @@ export default function App() {
         <div className="mx-auto flex max-w-[1600px] gap-1 overflow-x-auto px-4">
           {[
             { id: "crafting" as const, label: "Crafting", activeClass: "border-accent-blue text-accent-blue" },
+            { id: "materials" as const, label: "Material Finder", activeClass: "border-accent-green text-accent-green" },
             { id: "blueprints" as const, label: "Blueprint Tracker", activeClass: "border-accent-amber text-accent-amber" },
           ].map((tab) => (
             <button
@@ -377,7 +385,11 @@ export default function App() {
       <main id="main" className="mx-auto max-w-[1600px] px-4 py-5">
         {activeTab === "crafting" ? (
           <>
-            <MaterialInventoryPanel inventoryMaterials={inventoryMaterials} materialInventory={materialInventory} />
+            <MaterialInventoryPanel
+              inventoryMaterials={inventoryMaterials}
+              materialInventory={materialInventory}
+              onFindMaterial={openMaterialFinder}
+            />
 
             <TrackerFilterPanel
               activeTab="crafting"
@@ -419,8 +431,14 @@ export default function App() {
               recipeLoadMoreRef={recipeLoadMoreRef}
               renderedCount={renderedCraftingItems.length}
               totalCount={visibleItems.length}
+              onFindMaterial={openMaterialFinder}
             />
           </>
+        ) : activeTab === "materials" ? (
+          <MaterialFinderPanel
+            icon={<Compass className="h-5 w-5 text-accent-green" />}
+            focusedMaterial={materialFinderTarget}
+          />
         ) : (
           <>
             <BlueprintOverviewPanel

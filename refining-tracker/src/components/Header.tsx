@@ -30,7 +30,10 @@ export function Header({ loading, onRefresh }: HeaderProps) {
   return (
     <header className="sticky top-0 z-50 border-b border-dark-700 bg-dark-900/80 backdrop-blur-sm">
       <div className="max-w-[1600px] mx-auto px-4 py-4 flex items-center justify-between gap-4 flex-wrap">
-        <div className="flex items-center gap-3">
+        <a
+          href="/"
+          className="flex items-center gap-3 rounded-lg transition-colors hover:text-accent-amber focus:outline-none focus:ring-2 focus:ring-accent-amber/40"
+        >
           <div className="w-9 h-9 rounded-lg bg-accent-amber/20 flex items-center justify-center">
             <Flame className="w-5 h-5 text-accent-amber" />
           </div>
@@ -38,7 +41,7 @@ export function Header({ loading, onRefresh }: HeaderProps) {
             <h1 className="text-lg font-bold leading-tight">Refining Tracker</h1>
             <p className="text-xs text-text-muted leading-tight">Star Citizen 4.7</p>
           </div>
-        </div>
+        </a>
 
         <div className="flex items-center gap-2">
           <button
@@ -54,13 +57,13 @@ export function Header({ loading, onRefresh }: HeaderProps) {
           <div ref={navRef} className="relative">
             <button
               onClick={() => { setNavOpen(!navOpen); setConfirming(false); }}
-              className={`p-2 rounded-lg transition-all duration-200 ${
+              className={`inline-flex h-9 w-9 items-center justify-center rounded-lg transition-all duration-200 ${
                 navOpen ? "text-text bg-dark-700" : "text-text-muted hover:text-text hover:bg-dark-800"
               }`}
               aria-label="Open menu"
               title="Menu"
             >
-              <Menu className="w-4 h-4" />
+              <Menu className="h-5 w-5" />
             </button>
             {navOpen && (
               <AppNavDropdown

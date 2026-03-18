@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { ChevronDown, Filter, Layers3, Minus, PackageCheck, Plus, Search } from "lucide-react";
+import { ChevronDown, Filter, Layers3, MapPinned, Minus, PackageCheck, Plus, Search } from "lucide-react";
 import type { SortKey } from "../lib/craftingUtils";
 import {
   editorDisplayUnit,
@@ -26,6 +26,7 @@ type FilterOption = string;
 export function MaterialInventoryPanel(props: {
   inventoryMaterials: MaterialInventoryEntry[];
   materialInventory: MaterialInventoryController;
+  onFindMaterial?: (materialName: string) => void;
 }) {
   return (
     <details className="panel overflow-hidden">
@@ -72,12 +73,25 @@ export function MaterialInventoryPanel(props: {
                     <p className="truncate text-sm font-semibold text-text">{entry.name}</p>
                     <p className="mt-1 text-xs text-text-secondary">{formatStorageNote(owned, entry.unit)}</p>
                   </div>
-                  <button
-                    onClick={() => props.materialInventory.set(entry.materialKey, 0)}
-                    className="rounded-md border border-dark-700 px-2 py-1 text-[11px] text-text-muted transition-colors hover:text-text"
-                  >
-                    Clear
-                  </button>
+                  <div className="flex items-center gap-2">
+                    {props.onFindMaterial && (
+                      <button
+                        type="button"
+                        onClick={() => props.onFindMaterial?.(entry.name)}
+                        className="inline-flex items-center gap-1 rounded-md border border-accent-green/20 bg-accent-green/10 px-2 py-1 text-[11px] text-accent-green transition-colors hover:border-accent-green/35"
+                        aria-label={`Find ${entry.name} locations`}
+                      >
+                        <MapPinned className="h-3.5 w-3.5" />
+                        Find
+                      </button>
+                    )}
+                    <button
+                      onClick={() => props.materialInventory.set(entry.materialKey, 0)}
+                      className="rounded-md border border-dark-700 px-2 py-1 text-[11px] text-text-muted transition-colors hover:text-text"
+                    >
+                      Clear
+                    </button>
+                  </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <button

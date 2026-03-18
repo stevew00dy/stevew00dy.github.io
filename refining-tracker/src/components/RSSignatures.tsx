@@ -312,7 +312,7 @@ export default function RSSignatures() {
                               >
                                 {systemGroup.system}
                               </button>
-                              <div className="pointer-events-none absolute left-0 top-full z-20 mt-2 hidden min-w-[220px] rounded-lg border border-dark-600 bg-dark-900/95 p-3 shadow-xl backdrop-blur group-hover:block group-focus-within:block">
+                              <div className="pointer-events-none absolute bottom-full left-0 z-20 mb-2 hidden min-w-[220px] rounded-lg border border-dark-600 bg-dark-900/95 p-3 shadow-xl backdrop-blur group-hover:block group-focus-within:block">
                                 <div className="mb-2 text-xs font-semibold text-text">{systemGroup.system} Locations</div>
                                 <ul className="space-y-1 text-xs text-text">
                                   {systemGroup.locations.map((location) => (
