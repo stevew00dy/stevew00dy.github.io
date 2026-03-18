@@ -645,6 +645,7 @@ export function BlueprintExpandedRow(props: {
   item: CraftingItem;
   isOwned: boolean;
   onToggleOwned: () => void;
+  onFindMaterial?: (materialName: string) => void;
 }) {
   const blueprintStatus =
     props.item.blueprintStatus === "mapped"
@@ -730,7 +731,20 @@ export function BlueprintExpandedRow(props: {
                   className="grid grid-cols-[0.8fr_1.3fr_0.9fr] gap-3 border-b border-dark-700/70 px-4 py-3 text-sm last:border-b-0"
                 >
                   <span className="text-text-secondary">{input.slot}</span>
-                  <span className="text-text">{input.requirement}</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-text">{input.requirement}</span>
+                    {props.onFindMaterial && (
+                      <button
+                        type="button"
+                        onClick={() => props.onFindMaterial?.(input.requirement)}
+                        className="inline-flex items-center gap-1 rounded-full border border-accent-green/20 bg-accent-green/10 px-2 py-0.5 text-[11px] font-medium text-accent-green transition-colors hover:border-accent-green/35"
+                        aria-label={`Find ${input.requirement} locations`}
+                      >
+                        <MapPinned className="h-3.5 w-3.5" />
+                        Find
+                      </button>
+                    )}
+                  </div>
                   <span className="text-text-muted">{formatQuantity(input.amount, input.unit)}</span>
                 </div>
               ))}

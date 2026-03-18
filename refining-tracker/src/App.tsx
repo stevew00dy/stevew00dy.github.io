@@ -18,6 +18,7 @@ import Loadouts from "./components/Loadouts";
 import RSSignatures from "./components/RSSignatures";
 import DataNotice from "./components/DataNotice";
 import { getRefiningData, clearCache, type RefiningData } from "./uex-api";
+import { parseHashTab, updateTabHash } from "../../shared/tabHash";
 
 type Tab = "sessions" | "stats" | "loadouts" | "signatures" | "optimizer" | "stations";
 const TAB_STORAGE_KEY = "refining-tracker:active-tab";
@@ -25,6 +26,9 @@ const VALID_TABS: Tab[] = ["sessions", "stats", "loadouts", "signatures", "optim
 
 function getInitialTab(): Tab {
   if (typeof window === "undefined") return "sessions";
+
+  const hashTab = parseHashTab(window.location.hash, VALID_TABS);
+  if (hashTab) return hashTab;
 
   const storedTab = window.localStorage.getItem(TAB_STORAGE_KEY);
   return storedTab && VALID_TABS.includes(storedTab as Tab) ? (storedTab as Tab) : "sessions";
@@ -46,6 +50,21 @@ export default function App() {
     window.localStorage.setItem(TAB_STORAGE_KEY, tab);
   }, [tab]);
 
+  useEffect(() => {
+    const syncTabFromHash = () => {
+      const hashTab = parseHashTab(window.location.hash, VALID_TABS);
+      if (hashTab) {
+        setTab((current) => (current === hashTab ? current : hashTab));
+        return;
+      }
+
+      updateTabHash(tab, VALID_TABS, "replace");
+    };
+
+    syncTabFromHash();
+    window.addEventListener("hashchange", syncTabFromHash);
+    return () => window.removeEventListener("hashchange", syncTabFromHash);
+  }, [tab]);
 
   async function handleRefresh() {
     setLoading(true);
@@ -88,7 +107,10 @@ export default function App() {
             return (
               <button
                 key={t.id}
-                onClick={() => setTab(t.id)}
+                onClick={() => {
+                  updateTabHash(t.id, VALID_TABS, "push");
+                  setTab(t.id);
+                }}
                 aria-label={`Switch to ${t.label} tab`}
                 aria-current={tab === t.id ? "true" : undefined}
                 className={`flex items-center gap-2 px-4 py-3 min-h-[44px] text-sm font-medium border-b-2 transition-all whitespace-nowrap ${

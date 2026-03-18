@@ -136,7 +136,7 @@ function SystemLocationPills(props: { oreId: string; oreName: string; locationSy
           >
             {systemGroup.system}
           </button>
-          <div className="pointer-events-none absolute bottom-full left-0 z-20 mb-2 hidden min-w-[220px] rounded-lg border border-dark-700 bg-dark-950/95 p-3 shadow-xl backdrop-blur group-hover:block group-focus-within:block">
+          <div className="pointer-events-none absolute left-full top-0 z-20 ml-2 hidden min-w-[220px] rounded-lg border border-dark-700 bg-dark-950/95 p-3 shadow-xl backdrop-blur group-hover:block group-focus-within:block">
             <div className="mb-2 text-xs font-semibold text-text">{systemGroup.system} Locations</div>
             <ul className="space-y-1 text-xs text-text">
               {systemGroup.locations.map((location) => (
@@ -351,8 +351,8 @@ export function MaterialFinderPanel(props: {
           </div>
         </div>
 
-        <div className="overflow-x-auto">
-          <div className="min-w-[1100px] overflow-hidden rounded-xl border border-dark-700 bg-dark-900/45">
+        <div className="overflow-x-auto pb-24">
+          <div className="min-w-[1100px] overflow-visible rounded-xl border border-dark-700 bg-dark-900/45">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-dark-700 bg-dark-900/65 text-[11px] uppercase tracking-[0.16em]">

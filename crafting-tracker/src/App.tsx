@@ -3,6 +3,7 @@ import { Compass, Filter, Hammer, PackageCheck, Search } from "lucide-react";
 import { AppNavDropdown, NavExportAllButton, NavExportButton, NavImportButton, NavResetButton } from "../../shared/AppNavDropdown";
 import { exportAllToolsData } from "../../shared/exportAllTools";
 import { FOOTER_LINKS } from "../../shared/nav-footer-links";
+import { parseHashTab, updateTabHash } from "../../shared/tabHash";
 import { TrackerHeader } from "../../shared/TrackerHeader";
 import { CRAFTING_DATA, type CraftingItem } from "./data";
 import { BlueprintOverviewPanel, FilterChip, SectionHeader } from "./components/CraftingSections";
@@ -37,9 +38,13 @@ const CATEGORY_OPTIONS = ["All", ...new Set(ITEMS.map((item) => item.category))]
 const ARMOR_CLASS_OPTIONS = ["All", ...ALLOWED_ARMOR_CLASSES];
 const ARMOR_SLOT_OPTIONS = ["All", ...ALLOWED_ARMOR_SLOTS];
 const WEAPON_CLASS_OPTIONS = ["All", ...new Set(ITEMS.map((item) => item.weaponClass).filter(Boolean) as string[])];
+const VALID_TABS: AppTab[] = ["crafting", "blueprints", "materials"];
 
 function loadActiveTab(): AppTab {
   try {
+    const hashTab = parseHashTab(window.location.hash, VALID_TABS);
+    if (hashTab) return hashTab;
+
     const stored = localStorage.getItem(ACTIVE_TAB_STORAGE_KEY);
     return stored === "blueprints" || stored === "materials" ? stored : "crafting";
   } catch {
@@ -75,6 +80,7 @@ export default function App() {
   const [inputQualities, setInputQualities] = useState<Record<string, number>>(() =>
     createInitialQualities(ITEMS, QUALITY_BASELINE),
   );
+  const activeTabRef = useRef<AppTab>(activeTab);
   const navRef = useRef<HTMLDivElement>(null);
   const recipeLoadMoreRef = useRef<HTMLDivElement>(null);
   const importInputRef = useRef<HTMLInputElement>(null);
@@ -94,8 +100,28 @@ export default function App() {
   }, [navOpen]);
 
   useEffect(() => {
+    activeTabRef.current = activeTab;
+  }, [activeTab]);
+
+  useEffect(() => {
     persistActiveTab(activeTab);
   }, [activeTab]);
+
+  useEffect(() => {
+    const syncTabFromHash = () => {
+      const hashTab = parseHashTab(window.location.hash, VALID_TABS);
+      if (hashTab) {
+        setActiveTab((current) => (current === hashTab ? current : hashTab));
+        return;
+      }
+
+      updateTabHash(activeTabRef.current, VALID_TABS, "replace");
+    };
+
+    syncTabFromHash();
+    window.addEventListener("hashchange", syncTabFromHash);
+    return () => window.removeEventListener("hashchange", syncTabFromHash);
+  }, []);
 
   const craftabilityByItem = useMemo(
     () =>
@@ -228,6 +254,7 @@ export default function App() {
   }
 
   function handleTabChange(nextTab: AppTab) {
+    updateTabHash(nextTab, VALID_TABS, "push");
     persistActiveTab(nextTab);
     setActiveTab(nextTab);
   }
@@ -538,6 +565,7 @@ export default function App() {
                 onExpandedChange={setExpandedBlueprintId}
                 isOwned={ownedBlueprints.isOwned}
                 onToggleOwned={ownedBlueprints.toggle}
+                onFindMaterial={openMaterialFinder}
               />
             </div>
           </>

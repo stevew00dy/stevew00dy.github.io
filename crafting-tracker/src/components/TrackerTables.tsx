@@ -208,6 +208,7 @@ export function BlueprintTable(props: {
   onExpandedChange: (itemId: string) => void;
   isOwned: (itemId: string) => boolean;
   onToggleOwned: (itemId: string) => void;
+  onFindMaterial?: (materialName: string) => void;
 }) {
   return (
     <section className="panel overflow-hidden p-0">
@@ -300,7 +301,12 @@ export function BlueprintTable(props: {
 
                   {isSelected && (
                     <div className="blueprint-expanded-row px-5 py-5">
-                      <BlueprintExpandedRow item={item} isOwned={owned} onToggleOwned={() => props.onToggleOwned(item.id)} />
+                      <BlueprintExpandedRow
+                        item={item}
+                        isOwned={owned}
+                        onToggleOwned={() => props.onToggleOwned(item.id)}
+                        onFindMaterial={props.onFindMaterial}
+                      />
                     </div>
                   )}
                 </div>
