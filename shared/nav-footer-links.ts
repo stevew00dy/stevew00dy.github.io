@@ -9,6 +9,7 @@ export const TOOL_LINKS = [
   { href: "/wikelo-tracker/", label: "Wikelo Tracker" },
   { href: "/fps-loadout-tracker/", label: "FPS Loadout Tracker" },
   { href: "/refining-tracker/", label: "Refining Tracker" },
+  { href: "/crafting-tracker/", label: "Crafting Tracker" },
 ] as const;
 
 export const FOOTER_LINKS: { href: string; label: string; external?: boolean }[] = [

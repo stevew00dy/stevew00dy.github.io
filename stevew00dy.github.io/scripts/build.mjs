@@ -9,7 +9,7 @@ const monorepo = join(root, "..");
 const dist = join(root, "dist");
 
 function run(cmd, cwd) {
-  console.log(`\n→ ${cmd} (in ${cwd})`);
+  console.log(`\n-> ${cmd} (in ${cwd})`);
   execSync(cmd, { cwd, stdio: "inherit" });
 }
 
@@ -20,13 +20,13 @@ mkdirSync(dist, { recursive: true });
 console.log("Building landing page...");
 run("npx vite build --outDir ../../dist --emptyOutDir", join(root, "apps/landing"));
 
-// Build and copy all tracker apps from monorepo
 const apps = [
   { name: "refining-tracker", path: "refining-tracker" },
   { name: "exec-hangar-tracker", path: "exec-hangar-tracker" },
   { name: "wikelo-tracker", path: "wikelo-tracker" },
   { name: "fps-loadout-tracker", path: "fps-loadout-tracker" },
   { name: "armor-tracker", path: "armor-tracker" },
+  { name: "crafting-tracker", path: "crafting-tracker" },
 ];
 
 for (const app of apps) {
@@ -43,15 +43,17 @@ for (const app of apps) {
 
 writeFileSync(join(dist, "CNAME"), "undisputednoobs.com");
 
-// SPA fallback: 404.html = index.html so /training (and other client routes) load the app
 const indexHtml = readFileSync(join(dist, "index.html"), "utf-8");
 writeFileSync(join(dist, "404.html"), indexHtml);
+mkdirSync(join(dist, "training"), { recursive: true });
+writeFileSync(join(dist, "training", "index.html"), indexHtml);
 
 console.log("\n=== Build complete! Output in dist/ ===");
-console.log("  /                      → Landing page");
-console.log("  /training               → Basic Training (SPA route)");
-console.log("  /refining-tracker/      → Refining Tracker");
-console.log("  /exec-hangar-tracker/  → Exec Hangar Tracker");
-console.log("  /wikelo-tracker/       → Wikelo Tracker");
-console.log("  /fps-loadout-tracker/  → FPS Loadout Tracker");
-console.log("  /armor-tracker/        → Armor Tracker");
+console.log("  /                      -> Landing page");
+console.log("  /training              -> Basic Training (SPA route)");
+console.log("  /refining-tracker/     -> Refining Tracker");
+console.log("  /exec-hangar-tracker/  -> Exec Hangar Tracker");
+console.log("  /wikelo-tracker/       -> Wikelo Tracker");
+console.log("  /fps-loadout-tracker/  -> FPS Loadout Tracker");
+console.log("  /armor-tracker/        -> Armor Tracker");
+console.log("  /crafting-tracker/     -> Crafting Tracker");

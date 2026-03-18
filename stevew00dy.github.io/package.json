@@ -9,6 +9,8 @@
   "scripts": {
     "dev:landing": "npm run dev -w apps/landing",
     "build": "node scripts/build.mjs",
+    "serve:dist": "py -m http.server 4181 --bind 127.0.0.1 -d dist",
+    "review:local": "npm run build && npm run serve:dist",
     "deploy": "npm run build && gh-pages -d dist -r https://github.com/stevew00dy/stevew00dy.github.io.git",
     "composite:basic-training": "node scripts/composite-basic-training.mjs"
   },
