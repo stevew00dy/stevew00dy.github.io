@@ -366,8 +366,8 @@ export default function App() {
         <div className="mx-auto flex max-w-[1600px] gap-1 overflow-x-auto px-4">
           {[
             { id: "crafting" as const, label: "Crafting", activeClass: "border-accent-blue text-accent-blue" },
-            { id: "materials" as const, label: "Material Finder", activeClass: "border-accent-green text-accent-green" },
             { id: "blueprints" as const, label: "Blueprint Tracker", activeClass: "border-accent-amber text-accent-amber" },
+            { id: "materials" as const, label: "Material Finder", activeClass: "border-accent-green text-accent-green" },
           ].map((tab) => (
             <button
               key={tab.id}
